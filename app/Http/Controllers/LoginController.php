@@ -99,6 +99,7 @@ class LoginController extends Controller
                    'nombre_usuario' => $request->nombre_usuario,
                    'apellido_usuario' => $request->apellido_usuario,
                    'anexo' => $request->anexo,
+                   'bodega' => $request->bodega,
                    'password' => Hash::make($request->password),
                    'idServicio' => $request->idServicio,
                    'api_token' => Str::random(60),
@@ -122,9 +123,8 @@ class LoginController extends Controller
 
     public function GetUsers(){
         try {
-            $get = Users::select('users.run','users.nombre_usuario','users.apellido_usuario','users.anexo',
-            'users.correo_usuario','servicios.descripcionServicio')
-            ->join('servicios', 'users.idServicio','=','servicios.id')
+            $get = Users::select('users.id','users.run','users.nombre_usuario','users.apellido_usuario','users.anexo',
+            'users.correo_usuario','users.idServicio')
             ->get();
             return $get;
         } catch (\Throwable $th) {
@@ -135,14 +135,14 @@ class LoginController extends Controller
 
     public function PutUsuario(Request $request){
         try {
-
+                log::info($request);
                 $run = $request->run_usuario;
                 $run = str_replace('.', '', $run);
                 $run = strtoupper($run); 
                 Users::where('id',$request->id)
                     ->update(['run' => $run,'correo_usuario' => $request->correo_usuario,'nombre_usuario' => $request->nombre_usuario,
-                    'apellido_usuario' => $request->apellido_usuario,'anexo' => $request->anexo,'password' => Hash::make($request->password),
-                    'idServicio' => $request->idServicio]);
+                    'apellido_usuario' => $request->apellido_usuario,'anexo' => $request->anexo,'bodega' => $request->bodega,
+                    'password' => Hash::make($request->password),'idServicio' => $request->idServicio]);
             return true;
         } catch (\Throwable $th) {
             log::info($th);
