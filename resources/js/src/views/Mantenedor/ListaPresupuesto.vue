@@ -57,6 +57,173 @@
                     <vx-card title="">
                         <div class="vx-row">
                             <div class="vx-col w-1/2 mt-5">
+                                <h6>Servicio</h6>
+                                <br />
+                                <v-select
+                                    taggable
+                                    v-model="seleccionServicio"
+                                    placeholder="Servicio"
+                                    class="w-full select-large"
+                                    label="descripcionServicio"
+                                    :options="listadoServicios"
+                                ></v-select>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>Bodega</h6>
+                                <br />
+                                <v-select
+                                    taggable
+                                    v-model="seleccionBodega"
+                                    placeholder="descripcion"
+                                    class="w-full select-large"
+                                    label="descripcion"
+                                    :options="listaBodega"
+                                ></v-select>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Año
+                                </h6>
+                                <datepicker
+                                    v-model="anio"
+                                    placeholder="Seleccione Año"
+                                    :format="DatePickerFormat"
+                                    :language="language"
+                                    minimum-view="year"
+                                    :disabled-dates="disabledDates"
+                                ></datepicker>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Monto Presupuesto
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="MontoPresupuesto"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Enero
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_ENE"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Febrero
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_FEB"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Marzo
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_MAR"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Abril
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_ABR"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Mayo
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_MAY"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Junio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_JUN"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Julio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_JUL"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Agosto
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_AGO"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Septiembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_SEP"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Octubre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_OCT"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Noviembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_NOV"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Diciembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_DIC"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
                                 <vs-button
                                     @click="popUpListaPresupuesto = false"
                                     color="primary"
@@ -88,6 +255,173 @@
                     <vx-card title="">
                         <div class="vx-row">
                             <div class="vx-col w-1/2 mt-5">
+                                <h6>Servicio</h6>
+                                <br />
+                                <v-select
+                                    taggable
+                                    v-model="seleccionServicio"
+                                    placeholder="Servicio"
+                                    class="w-full select-large"
+                                    label="descripcionServicio"
+                                    :options="listadoServicios"
+                                ></v-select>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>Bodega</h6>
+                                <br />
+                                <v-select
+                                    taggable
+                                    v-model="seleccionBodega"
+                                    placeholder="descripcion"
+                                    class="w-full select-large"
+                                    label="descripcion"
+                                    :options="listaBodega"
+                                ></v-select>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Año
+                                </h6>
+                                <datepicker
+                                    v-model="anio"
+                                    placeholder="Seleccione Año"
+                                    :format="DatePickerFormat"
+                                    :language="language"
+                                    minimum-view="year"
+                                    :disabled-dates="disabledDates"
+                                ></datepicker>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Monto Presupuesto
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="MontoPresupuesto"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Enero
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_ENE"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Febrero
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_FEB"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Marzo
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_MAR"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Abril
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_ABR"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Mayo
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_MAY"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Junio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_JUN"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Julio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_JUL"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Agosto
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_AGO"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Septiembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_SEP"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Octubre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_OCT"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Noviembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_NOV"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>
+                                    Diciembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="P_DIC"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
                                 <vs-button
                                     @click="popUpListaPresupuestoMod = false"
                                     color="primary"
@@ -116,7 +450,10 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import moment from "moment";
 import vSelect from "vue-select";
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
@@ -127,6 +464,7 @@ import { PlusCircleIcon } from "vue-feather-icons";
 import { validate, clean, format } from "rut.js";
 import Vue from "vue";
 import VueTippy, { TippyComponent } from "vue-tippy";
+import Datepicker from "vuejs-datepicker";
 Vue.use(VueTippy);
 Vue.component("tippy", TippyComponent);
 
@@ -135,7 +473,9 @@ export default {
         VueGoodTable,
         "v-select": vSelect,
         quillEditor,
-        PlusCircleIcon
+        PlusCircleIcon,
+        flatPickr,
+        Datepicker
     },
     data() {
         return {
@@ -156,42 +496,139 @@ export default {
                     ]
                 }
             },
+            //Configuracion Datepicker Anio
+            DatePickerFormat: "yyyy",
+            language: {
+                language: "Spanish",
+                months: [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                monthsAbbr: [
+                    "Enero",
+                    "Febrero",
+                    "Marzo",
+                    "Abril",
+                    "Mayo",
+                    "Junio",
+                    "Julio",
+                    "Agosto",
+                    "Septiembre",
+                    "Octubre",
+                    "Noviembre",
+                    "Diciembre"
+                ],
+                days: [
+                    "Lunes",
+                    "Martes",
+                    "Miercoles",
+                    "Jueves",
+                    "Viernes",
+                    "Sabado",
+                    "Domingo"
+                ],
+                rtl: false,
+                ymd: false,
+                yearSuffix: ""
+            },
+            //Fechas Anios Habilitadas
+            disabledDates: {},
             //Datos Campos
             popUpListaPresupuesto: false,
             popUpListaPresupuestoMod: false,
+            fechaPAnual: null,
+            anio: "",
+            P_ENE: 0,
+            P_FEB: 0,
+            P_MAR: 0,
+            P_ABR: 0,
+            P_MAY: 0,
+            P_JUN: 0,
+            P_JUL: 0,
+            P_AGO: 0,
+            P_SEP: 0,
+            P_OCT: 0,
+            P_NOV: 0,
+            P_DIC: 0,
             idMod: 0,
             idServicio: 0,
+            MontoPresupuesto: 0,
             val_run: false,
             seleccionServicio: {
-                id: 0,
-                descripcionServicio: ""
+                id: 1,
+                descripcionServicio: "MEDICINA-CIRUGIA"
+            },
+            seleccionBodega: {
+                id: 1,
+                descripcion: "Farmacia"
+            },
+            //Configuracion Horas
+            configFromdateTimePicker: {
+                minDate: null,
+                maxDate: null,
+                allowInput: true,
+                dateFormat: "d/m/Y",
+                locale: {
+                    firstDayOfWeek: 1,
+                    weekdays: {
+                        shorthand: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                        longhand: [
+                            "Domingo",
+                            "Lunes",
+                            "Martes",
+                            "Miércoles",
+                            "Jueves",
+                            "Viernes",
+                            "Sábado"
+                        ]
+                    },
+                    months: {
+                        shorthand: [
+                            "Ene",
+                            "Feb",
+                            "Mar",
+                            "Abr",
+                            "May",
+                            "Jun",
+                            "Jul",
+                            "Ago",
+                            "Sep",
+                            "Оct",
+                            "Nov",
+                            "Dic"
+                        ],
+                        longhand: [
+                            "Enero",
+                            "Febrero",
+                            "Мarzo",
+                            "Abril",
+                            "Mayo",
+                            "Junio",
+                            "Julio",
+                            "Agosto",
+                            "Septiembre",
+                            "Octubre",
+                            "Noviembre",
+                            "Diciembre"
+                        ]
+                    }
+                }
             },
             //Template Columnas Listado Proveedor
             columns: [
                 {
-                    label: "Rut",
-                    field: "run",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Nombre",
-                    field: "nombre_usuario",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Apellido",
-                    field: "apellido_usuario",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Anexo",
-                    field: "anexo",
+                    label: "Año",
+                    field: "anio",
                     filterOptions: {
                         enabled: true
                     }
@@ -204,17 +641,145 @@ export default {
                     }
                 },
                 {
+                    label: "Bodega",
+                    field: "bodega",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Presupuesto Anual",
+                    field: "panual",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Enero",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Febrero",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Marzo",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Abril",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Mayo",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Junio",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Julio",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Agosto",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Septiembre",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Octubre",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Noviembre",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Diciembre",
+                    field: "descripcionServicio",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
                     label: "Opciones",
                     field: "action"
                 }
             ],
             //Datos Listado Proveedor
             rows: [],
-            listadoServicios: []
+            listadoServicios: [],
+            listaBodega: [
+                {
+                    id: 1,
+                    descripcion: "Farmacia"
+                },
+                {
+                    id: 2,
+                    descripcion: "Economato"
+                },
+                {
+                    id: 3,
+                    descripcion: "Ortesis"
+                },
+                {
+                    id: 4,
+                    descripcion: "Combustible"
+                },
+                {
+                    id: 5,
+                    descripcion: "Textiles"
+                },
+                {
+                    id: 6,
+                    descripcion: "Material de Construccion"
+                }
+            ]
         };
     },
     methods: {
         //Metodos Reusables
+        onFromChange(selectedDates, dateStr, instance) {
+            this.$set(this.configTodateTimePicker, "minDate", dateStr);
+            this.fechaPAnual = dateStr;
+        },
         openLoadingColor() {
             this.$vs.loading({ color: this.colorLoading });
             setTimeout(() => {
@@ -325,18 +890,140 @@ export default {
         //Metodos para Agregar Datos
         AgregarListaPresupuesto() {
             try {
-                let d = true;
-                if (d == false) {
+                if (anio == null) {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
-                        text: "Error",
+                        text: "Debe seleccionar un Año",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.seleccionServicio.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar un Servicio",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.seleccionBodega.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar una Bodega",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.MontoPresupuesto < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_ENE < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de enero debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_FEB < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Febrero debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_MAR < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Marzo debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_ABR < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Abril debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_MAY < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Mayo debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_JUN < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Junio debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_JUL < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Julio debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_AGO < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Agosto debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_SEP < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Septiembre debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_OCT < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Octubre debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_NOV < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Noviembre debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_DIC < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Diciembre debe ser mayor a 0",
                         color: "danger",
                         position: "top-right"
                     });
                 } else {
                     let data = {
-                        dato: 1
+                        anio: this.anio,
+                        NOMSER: this.seleccionServicio.descripcionServicio,
+                        BODEGA: this.seleccionBodega.id,
+                        P_ANUAL: this.MontoPresupuesto
                     };
 
                     const dat = data;
@@ -443,10 +1130,41 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        cargarHoras() {
+            try {
+                let date = moment().endOf("day");
+                this.fechaPAnual = date.format("DD/MM/YYYY").toString();
+            } catch (error) {
+                console.log("No se cargo la ISO hora");
+                console.log(error);
+            }
+        },
+        cargarAnios() {
+            let ini = moment("2014-02-27T10:00:00").endOf("day");
+            let end = moment("2014-02-27").endOf("day");
+            this.disabledDates = {
+                to: moment("2014-02-27").toDate(),
+                from: moment()
+                    .add(1, "years")
+                    .toDate()
+            };
+            /*this.disabledDates = {
+                from: end.format("DD/MM/YYYY").toString(),
+                to: ini.format("DD/MM/YYYY").toString()
+                 ranges: [
+                    {
+                        // Disable dates in given ranges (exclusive).
+                        from: end.format("DD/MM/YYYY").toString(),
+                        to: ini.format("DD/MM/YYYY").toString()
+                    }
+                ] 
+            };*/
         }
     },
     beforeMount() {
         this.TraerServicio();
+        this.cargarAnios();
         setTimeout(() => {
             //this.TraerUsuarios();
             this.openLoadingColor();

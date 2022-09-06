@@ -407,7 +407,7 @@ export default {
             },
             seleccionListaPerfil: {
                 id: 1,
-                descripcionPerfil: "Encargado Bodega"
+                descripcionPerfil: "ADM"
             },
             seleccionBodega: {
                 id: 1,
