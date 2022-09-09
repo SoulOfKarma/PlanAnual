@@ -19,6 +19,7 @@ class CreateSiabArticulosTable extends Migration
             $table->string('NOMBRE')->nullable();
             $table->string('UNIMED')->nullable();
             $table->bigInteger('PRECIO')->nullable();
+            $table->bigInteger('idEstado')->nullable();
             $table->timestamps();
         });
     }

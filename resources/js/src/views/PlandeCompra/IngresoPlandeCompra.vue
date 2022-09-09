@@ -13,6 +13,62 @@
             <div>
                 <vx-card>
                     <vue-good-table
+                        :columns="columnsPresupuesto"
+                        :rows="rows"
+                        :pagination-options="{
+                            enabled: true,
+                            perPage: 10
+                        }"
+                    >
+                        <template slot="table-row" slot-scope="props">
+                            <!-- Column: Name -->
+                            <span
+                                v-if="props.column.field === 'fullName'"
+                                class="text-nowrap"
+                            >
+                            </span>
+                            <span v-else-if="props.column.field === 'action'">
+                            </span>
+                            <!-- Column: Common -->
+                            <span v-else>
+                                {{ props.formattedRow[props.column.field] }}
+                            </span>
+                        </template>
+                    </vue-good-table>
+                </vx-card>
+            </div>
+            <br />
+            <div>
+                <vx-card>
+                    <vue-good-table
+                        :columns="columnsPlanAnualConsumo"
+                        :rows="rows"
+                        :pagination-options="{
+                            enabled: true,
+                            perPage: 10
+                        }"
+                    >
+                        <template slot="table-row" slot-scope="props">
+                            <!-- Column: Name -->
+                            <span
+                                v-if="props.column.field === 'fullName'"
+                                class="text-nowrap"
+                            >
+                            </span>
+                            <span v-else-if="props.column.field === 'action'">
+                            </span>
+                            <!-- Column: Common -->
+                            <span v-else>
+                                {{ props.formattedRow[props.column.field] }}
+                            </span>
+                        </template>
+                    </vue-good-table>
+                </vx-card>
+            </div>
+            <br />
+            <div>
+                <vx-card>
+                    <vue-good-table
                         :columns="columns"
                         :rows="rows"
                         :pagination-options="{
@@ -54,7 +110,7 @@
                         <div class="vx-row">
                             <vue-good-table
                                 :columns="columns"
-                                :rows="rows"
+                                :rows="listadoArticulos"
                                 :pagination-options="{
                                     enabled: true,
                                     perPage: 10
@@ -73,13 +129,17 @@
                                         "
                                     >
                                         <plus-circle-icon
-                                            content="Modificar Presupuesto"
+                                            content="Vista"
                                             v-tippy
                                             size="1.5x"
                                             class="custom-class"
                                             @click="
-                                                popModificarPlanAnual(
-                                                    props.row.id
+                                                popAgregarConsumoMensual(
+                                                    props.row.id,
+                                                    props.row.CODART,
+                                                    props.row.NOMBRE,
+                                                    props.row.UNIMED,
+                                                    props.row.PRECIO
                                                 )
                                             "
                                         ></plus-circle-icon>
@@ -100,13 +160,22 @@
                 </div>
             </vs-popup>
             <vs-popup
-                classContent="PresupuestoMod"
-                title="Modificar Listado Presupuesto"
-                :active.sync="popUpAgregarArticuloMod"
+                classContent="AgregarConsumoPAnual"
+                title="Plan Anual Articulo"
+                :active.sync="popUpAgregarArticuloPAnual"
             >
                 <div class="vx-col md:w-1/1 w-full mb-base">
                     <vx-card title="">
                         <div class="vx-row">
+                            <div class="vx-col w-full mt-5">
+                                <h6>
+                                    Total Anual: {{ precio }} Articulo:
+                                    {{ codart }} Descripcion:
+                                    {{ nombre }} Unidad Medida
+                                    {{ unimed }} Precio {{ precio }}
+                                </h6>
+                                <br />
+                            </div>
                             <div class="vx-col w-1/2 mt-5">
                                 <h6>Servicio</h6>
                                 <br />
@@ -157,7 +226,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_ENE"
+                                    v-model="C_ENE"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -167,7 +236,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_FEB"
+                                    v-model="C_FEB"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -177,7 +246,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_MAR"
+                                    v-model="C_MAR"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -187,7 +256,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_ABR"
+                                    v-model="C_ABR"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -197,7 +266,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_MAY"
+                                    v-model="C_MAY"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -207,7 +276,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_JUN"
+                                    v-model="C_JUN"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -217,7 +286,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_JUL"
+                                    v-model="C_JUL"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -227,7 +296,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_AGO"
+                                    v-model="C_AGO"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -237,7 +306,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_SEP"
+                                    v-model="C_SEP"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -247,7 +316,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_OCT"
+                                    v-model="C_OCT"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -257,7 +326,7 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_NOV"
+                                    v-model="C_NOV"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -267,13 +336,13 @@
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
-                                    v-model="P_DIC"
+                                    v-model="C_DIC"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
                             <div class="vx-col w-1/2 mt-5">
                                 <vs-button
-                                    @click="popUpAgregarArticuloMod = false"
+                                    @click="VolverListaArticulos()"
                                     color="primary"
                                     type="filled"
                                     class="w-full m-1"
@@ -346,20 +415,26 @@ export default {
             },
             //Datos Campos
             popUpAgregarArticulo: false,
+            popUpAgregarArticuloPAnual: false,
             popUpAgregarArticuloMod: false,
             fechaPAnual: null,
-            P_ENE: 0,
-            P_FEB: 0,
-            P_MAR: 0,
-            P_ABR: 0,
-            P_MAY: 0,
-            P_JUN: 0,
-            P_JUL: 0,
-            P_AGO: 0,
-            P_SEP: 0,
-            P_OCT: 0,
-            P_NOV: 0,
-            P_DIC: 0,
+            idArticulo: "",
+            codart: "",
+            nombre: "",
+            unimed: "",
+            precio: "",
+            C_ENE: 0,
+            C_FEB: 0,
+            C_MAR: 0,
+            C_ABR: 0,
+            C_MAY: 0,
+            C_JUN: 0,
+            C_JUL: 0,
+            C_AGO: 0,
+            C_SEP: 0,
+            C_OCT: 0,
+            C_NOV: 0,
+            C_DIC: 0,
             idMod: 0,
             idServicio: 0,
             MontoPresupuesto: 0,
@@ -427,113 +502,36 @@ export default {
             //Template Columnas Listado Proveedor
             columns: [
                 {
-                    label: "Año",
-                    field: "anio",
+                    label: "Codigo Articulo",
+                    field: "CODART",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "Servicio",
-                    field: "descripcionServicio",
+                    label: "Descripcion",
+                    field: "NOMBRE",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "Bodega",
-                    field: "bodega",
+                    label: "Unidad Medida",
+                    field: "UNIMED",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "Presupuesto Anual",
-                    field: "panual",
+                    label: "Precio",
+                    field: "PRECIO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "Enero",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Febrero",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Marzo",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Abril",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Mayo",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Junio",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Julio",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Agosto",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Septiembre",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Octubre",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Noviembre",
-                    field: "descripcionServicio",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Diciembre",
-                    field: "descripcionServicio",
+                    label: "Estado",
+                    field: "descripcionEstado",
                     filterOptions: {
                         enabled: true
                     }
@@ -543,9 +541,196 @@ export default {
                     field: "action"
                 }
             ],
+            columnsPresupuesto: [
+                {
+                    label: "P.Enero",
+                    field: "P_ENE",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Febrero",
+                    field: "P_FEB",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Marzo",
+                    field: "P_MAR",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Abril",
+                    field: "P_ABR",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Mayo",
+                    field: "P_MAY",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Junio",
+                    field: "P_JUN",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Julio",
+                    field: "P_JUL",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Agosto",
+                    field: "P_AGO",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Septiembre",
+                    field: "P_SEP",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Octubre",
+                    field: "P_OCT",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Noviembre",
+                    field: "P_NOV",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Diciembre",
+                    field: "P_DIC",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Total",
+                    field: "P_ANUAL",
+                    filterOptions: {
+                        enabled: true
+                    }
+                }
+            ],
+            columnsPlanAnualConsumo: [
+                {
+                    label: "Enero",
+                    field: "C_ENE",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Febrero",
+                    field: "C_FEB",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Marzo",
+                    field: "C_MAR",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Abril",
+                    field: "C_ABR",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Mayo",
+                    field: "C_MAY",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Junio",
+                    field: "C_JUN",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Julio",
+                    field: "C_JUL",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Agosto",
+                    field: "C_AGO",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Septiembre",
+                    field: "C_SEP",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Octubre",
+                    field: "C_OCT",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Noviembre",
+                    field: "C_NOV",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Diciembre",
+                    field: "C_DIC",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Total",
+                    field: "C_TOTAL",
+                    filterOptions: {
+                        enabled: true
+                    }
+                }
+            ],
             //Datos Listado Proveedor
             rows: [],
             listadoServicios: [],
+            listadoArticulos: [],
             listaBodega: [
                 {
                     id: 1,
@@ -554,6 +739,16 @@ export default {
                 {
                     id: 2,
                     descripcion: "Economato"
+                }
+            ],
+            listaEstado: [
+                {
+                    id: 1,
+                    descripcion: "Activo"
+                },
+                {
+                    id: 2,
+                    descripcion: "Pasivo"
                 }
             ]
         };
@@ -583,14 +778,6 @@ export default {
                 return true;
             }
         },
-        /* formatear_run() {
-            if (this.run_usuario == "" || this.run_usuario == null) {
-                this.val_run = false;
-            } else {
-                this.run_usuario = format(this.run_usuario);
-                this.val_run = !validate(this.run_usuario);
-            }
-        }, */
         limpiarCampos() {
             try {
                 let data = 1;
@@ -602,6 +789,15 @@ export default {
         popArticulosPAnual() {
             try {
                 this.popUpAgregarArticulo = true;
+                this.popUpAgregarArticuloPAnual = false;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        VolverListaArticulos() {
+            try {
+                this.popUpAgregarArticulo = true;
+                this.popUpAgregarArticuloPAnual = false;
             } catch (error) {
                 console.log(error);
             }
@@ -609,6 +805,19 @@ export default {
         popModificarPlanAnual(id) {
             try {
                 let dato = 0;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        popAgregarConsumoMensual(id, codart, nombre, unimed, precio) {
+            try {
+                this.idArticulo = id;
+                this.codart = codart;
+                this.nombre = nombre;
+                this.unimed = unimed;
+                this.precio = precio;
+                this.popUpAgregarArticulo = false;
+                this.popUpAgregarArticuloPAnual = true;
             } catch (error) {
                 console.log(error);
             }
@@ -643,10 +852,16 @@ export default {
         },
         TraerListadoPresupuestos() {
             try {
+                let data = {
+                    idServicio: 1,
+                    idBodega: 3,
+                    anio: 2023
+                };
                 axios
-                    .get(
+                    .post(
                         this.localVal +
-                            "/api/Mantenedor/GetListadoPresupuestos",
+                            "/api/Mantenedor/GetPresupuestoByServBodega",
+                        data,
                         {
                             headers: {
                                 Authorization:
@@ -665,6 +880,48 @@ export default {
                                 color: "danger",
                                 position: "top-right"
                             });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        TraerArticulos() {
+            try {
+                axios
+                    .get(this.localVal + "/api/Mantenedor/GetArticulos", {
+                        headers: {
+                            Authorization:
+                                `Bearer ` + sessionStorage.getItem("token")
+                        }
+                    })
+                    .then(res => {
+                        //this.rows =;
+                        let c = res.data;
+                        //this.rows = res.data;
+                        if (c.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        } else {
+                            let d = this.listaEstado;
+                            let f = [];
+                            c.forEach((value, ind) => {
+                                d.forEach((val, index) => {
+                                    if (value.idEstado == val.id) {
+                                        value.descripcionEstado =
+                                            val.descripcion;
+                                        f.push(value);
+                                    }
+                                });
+                            });
+
+                            this.listadoArticulos = f;
                         }
                     });
             } catch (error) {
@@ -806,6 +1063,8 @@ export default {
     beforeMount() {
         this.TraerServicio();
         setTimeout(() => {
+            this.TraerListadoPresupuestos();
+            this.TraerArticulos();
             //this.TraerUsuarios();
             this.openLoadingColor();
         }, 2000);

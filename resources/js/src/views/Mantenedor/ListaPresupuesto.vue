@@ -35,7 +35,23 @@
                                     class="custom-class"
                                     @click="
                                         popModificarPresupuestoAnual(
-                                            props.row.id
+                                            props.row.id,
+                                            props.row.NOMSER,
+                                            props.row.BODEGA,
+                                            props.row.ANIO,
+                                            props.row.P_ANUAL,
+                                            props.row.P_ENE,
+                                            props.row.P_FEB,
+                                            props.row.P_MAR,
+                                            props.row.P_ABR,
+                                            props.row.P_MAY,
+                                            props.row.P_JUN,
+                                            props.row.P_JUL,
+                                            props.row.P_AGO,
+                                            props.row.P_SEP,
+                                            props.row.P_OCT,
+                                            props.row.P_NOV,
+                                            props.row.P_DIC
                                         )
                                     "
                                 ></plus-circle-icon>
@@ -547,7 +563,7 @@ export default {
             popUpListaPresupuesto: false,
             popUpListaPresupuestoMod: false,
             fechaPAnual: null,
-            anio: "",
+            anio: null,
             P_ENE: 0,
             P_FEB: 0,
             P_MAR: 0,
@@ -628,7 +644,7 @@ export default {
             columns: [
                 {
                     label: "Año",
-                    field: "anio",
+                    field: "aniofiltrado",
                     filterOptions: {
                         enabled: true
                     }
@@ -642,98 +658,98 @@ export default {
                 },
                 {
                     label: "Bodega",
-                    field: "bodega",
+                    field: "descripcionBodega",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Presupuesto Anual",
-                    field: "panual",
+                    field: "P_ANUAL",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Enero",
-                    field: "descripcionServicio",
+                    field: "P_ENE",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Febrero",
-                    field: "descripcionServicio",
+                    field: "P_FEB",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Marzo",
-                    field: "descripcionServicio",
+                    field: "P_MAR",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Abril",
-                    field: "descripcionServicio",
+                    field: "P_ABR",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Mayo",
-                    field: "descripcionServicio",
+                    field: "P_MAY",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Junio",
-                    field: "descripcionServicio",
+                    field: "P_JUN",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Julio",
-                    field: "descripcionServicio",
+                    field: "P_JUL",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Agosto",
-                    field: "descripcionServicio",
+                    field: "P_AGO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Septiembre",
-                    field: "descripcionServicio",
+                    field: "P_SEP",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Octubre",
-                    field: "descripcionServicio",
+                    field: "P_OCT",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Noviembre",
-                    field: "descripcionServicio",
+                    field: "P_NOV",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Diciembre",
-                    field: "descripcionServicio",
+                    field: "P_DIC",
                     filterOptions: {
                         enabled: true
                     }
@@ -799,14 +815,6 @@ export default {
                 return true;
             }
         },
-        /* formatear_run() {
-            if (this.run_usuario == "" || this.run_usuario == null) {
-                this.val_run = false;
-            } else {
-                this.run_usuario = format(this.run_usuario);
-                this.val_run = !validate(this.run_usuario);
-            }
-        }, */
         limpiarCampos() {
             try {
                 let data = 1;
@@ -818,13 +826,89 @@ export default {
         popListaPresupuesto() {
             try {
                 this.popUpListaPresupuesto = true;
+                this.idMod = 0;
+                this.anio = null;
+                this.seleccionServicio = {
+                    id: 1,
+                    descripcionServicio: "MEDICINA-CIRUGIA"
+                };
+                this.seleccionBodega = {
+                    id: 1,
+                    descripcion: "Farmacia"
+                };
+                this.MontoPresupuesto = 0;
+                this.P_ENE = 0;
+                this.P_FEB = 0;
+                this.P_MAR = 0;
+                this.P_ABR = 0;
+                this.P_MAY = 0;
+                this.P_JUN = 0;
+                this.P_JUL = 0;
+                this.P_AGO = 0;
+                this.P_SEP = 0;
+                this.P_OCT = 0;
+                this.P_NOV = 0;
+                this.P_DIC = 0;
             } catch (error) {
                 console.log(error);
             }
         },
-        popModificarPresupuestoAnual(id) {
+        popModificarPresupuestoAnual(
+            id,
+            NOMSER,
+            BODEGA,
+            ANIO,
+            P_ANUAL,
+            P_ENE,
+            P_FEB,
+            P_MAR,
+            P_ABR,
+            P_MAY,
+            P_JUN,
+            P_JUL,
+            P_AGO,
+            P_SEP,
+            P_OCT,
+            P_NOV,
+            P_DIC
+        ) {
             try {
-                let dato = 0;
+                this.popUpListaPresupuestoMod = true;
+                this.idMod = id;
+                this.anio = ANIO;
+                let idServicio = NOMSER;
+                let idBodega = BODEGA;
+                this.MontoPresupuesto = P_ANUAL;
+                this.P_ENE = P_ENE;
+                this.P_FEB = P_FEB;
+                this.P_MAR = P_MAR;
+                this.P_ABR = P_ABR;
+                this.P_MAY = P_MAY;
+                this.P_JUN = P_JUN;
+                this.P_JUL = P_JUL;
+                this.P_AGO = P_AGO;
+                this.P_SEP = P_SEP;
+                this.P_OCT = P_OCT;
+                this.P_NOV = P_NOV;
+                this.P_DIC = P_DIC;
+
+                let c = this.listadoServicios;
+                c.forEach((value, ind) => {
+                    if (value.id == idServicio) {
+                        this.seleccionServicio.id = value.id;
+                        this.seleccionServicio.descripcionServicio =
+                            value.descripcionServicio;
+                    }
+                });
+
+                c = [];
+                c = this.listaBodega;
+                c.forEach((value, ind) => {
+                    if (value.id == idBodega) {
+                        this.seleccionBodega.id = value.id;
+                        this.seleccionBodega.descripcion = value.descripcion;
+                    }
+                });
             } catch (error) {
                 console.log(error);
             }
@@ -862,7 +946,7 @@ export default {
                 axios
                     .get(
                         this.localVal +
-                            "/api/Mantenedor/GetListadoPresupuestos",
+                            "/api/Mantenedor/GetPresupuestosGenerales",
                         {
                             headers: {
                                 Authorization:
@@ -871,8 +955,9 @@ export default {
                         }
                     )
                     .then(res => {
-                        this.rows = res.data;
-                        if (this.rows.length < 0) {
+                        //this.rows =;
+                        let listado = res.data;
+                        if (listado.length < 0) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
@@ -881,6 +966,39 @@ export default {
                                 color: "danger",
                                 position: "top-right"
                             });
+                        } else {
+                            let c = listado;
+                            let d = this.listadoServicios;
+                            let f = this.listaBodega;
+                            let g = [];
+                            let h = [];
+
+                            c.forEach((value, ind) => {
+                                d.forEach((vals, ind) => {
+                                    if (vals.id == value.NOMSER) {
+                                        value.descripcionServicio =
+                                            vals.descripcionServicio;
+                                        value.aniofiltrado = moment(value.ANIO)
+                                            .format("YYYY")
+                                            .toString();
+                                        g.push(value);
+                                    }
+                                });
+                            });
+
+                            g.forEach((val, ind) => {
+                                f.forEach((valb, ind) => {
+                                    if (valb.id == val.BODEGA) {
+                                        val.descripcionBodega =
+                                            valb.descripcion;
+                                        h.push(val);
+                                    }
+                                });
+                            });
+
+                            this.rows = h;
+
+                            //c.forEach((value, ind) => {});
                         }
                     });
             } catch (error) {
@@ -890,7 +1008,7 @@ export default {
         //Metodos para Agregar Datos
         AgregarListaPresupuesto() {
             try {
-                if (anio == null) {
+                if (this.anio == null) {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
@@ -1020,17 +1138,30 @@ export default {
                     });
                 } else {
                     let data = {
-                        anio: this.anio,
-                        NOMSER: this.seleccionServicio.descripcionServicio,
+                        ANIO: this.anio,
+                        NOMSER: this.seleccionServicio.id,
                         BODEGA: this.seleccionBodega.id,
-                        P_ANUAL: this.MontoPresupuesto
+                        P_ANUAL: this.MontoPresupuesto,
+                        P_ENE: this.P_ENE,
+                        P_FEB: this.P_FEB,
+                        P_MAR: this.P_MAR,
+                        P_ABR: this.P_ABR,
+                        P_MAY: this.P_MAY,
+                        P_JUN: this.P_JUN,
+                        P_JUL: this.P_JUL,
+                        P_AGO: this.P_AGO,
+                        P_SEP: this.P_SEP,
+                        P_OCT: this.P_OCT,
+                        P_NOV: this.P_NOV,
+                        P_DIC: this.P_DIC
                     };
 
                     const dat = data;
 
                     axios
                         .post(
-                            this.localVal + "/api/Mantenedor/PostPresupuesto",
+                            this.localVal +
+                                "/api/Mantenedor/PostPresupuestoAnual",
                             dat,
                             {
                                 headers: {
@@ -1072,18 +1203,153 @@ export default {
         },
         ModificarPresupuestoAnual() {
             try {
-                let d = true;
-                if (d == false) {
+                if (this.anio == null) {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
-                        text: "Error",
+                        text: "Debe seleccionar un Año",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.seleccionServicio.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar un Servicio",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.seleccionBodega.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar una Bodega",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.MontoPresupuesto < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_ENE < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de enero debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_FEB < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Febrero debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_MAR < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Marzo debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_ABR < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Abril debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_MAY < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Mayo debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_JUN < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Junio debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_JUL < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Julio debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_AGO < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Agosto debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_SEP < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Septiembre debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_OCT < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Octubre debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_NOV < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Noviembre debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.P_DIC < 1) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto de Diciembre debe ser mayor a 0",
                         color: "danger",
                         position: "top-right"
                     });
                 } else {
                     let data = {
-                        id: this.idMod
+                        id: this.idMod,
+                        ANIO: this.anio,
+                        NOMSER: this.seleccionServicio.id,
+                        BODEGA: this.seleccionBodega.id,
+                        P_ANUAL: this.MontoPresupuesto,
+                        P_ENE: this.P_ENE,
+                        P_FEB: this.P_FEB,
+                        P_MAR: this.P_MAR,
+                        P_ABR: this.P_ABR,
+                        P_MAY: this.P_MAY,
+                        P_JUN: this.P_JUN,
+                        P_JUL: this.P_JUL,
+                        P_AGO: this.P_AGO,
+                        P_SEP: this.P_SEP,
+                        P_OCT: this.P_OCT,
+                        P_NOV: this.P_NOV,
+                        P_DIC: this.P_DIC
                     };
 
                     const dat = data;
@@ -1091,7 +1357,7 @@ export default {
                     axios
                         .post(
                             this.localVal +
-                                "/api/Mantenedor/PutListaPresupuesto",
+                                "/api/Mantenedor/PutPresupuestoAnual",
                             dat,
                             {
                                 headers: {
@@ -1114,13 +1380,13 @@ export default {
                                     position: "top-right"
                                 });
                                 this.popUpListaPresupuestoMod = false;
-                                this.TraerPresupuesto();
+                                this.TraerListadoPresupuestos();
                             } else {
                                 this.$vs.notify({
                                     time: 5000,
                                     title: "Error",
                                     text:
-                                        "No fue posible modificar el Presupuesto,intentelo nuevamente",
+                                        "No fue posible Modificar el presupuesto,intentelo nuevamente",
                                     color: "danger",
                                     position: "top-right"
                                 });
@@ -1141,25 +1407,12 @@ export default {
             }
         },
         cargarAnios() {
-            let ini = moment("2014-02-27T10:00:00").endOf("day");
-            let end = moment("2014-02-27").endOf("day");
             this.disabledDates = {
                 to: moment("2014-02-27").toDate(),
                 from: moment()
                     .add(1, "years")
                     .toDate()
             };
-            /*this.disabledDates = {
-                from: end.format("DD/MM/YYYY").toString(),
-                to: ini.format("DD/MM/YYYY").toString()
-                 ranges: [
-                    {
-                        // Disable dates in given ranges (exclusive).
-                        from: end.format("DD/MM/YYYY").toString(),
-                        to: ini.format("DD/MM/YYYY").toString()
-                    }
-                ] 
-            };*/
         }
     },
     beforeMount() {
@@ -1167,6 +1420,7 @@ export default {
         this.cargarAnios();
         setTimeout(() => {
             //this.TraerUsuarios();
+            this.TraerListadoPresupuestos();
             this.openLoadingColor();
         }, 2000);
     }

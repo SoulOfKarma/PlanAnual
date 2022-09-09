@@ -25,18 +25,22 @@ Route::post('/auth/RefreshToken','AuthJWT@handle');
 
 Route::group(['middleware' => ['jwt.verify']], function() {
     //Gets
-    Route::get('/Mantenedor/GetProveedor', ['middleware' => 'cors', 'uses' => 'SiabProveedoresController@GetProveedor']);
+    Route::get('/Mantenedor/GetPresupuestosGenerales', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestosGenerales']);
     Route::get('/Mantenedor/GetUsers', ['middleware' => 'cors', 'uses' => 'LoginController@GetUsers']);
+    Route::get('/Mantenedor/GetArticulos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@GetArticulos']);
     
     //Posts 
+    Route::post('/Mantenedor/PostPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PostPresupuestoAnual']);
     Route::post('/Mantenedor/PostProveedor', ['middleware' => 'cors', 'uses' => 'SiabProveedoresController@PostProveedor']);
+    Route::post('/Mantenedor/PostArticulos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@PostArticulos']);
     
     //Post Como Get
-    Route::post('/Mantenedor/GetListadoArticulosByCodInterno', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@GetListadoArticulosByCodInterno']);
+    Route::post('/Mantenedor/GetPresupuestoByServBodega', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestoByServBodega']);
 
     //Post Como Put
-    Route::post('/Mantenedor/PutProveedor', ['middleware' => 'cors', 'uses' => 'SiabProveedoresController@PutProveedor']);
+    Route::post('/Mantenedor/PutPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PutPresupuestoAnual']);
     Route::post('/Usuario/PutUsuario', ['middleware' => 'cors', 'uses' => 'LoginController@PutUsuario']);
+    Route::post('/Mantenedor/PutArticulos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@PutArticulos']);
 
     //Post como Delete
     Route::post('/Mantenedor/DeleteArticuloDetalle', ['middleware' => 'cors', 'uses' => 'RecepcionesController@DeleteArticuloDetalle']);
