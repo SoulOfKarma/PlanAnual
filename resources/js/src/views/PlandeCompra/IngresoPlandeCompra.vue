@@ -42,7 +42,7 @@
                 <vx-card>
                     <vue-good-table
                         :columns="columnsPlanAnualConsumo"
-                        :rows="rows"
+                        :rows="rowsTotalArticulos"
                         :pagination-options="{
                             enabled: true,
                             perPage: 10
@@ -70,7 +70,7 @@
                 <vx-card>
                     <vue-good-table
                         :columns="columns"
-                        :rows="rows"
+                        :rows="rowsArticulos"
                         :pagination-options="{
                             enabled: true,
                             perPage: 10
@@ -85,7 +85,7 @@
                             </span>
                             <span v-else-if="props.column.field === 'action'">
                                 <plus-circle-icon
-                                    content="Modificar Presupuesto"
+                                    content="Quitar Articulo"
                                     v-tippy
                                     size="1.5x"
                                     class="custom-class"
@@ -107,9 +107,10 @@
             >
                 <div class="vx-col md:w-1/1 w-full mb-base">
                     <vx-card title="">
-                        <div class="vx-row">
+                        <div class="vx-row w-full">
                             <vue-good-table
-                                :columns="columns"
+                                class="w-full"
+                                :columns="columnsArt"
                                 :rows="listadoArticulos"
                                 :pagination-options="{
                                     enabled: true,
@@ -156,7 +157,6 @@
                             </vue-good-table>
                         </div>
                     </vx-card>
-                    <div class="vx-row"></div>
                 </div>
             </vs-popup>
             <vs-popup
@@ -176,51 +176,12 @@
                                 </h6>
                                 <br />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>Servicio</h6>
-                                <br />
-                                <v-select
-                                    taggable
-                                    v-model="seleccionServicio"
-                                    placeholder="Servicio"
-                                    class="w-full select-large"
-                                    label="descripcionServicio"
-                                    :options="listadoServicios"
-                                ></v-select>
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>Bodega</h6>
-                                <br />
-                                <v-select
-                                    taggable
-                                    v-model="seleccionBodega"
-                                    placeholder="descripcion"
-                                    class="w-full select-large"
-                                    label="descripcion"
-                                    :options="listaBodega"
-                                ></v-select>
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>Fecha Inicio</h6>
-                                <flat-pickr
-                                    :config="configFromdateTimePicker"
-                                    v-model="fechaPAnual"
-                                    placeholder="Fecha Inicio"
-                                    @on-change="onFromChange"
-                                    class="w-full "
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-full mt-5">
                                 <h6>
-                                    Monto Presupuesto
+                                    Primer Semestre
                                 </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="MontoPresupuesto"
-                                    @keypress="isNumber($event)"
-                                />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Enero
                                 </h6>
@@ -228,9 +189,10 @@
                                     class="inputx w-full  "
                                     v-model="C_ENE"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Febrero
                                 </h6>
@@ -238,9 +200,10 @@
                                     class="inputx w-full  "
                                     v-model="C_FEB"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Marzo
                                 </h6>
@@ -248,9 +211,10 @@
                                     class="inputx w-full  "
                                     v-model="C_MAR"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Abril
                                 </h6>
@@ -258,9 +222,10 @@
                                     class="inputx w-full  "
                                     v-model="C_ABR"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Mayo
                                 </h6>
@@ -268,9 +233,10 @@
                                     class="inputx w-full  "
                                     v-model="C_MAY"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Junio
                                 </h6>
@@ -278,9 +244,15 @@
                                     class="inputx w-full  "
                                     v-model="C_JUN"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-full mt-5">
+                                <h6>
+                                    Segundo Semestre
+                                </h6>
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Julio
                                 </h6>
@@ -288,9 +260,10 @@
                                     class="inputx w-full  "
                                     v-model="C_JUL"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Agosto
                                 </h6>
@@ -298,9 +271,10 @@
                                     class="inputx w-full  "
                                     v-model="C_AGO"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Septiembre
                                 </h6>
@@ -308,9 +282,10 @@
                                     class="inputx w-full  "
                                     v-model="C_SEP"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Octubre
                                 </h6>
@@ -318,9 +293,10 @@
                                     class="inputx w-full  "
                                     v-model="C_OCT"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Noviembre
                                 </h6>
@@ -328,9 +304,10 @@
                                     class="inputx w-full  "
                                     v-model="C_NOV"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-1/6 mt-5">
                                 <h6>
                                     Diciembre
                                 </h6>
@@ -338,6 +315,46 @@
                                     class="inputx w-full  "
                                     v-model="C_DIC"
                                     @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/3 mt-5">
+                                <h6>
+                                    Cantidad
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="cantidadTotal"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/3 mt-5">
+                                <h6>
+                                    Precio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="precioTotal"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/3 mt-5">
+                                <h6>
+                                    Maximo Tope
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="topeMaximo"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-full mt-5">
+                                <h6>
+                                    Observaciones
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="obs"
                                 />
                             </div>
                             <div class="vx-col w-1/2 mt-5">
@@ -351,11 +368,11 @@
                             </div>
                             <div class="vx-col w-1/2 mt-5">
                                 <vs-button
-                                    @click="ModificarPlanAnual"
+                                    @click="AgregarArticuloPAnual"
                                     color="danger"
                                     type="filled"
                                     class="w-full m-1"
-                                    >Modificar Presupuesto</vs-button
+                                    >Agregar Articulo</vs-button
                                 >
                             </div>
                         </div>
@@ -423,6 +440,10 @@ export default {
             nombre: "",
             unimed: "",
             precio: "",
+            cantidadTotal: 0,
+            precioTotal: 0,
+            topeMaximo: 0,
+            obs: "",
             C_ENE: 0,
             C_FEB: 0,
             C_MAR: 0,
@@ -501,6 +522,138 @@ export default {
             },
             //Template Columnas Listado Proveedor
             columns: [
+                {
+                    label: "Codigo Articulo",
+                    field: "CODART",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Descripcion",
+                    field: "NOMART",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Unidad Medida",
+                    field: "UNIMED",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Precio",
+                    field: "PRECIO",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "ENERO",
+                    field: "C_ENE",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Febrero",
+                    field: "C_FEB",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "MARZO",
+                    field: "C_MAR",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "ABRIL",
+                    field: "C_ABR",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "MAYO",
+                    field: "C_MAY",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "JUNIO",
+                    field: "C_JUN",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "JULIO",
+                    field: "C_JUL",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "AGOSTO",
+                    field: "C_AGO",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "SEPTIEMBRE",
+                    field: "C_SEP",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "OCTUBRE",
+                    field: "C_OCT",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "NOVIEMBRE",
+                    field: "C_NOV",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "DICIEMBRE",
+                    field: "C_DIC",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "C. TOTAL",
+                    field: "C_TOTAL",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "TOTAL",
+                    field: "T_PRECIO",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Opciones",
+                    field: "action"
+                }
+            ],
+            columnsArt: [
                 {
                     label: "Codigo Articulo",
                     field: "CODART",
@@ -637,91 +790,91 @@ export default {
             columnsPlanAnualConsumo: [
                 {
                     label: "Enero",
-                    field: "C_ENE",
+                    field: "ENERO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Febrero",
-                    field: "C_FEB",
+                    field: "FEBRERO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Marzo",
-                    field: "C_MAR",
+                    field: "MARZO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Abril",
-                    field: "C_ABR",
+                    field: "ABRIL",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Mayo",
-                    field: "C_MAY",
+                    field: "MAYO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Junio",
-                    field: "C_JUN",
+                    field: "JUNIO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Julio",
-                    field: "C_JUL",
+                    field: "JULIO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Agosto",
-                    field: "C_AGO",
+                    field: "AGOSTO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Septiembre",
-                    field: "C_SEP",
+                    field: "SEPTIEMBRE",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Octubre",
-                    field: "C_OCT",
+                    field: "OCTUBRE",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Noviembre",
-                    field: "C_NOV",
+                    field: "NOVIEMBRE",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Diciembre",
-                    field: "C_DIC",
+                    field: "DICIEMBRE",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
                     label: "Total",
-                    field: "C_TOTAL",
+                    field: "TOTAL",
                     filterOptions: {
                         enabled: true
                     }
@@ -729,6 +882,8 @@ export default {
             ],
             //Datos Listado Proveedor
             rows: [],
+            rowsArticulos: [],
+            rowsTotalArticulos: [],
             listadoServicios: [],
             listadoArticulos: [],
             listaBodega: [
@@ -822,6 +977,88 @@ export default {
                 console.log(error);
             }
         },
+        CalculoCantPrecio() {
+            try {
+                this.precioTotal = 0;
+                this.cantidadTotal = 0;
+                let preEne = 0;
+                let preFeb = 0;
+                let preMar = 0;
+                let preAbr = 0;
+                let preMay = 0;
+                let preJun = 0;
+                let preJul = 0;
+                let preAgo = 0;
+                let preSep = 0;
+                let preOct = 0;
+                let preNov = 0;
+                let preDic = 0;
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_ENE);
+                preEne = parseInt(this.C_ENE) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_FEB);
+                preFeb = parseInt(this.C_FEB) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_MAR);
+                preMar = parseInt(this.C_MAR) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_ABR);
+                preAbr = parseInt(this.C_ABR) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_MAY);
+                preMay = parseInt(this.C_MAY) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_JUN);
+                preJun = parseInt(this.C_JUN) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_JUL);
+                preJul = parseInt(this.C_JUL) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_AGO);
+                preAgo = parseInt(this.C_AGO) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_SEP);
+                preSep = parseInt(this.C_SEP) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_OCT);
+                preOct = parseInt(this.C_OCT) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_NOV);
+                preNov = parseInt(this.C_NOV) * parseInt(this.precio);
+
+                this.cantidadTotal =
+                    parseInt(this.cantidadTotal) + parseInt(this.C_DIC);
+                preDic = parseInt(this.C_DIC) * parseInt(this.precio);
+
+                this.precioTotal =
+                    preEne +
+                    preFeb +
+                    preMar +
+                    preAbr +
+                    preMay +
+                    preJun +
+                    preJul +
+                    preAgo +
+                    preSep +
+                    preOct +
+                    preNov +
+                    preDic;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         //Carga de Datos
         TraerServicio() {
             try {
@@ -872,6 +1109,76 @@ export default {
                     .then(res => {
                         this.rows = res.data;
                         if (this.rows.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        TraerArticulosPresupuesto() {
+            try {
+                let data = {
+                    idServicio: 1,
+                    bodega: 3,
+                    anio: 2023
+                };
+                axios
+                    .post(
+                        this.localVal + "/api/PCompra/GetArticulosServ",
+                        data,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.rowsArticulos = res.data;
+                        if (this.rowsArticulos.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        TraerTotalArticulosPresupuesto() {
+            try {
+                let data = {
+                    idServicio: 1,
+                    bodega: 3,
+                    anio: 2023
+                };
+                axios
+                    .post(
+                        this.localVal + "/api/PCompra/GetTotalArticulosServ",
+                        data,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.rowsTotalArticulos = res.data;
+                        if (this.rowsTotalArticulos.length < 0) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
@@ -989,10 +1296,22 @@ export default {
                 console.log(error);
             }
         },
-        ModificarPlanAnual() {
+        AgregarArticuloPAnual() {
             try {
-                let d = true;
-                if (d == false) {
+                if (
+                    this.C_ENE < 1 &&
+                    this.C_FEB < 1 &&
+                    this.C_MAR < 1 &&
+                    this.C_ABR < 1 &&
+                    this.C_MAY < 1 &&
+                    this.C_JUN < 1 &&
+                    this.C_JUL < 1 &&
+                    this.C_AGO < 1 &&
+                    this.C_SEP < 1 &&
+                    this.C_OCT < 1 &&
+                    this.C_NOV < 1 &&
+                    this.C_DIC < 1
+                ) {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
@@ -1001,16 +1320,39 @@ export default {
                         position: "top-right"
                     });
                 } else {
+                    let date = moment().endOf("day");
                     let data = {
-                        id: this.idMod
+                        CODART: this.codart,
+                        NOMART: this.nombre,
+                        UNIMED: this.unimed,
+                        PRECIO: this.precio,
+                        C_ENE: this.C_ENE,
+                        C_FEB: this.C_FEB,
+                        C_MAR: this.C_MAR,
+                        C_ABR: this.C_ABR,
+                        C_MAY: this.C_MAY,
+                        C_JUN: this.C_JUN,
+                        C_JUL: this.C_JUL,
+                        C_AGO: this.C_AGO,
+                        C_SEP: this.C_SEP,
+                        C_OCT: this.C_OCT,
+                        C_NOV: this.C_NOV,
+                        C_DIC: this.C_DIC,
+                        C_TOTAL: this.cantidadTotal,
+                        T_PRECIO: this.precioTotal,
+                        idServicio: 1,
+                        FECING: date.format("YYYY/MM/DD").toString(),
+                        NOMSER: this.seleccionServicio.descripcionServicio,
+                        BODEGA: 3,
+                        OBS: this.obs,
+                        ANIO: 2023
                     };
 
                     const dat = data;
 
                     axios
                         .post(
-                            this.localVal +
-                                "/api/Mantenedor/PutListaPresupuesto",
+                            this.localVal + "/api/PCompra/PostArticuloServ",
                             dat,
                             {
                                 headers: {
@@ -1027,13 +1369,13 @@ export default {
                                 this.$vs.notify({
                                     time: 5000,
                                     title: "Completado",
-                                    text:
-                                        "Presupuesto Modificado Correctamente",
+                                    text: "Articulo Ingresado Correctamente",
                                     color: "success",
                                     position: "top-right"
                                 });
-                                this.popUpAgregarArticuloMod = false;
-                                this.TraerPresupuesto();
+                                //this.popUpAgregarArticuloMod = false;
+                                this.TraerArticulosPresupuesto();
+                                this.TraerTotalArticulosPresupuesto();
                             } else {
                                 this.$vs.notify({
                                     time: 5000,
@@ -1065,15 +1407,16 @@ export default {
         setTimeout(() => {
             this.TraerListadoPresupuestos();
             this.TraerArticulos();
+            this.TraerArticulosPresupuesto();
+            this.TraerTotalArticulosPresupuesto();
             //this.TraerUsuarios();
             this.openLoadingColor();
         }, 2000);
     }
 };
 </script>
-<style lang="scss"></style>
 <style lang="stylus">
 .con-vs-popup .vs-popup {
-  width: 1000px;
+  width: 1500px;
 }
 </style>

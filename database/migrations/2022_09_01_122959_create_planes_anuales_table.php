@@ -18,7 +18,7 @@ class CreatePlanesAnualesTable extends Migration
             $table->string('CODART')->nullable();
             $table->string('NOMART')->nullable();
             $table->string('UNIMED')->nullable();
-            $table->bigInteger('PRECIO')->nullable();
+            $table->float('PRECIO')->nullable();
             $table->bigInteger('C_ENE')->nullable();
             $table->bigInteger('C_FEB')->nullable();
             $table->bigInteger('C_MAR')->nullable();
@@ -31,8 +31,8 @@ class CreatePlanesAnualesTable extends Migration
             $table->bigInteger('C_OCT')->nullable();
             $table->bigInteger('C_NOV')->nullable();
             $table->bigInteger('C_DIC')->nullable();
-            $table->string('C_TOTAL')->nullable();
-            $table->bigInteger('T_PRECIO')->nullable();
+            $table->float('C_TOTAL')->nullable();
+            $table->float('T_PRECIO')->nullable();
             $table->date('FECING')->nullable();
             $table->string('CODSER')->nullable();
             $table->string('NOMSER')->nullable();
