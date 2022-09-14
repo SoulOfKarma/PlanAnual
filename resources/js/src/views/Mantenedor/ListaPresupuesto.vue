@@ -37,21 +37,8 @@
                                         popModificarPresupuestoAnual(
                                             props.row.id,
                                             props.row.NOMSER,
-                                            props.row.BODEGA,
                                             props.row.ANIO,
-                                            props.row.P_ANUAL,
-                                            props.row.P_ENE,
-                                            props.row.P_FEB,
-                                            props.row.P_MAR,
-                                            props.row.P_ABR,
-                                            props.row.P_MAY,
-                                            props.row.P_JUN,
-                                            props.row.P_JUL,
-                                            props.row.P_AGO,
-                                            props.row.P_SEP,
-                                            props.row.P_OCT,
-                                            props.row.P_NOV,
-                                            props.row.P_DIC
+                                            props.row.P_ANUAL
                                         )
                                     "
                                 ></plus-circle-icon>
@@ -74,7 +61,6 @@
                         <div class="vx-row">
                             <div class="vx-col w-1/2 mt-5">
                                 <h6>Servicio</h6>
-                                <br />
                                 <v-select
                                     taggable
                                     v-model="seleccionServicio"
@@ -82,18 +68,6 @@
                                     class="w-full select-large"
                                     label="descripcionServicio"
                                     :options="listadoServicios"
-                                ></v-select>
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>Bodega</h6>
-                                <br />
-                                <v-select
-                                    taggable
-                                    v-model="seleccionBodega"
-                                    placeholder="descripcion"
-                                    class="w-full select-large"
-                                    label="descripcion"
-                                    :options="listaBodega"
                                 ></v-select>
                             </div>
                             <div class="vx-col w-1/2 mt-5">
@@ -109,133 +83,13 @@
                                     :disabled-dates="disabledDates"
                                 ></datepicker>
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-full mt-5">
                                 <h6>
                                     Monto Presupuesto
                                 </h6>
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="MontoPresupuesto"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Enero
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_ENE"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Febrero
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_FEB"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Marzo
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_MAR"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Abril
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_ABR"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Mayo
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_MAY"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Junio
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_JUN"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Julio
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_JUL"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Agosto
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_AGO"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Septiembre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_SEP"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Octubre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_OCT"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Noviembre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_NOV"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Diciembre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_DIC"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -283,18 +137,6 @@
                                 ></v-select>
                             </div>
                             <div class="vx-col w-1/2 mt-5">
-                                <h6>Bodega</h6>
-                                <br />
-                                <v-select
-                                    taggable
-                                    v-model="seleccionBodega"
-                                    placeholder="descripcion"
-                                    class="w-full select-large"
-                                    label="descripcion"
-                                    :options="listaBodega"
-                                ></v-select>
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
                                 <h6>
                                     Año
                                 </h6>
@@ -314,126 +156,6 @@
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="MontoPresupuesto"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Enero
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_ENE"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Febrero
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_FEB"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Marzo
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_MAR"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Abril
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_ABR"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Mayo
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_MAY"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Junio
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_JUN"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Julio
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_JUL"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Agosto
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_AGO"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Septiembre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_SEP"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Octubre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_OCT"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Noviembre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_NOV"
-                                    @keypress="isNumber($event)"
-                                />
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>
-                                    Diciembre
-                                </h6>
-                                <vs-input
-                                    class="inputx w-full  "
-                                    v-model="P_DIC"
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -564,18 +286,6 @@ export default {
             popUpListaPresupuestoMod: false,
             fechaPAnual: null,
             anio: null,
-            P_ENE: 0,
-            P_FEB: 0,
-            P_MAR: 0,
-            P_ABR: 0,
-            P_MAY: 0,
-            P_JUN: 0,
-            P_JUL: 0,
-            P_AGO: 0,
-            P_SEP: 0,
-            P_OCT: 0,
-            P_NOV: 0,
-            P_DIC: 0,
             idMod: 0,
             idServicio: 0,
             MontoPresupuesto: 0,
@@ -657,99 +367,8 @@ export default {
                     }
                 },
                 {
-                    label: "Bodega",
-                    field: "descripcionBodega",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
                     label: "Presupuesto Anual",
                     field: "P_ANUAL",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Enero",
-                    field: "P_ENE",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Febrero",
-                    field: "P_FEB",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Marzo",
-                    field: "P_MAR",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Abril",
-                    field: "P_ABR",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Mayo",
-                    field: "P_MAY",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Junio",
-                    field: "P_JUN",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Julio",
-                    field: "P_JUL",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Agosto",
-                    field: "P_AGO",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Septiembre",
-                    field: "P_SEP",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Octubre",
-                    field: "P_OCT",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Noviembre",
-                    field: "P_NOV",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "Diciembre",
-                    field: "P_DIC",
                     filterOptions: {
                         enabled: true
                     }
@@ -837,60 +456,17 @@ export default {
                     descripcion: "Farmacia"
                 };
                 this.MontoPresupuesto = 0;
-                this.P_ENE = 0;
-                this.P_FEB = 0;
-                this.P_MAR = 0;
-                this.P_ABR = 0;
-                this.P_MAY = 0;
-                this.P_JUN = 0;
-                this.P_JUL = 0;
-                this.P_AGO = 0;
-                this.P_SEP = 0;
-                this.P_OCT = 0;
-                this.P_NOV = 0;
-                this.P_DIC = 0;
             } catch (error) {
                 console.log(error);
             }
         },
-        popModificarPresupuestoAnual(
-            id,
-            NOMSER,
-            BODEGA,
-            ANIO,
-            P_ANUAL,
-            P_ENE,
-            P_FEB,
-            P_MAR,
-            P_ABR,
-            P_MAY,
-            P_JUN,
-            P_JUL,
-            P_AGO,
-            P_SEP,
-            P_OCT,
-            P_NOV,
-            P_DIC
-        ) {
+        popModificarPresupuestoAnual(id, NOMSER, ANIO, P_ANUAL) {
             try {
                 this.popUpListaPresupuestoMod = true;
                 this.idMod = id;
                 this.anio = ANIO;
                 let idServicio = NOMSER;
-                let idBodega = BODEGA;
                 this.MontoPresupuesto = P_ANUAL;
-                this.P_ENE = P_ENE;
-                this.P_FEB = P_FEB;
-                this.P_MAR = P_MAR;
-                this.P_ABR = P_ABR;
-                this.P_MAY = P_MAY;
-                this.P_JUN = P_JUN;
-                this.P_JUL = P_JUL;
-                this.P_AGO = P_AGO;
-                this.P_SEP = P_SEP;
-                this.P_OCT = P_OCT;
-                this.P_NOV = P_NOV;
-                this.P_DIC = P_DIC;
 
                 let c = this.listadoServicios;
                 c.forEach((value, ind) => {
@@ -898,15 +474,6 @@ export default {
                         this.seleccionServicio.id = value.id;
                         this.seleccionServicio.descripcionServicio =
                             value.descripcionServicio;
-                    }
-                });
-
-                c = [];
-                c = this.listaBodega;
-                c.forEach((value, ind) => {
-                    if (value.id == idBodega) {
-                        this.seleccionBodega.id = value.id;
-                        this.seleccionBodega.descripcion = value.descripcion;
                     }
                 });
             } catch (error) {
@@ -969,9 +536,7 @@ export default {
                         } else {
                             let c = listado;
                             let d = this.listadoServicios;
-                            let f = this.listaBodega;
                             let g = [];
-                            let h = [];
 
                             c.forEach((value, ind) => {
                                 d.forEach((vals, ind) => {
@@ -986,17 +551,7 @@ export default {
                                 });
                             });
 
-                            g.forEach((val, ind) => {
-                                f.forEach((valb, ind) => {
-                                    if (valb.id == val.BODEGA) {
-                                        val.descripcionBodega =
-                                            valb.descripcion;
-                                        h.push(val);
-                                    }
-                                });
-                            });
-
-                            this.rows = h;
+                            this.rows = g;
 
                             //c.forEach((value, ind) => {});
                         }
@@ -1024,14 +579,6 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
-                } else if (this.seleccionBodega.id == 0) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Debe seleccionar una Bodega",
-                        color: "danger",
-                        position: "top-right"
-                    });
                 } else if (this.MontoPresupuesto < 1) {
                     this.$vs.notify({
                         time: 5000,
@@ -1040,120 +587,11 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
-                } else if (this.P_ENE < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de enero debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_FEB < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Febrero debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_MAR < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Marzo debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_ABR < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Abril debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_MAY < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Mayo debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_JUN < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Junio debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_JUL < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Julio debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_AGO < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Agosto debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_SEP < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Septiembre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_OCT < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Octubre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_NOV < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Noviembre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_DIC < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Diciembre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
                 } else {
                     let data = {
                         ANIO: this.anio,
                         NOMSER: this.seleccionServicio.id,
-                        BODEGA: this.seleccionBodega.id,
-                        P_ANUAL: this.MontoPresupuesto,
-                        P_ENE: this.P_ENE,
-                        P_FEB: this.P_FEB,
-                        P_MAR: this.P_MAR,
-                        P_ABR: this.P_ABR,
-                        P_MAY: this.P_MAY,
-                        P_JUN: this.P_JUN,
-                        P_JUL: this.P_JUL,
-                        P_AGO: this.P_AGO,
-                        P_SEP: this.P_SEP,
-                        P_OCT: this.P_OCT,
-                        P_NOV: this.P_NOV,
-                        P_DIC: this.P_DIC
+                        P_ANUAL: this.MontoPresupuesto
                     };
 
                     const dat = data;
@@ -1219,14 +657,6 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
-                } else if (this.seleccionBodega.id == 0) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Debe seleccionar una Bodega",
-                        color: "danger",
-                        position: "top-right"
-                    });
                 } else if (this.MontoPresupuesto < 1) {
                     this.$vs.notify({
                         time: 5000,
@@ -1235,121 +665,12 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
-                } else if (this.P_ENE < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de enero debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_FEB < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Febrero debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_MAR < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Marzo debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_ABR < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Abril debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_MAY < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Mayo debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_JUN < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Junio debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_JUL < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Julio debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_AGO < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Agosto debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_SEP < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Septiembre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_OCT < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Octubre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_NOV < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Noviembre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.P_DIC < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Presupuesto de Diciembre debe ser mayor a 0",
-                        color: "danger",
-                        position: "top-right"
-                    });
                 } else {
                     let data = {
                         id: this.idMod,
                         ANIO: this.anio,
                         NOMSER: this.seleccionServicio.id,
-                        BODEGA: this.seleccionBodega.id,
-                        P_ANUAL: this.MontoPresupuesto,
-                        P_ENE: this.P_ENE,
-                        P_FEB: this.P_FEB,
-                        P_MAR: this.P_MAR,
-                        P_ABR: this.P_ABR,
-                        P_MAY: this.P_MAY,
-                        P_JUN: this.P_JUN,
-                        P_JUL: this.P_JUL,
-                        P_AGO: this.P_AGO,
-                        P_SEP: this.P_SEP,
-                        P_OCT: this.P_OCT,
-                        P_NOV: this.P_NOV,
-                        P_DIC: this.P_DIC
+                        P_ANUAL: this.MontoPresupuesto
                     };
 
                     const dat = data;

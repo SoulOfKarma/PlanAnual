@@ -85,11 +85,26 @@
                             </span>
                             <span v-else-if="props.column.field === 'action'">
                                 <plus-circle-icon
+                                    content="Modificar Articulo"
+                                    v-tippy
+                                    size="1.5x"
+                                    class="custom-class"
+                                    @click="
+                                        popModificarArticulo(
+                                            props.row.id,
+                                            props.row.CODART,
+                                            props.row.NOMART,
+                                            props.row.UNIMED,
+                                            props.row.PRECIO
+                                        )
+                                    "
+                                ></plus-circle-icon>
+                                <plus-circle-icon
                                     content="Quitar Articulo"
                                     v-tippy
                                     size="1.5x"
                                     class="custom-class"
-                                    @click="popModificarPlanAnual(props.row.id)"
+                                    @click="popDeleteArticulo(props.row.id)"
                                 ></plus-circle-icon>
                             </span>
                             <!-- Column: Common -->
@@ -160,8 +175,38 @@
                 </div>
             </vs-popup>
             <vs-popup
+                classContent="EliminarArticulo"
+                title="Eliminar Articulo"
+                :active.sync="popUpEliminarArticulo"
+            >
+                <div class="vx-col md:w-1/1 w-full mb-base">
+                    <vx-card title="">
+                        <div class="vx-row w-full">
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="popUpEliminarArticulo = false"
+                                    color="primary"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Volver</vs-button
+                                >
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="EliminarArticulo()"
+                                    color="danger"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Eliminar Articulo</vs-button
+                                >
+                            </div>
+                        </div>
+                    </vx-card>
+                </div>
+            </vs-popup>
+            <vs-popup
                 classContent="AgregarConsumoPAnual"
-                title="Plan Anual Articulo"
+                title="Articulo Plan Anual"
                 :active.sync="popUpAgregarArticuloPAnual"
             >
                 <div class="vx-col md:w-1/1 w-full mb-base">
@@ -380,6 +425,227 @@
                     <div class="vx-row"></div>
                 </div>
             </vs-popup>
+            <vs-popup
+                classContent="ModificarConsumoPAnual"
+                title="Modificar Articulo Plan Anual"
+                :active.sync="popUpModificarArticuloMod"
+            >
+                <div class="vx-col md:w-1/1 w-full mb-base">
+                    <vx-card title="">
+                        <div class="vx-row">
+                            <div class="vx-col w-full mt-5">
+                                <h6>
+                                    Total Anual: {{ precio }} Articulo:
+                                    {{ codart }} Descripcion:
+                                    {{ nombre }} Unidad Medida
+                                    {{ unimed }} Precio {{ precio }}
+                                </h6>
+                                <br />
+                            </div>
+                            <div class="vx-col w-full mt-5">
+                                <h6>
+                                    Primer Semestre
+                                </h6>
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Enero
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_ENE"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Febrero
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_FEB"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Marzo
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_MAR"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Abril
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_ABR"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Mayo
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_MAY"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Junio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_JUN"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-full mt-5">
+                                <h6>
+                                    Segundo Semestre
+                                </h6>
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Julio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_JUL"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Agosto
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_AGO"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Septiembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_SEP"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Octubre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_OCT"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Noviembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_NOV"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/6 mt-5">
+                                <h6>
+                                    Diciembre
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="C_DIC"
+                                    @keypress="isNumber($event)"
+                                    @blur="CalculoCantPrecio()"
+                                />
+                            </div>
+                            <div class="vx-col w-1/3 mt-5">
+                                <h6>
+                                    Cantidad
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="cantidadTotal"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/3 mt-5">
+                                <h6>
+                                    Precio
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="precioTotal"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/3 mt-5">
+                                <h6>
+                                    Maximo Tope
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="topeMaximo"
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-full mt-5">
+                                <h6>
+                                    Observaciones
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full  "
+                                    v-model="obs"
+                                />
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="popUpModificarArticuloMod = false"
+                                    color="primary"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Volver</vs-button
+                                >
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="ModificarArticuloPAnual()"
+                                    color="danger"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Modificar Articulo</vs-button
+                                >
+                            </div>
+                        </div>
+                    </vx-card>
+                    <div class="vx-row"></div>
+                </div>
+            </vs-popup>
         </vx-card>
     </div>
 </template>
@@ -433,7 +699,8 @@ export default {
             //Datos Campos
             popUpAgregarArticulo: false,
             popUpAgregarArticuloPAnual: false,
-            popUpAgregarArticuloMod: false,
+            popUpModificarArticuloMod: false,
+            popUpEliminarArticulo: false,
             fechaPAnual: null,
             idArticulo: "",
             codart: "",
@@ -696,92 +963,22 @@ export default {
             ],
             columnsPresupuesto: [
                 {
-                    label: "P.Enero",
-                    field: "P_ENE",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Febrero",
-                    field: "P_FEB",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Marzo",
-                    field: "P_MAR",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Abril",
-                    field: "P_ABR",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Mayo",
-                    field: "P_MAY",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Junio",
-                    field: "P_JUN",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Julio",
-                    field: "P_JUL",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Agosto",
-                    field: "P_AGO",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Septiembre",
-                    field: "P_SEP",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Octubre",
-                    field: "P_OCT",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Noviembre",
-                    field: "P_NOV",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
-                    label: "P.Diciembre",
-                    field: "P_DIC",
-                    filterOptions: {
-                        enabled: true
-                    }
-                },
-                {
                     label: "P.Total",
                     field: "P_ANUAL",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Utilizado",
+                    field: "UTILIZADO",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "P.Restante",
+                    field: "RESTANTE",
                     filterOptions: {
                         enabled: true
                     }
@@ -886,6 +1083,7 @@ export default {
             rowsTotalArticulos: [],
             listadoServicios: [],
             listadoArticulos: [],
+            listadoTemporalArticulos: [],
             listaBodega: [
                 {
                     id: 1,
@@ -894,6 +1092,22 @@ export default {
                 {
                     id: 2,
                     descripcion: "Economato"
+                },
+                {
+                    id: 3,
+                    descripcion: "Ortesis"
+                },
+                {
+                    id: 4,
+                    descripcion: "Combustible"
+                },
+                {
+                    id: 5,
+                    descripcion: "Textiles"
+                },
+                {
+                    id: 6,
+                    descripcion: "Material de Construccion"
                 }
             ],
             listaEstado: [
@@ -957,22 +1171,84 @@ export default {
                 console.log(error);
             }
         },
-        popModificarPlanAnual(id) {
+        popDeleteArticulo(id) {
             try {
-                let dato = 0;
+                this.idMod = id;
+                this.popUpEliminarArticulo = true;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        cargarArticulosSegunBodega() {
+            try {
+                let c = this.listadoTemporalArticulos;
+                let d = [];
+                c.forEach((value, ind) => {
+                    if (value.idBodega == sessionStorage.getItem("idBodega")) {
+                        d.push(value);
+                    }
+                });
+                this.listadoArticulos = d;
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        popModificarArticulo(id, codart, nombre, unimed, precio) {
+            try {
+                this.idMod = id;
+                this.popUpModificarArticuloMod = true;
+                let c = this.rowsArticulos;
+                c.forEach((value, ind) => {
+                    if (value.id == id) {
+                        this.C_ENE = value.C_ENE;
+                        this.C_FEB = value.C_FEB;
+                        this.C_MAR = value.C_MAR;
+                        this.C_ABR = value.C_ABR;
+                        this.C_MAY = value.C_MAY;
+                        this.C_JUN = value.C_JUN;
+                        this.C_JUL = value.C_JUL;
+                        this.C_AGO = value.C_AGO;
+                        this.C_SEP = value.C_SEP;
+                        this.C_OCT = value.C_OCT;
+                        this.C_NOV = value.C_NOV;
+                        this.C_DIC = value.C_DIC;
+                        this.codart = codart;
+                        this.nombre = nombre;
+                        this.unimed = unimed;
+                        this.precio = precio;
+                    }
+                });
             } catch (error) {
                 console.log(error);
             }
         },
         popAgregarConsumoMensual(id, codart, nombre, unimed, precio) {
             try {
-                this.idArticulo = id;
-                this.codart = codart;
-                this.nombre = nombre;
-                this.unimed = unimed;
-                this.precio = precio;
-                this.popUpAgregarArticulo = false;
-                this.popUpAgregarArticuloPAnual = true;
+                let c = this.rowsArticulos;
+                let result = false;
+                c.forEach((value, ind) => {
+                    if (value.CODART == codart) {
+                        result = true;
+                    }
+                });
+
+                if (result == true) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Articulo ya fue ingresado",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else {
+                    this.idArticulo = id;
+                    this.codart = codart;
+                    this.nombre = nombre;
+                    this.unimed = unimed;
+                    this.precio = precio;
+                    this.popUpAgregarArticulo = false;
+                    this.popUpAgregarArticuloPAnual = true;
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -1229,73 +1505,14 @@ export default {
                             });
 
                             this.listadoArticulos = f;
+                            this.listadoTemporalArticulos = f;
                         }
                     });
             } catch (error) {
                 console.log(error);
             }
         },
-        //Metodos para Agregar Datos
-        AgregarListaPresupuesto() {
-            try {
-                let d = true;
-                if (d == false) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Error",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else {
-                    let data = {
-                        dato: 1
-                    };
-
-                    const dat = data;
-
-                    axios
-                        .post(
-                            this.localVal + "/api/Mantenedor/PostPresupuesto",
-                            dat,
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ` +
-                                        sessionStorage.getItem("token")
-                                }
-                            }
-                        )
-                        .then(res => {
-                            const solicitudServer = res.data;
-                            if (solicitudServer == true) {
-                                this.limpiarCampos();
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Completado",
-                                    text:
-                                        "Presupuesto Registrado Correctamente",
-                                    color: "success",
-                                    position: "top-right"
-                                });
-                                this.popUpAgregarArticulo = false;
-                                this.TraerListadoPresupuestos();
-                            } else {
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Error",
-                                    text:
-                                        "No fue posible registrar el presupuesto,intentelo nuevamente",
-                                    color: "danger",
-                                    position: "top-right"
-                                });
-                            }
-                        });
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
+        //Metodos para Agregar,Modificar o Eliminar Datos
         AgregarArticuloPAnual() {
             try {
                 if (
@@ -1373,7 +1590,6 @@ export default {
                                     color: "success",
                                     position: "top-right"
                                 });
-                                //this.popUpAgregarArticuloMod = false;
                                 this.TraerArticulosPresupuesto();
                                 this.TraerTotalArticulosPresupuesto();
                             } else {
@@ -1392,6 +1608,150 @@ export default {
                 console.log(error);
             }
         },
+        ModificarArticuloPAnual() {
+            try {
+                if (
+                    this.C_ENE < 1 &&
+                    this.C_FEB < 1 &&
+                    this.C_MAR < 1 &&
+                    this.C_ABR < 1 &&
+                    this.C_MAY < 1 &&
+                    this.C_JUN < 1 &&
+                    this.C_JUL < 1 &&
+                    this.C_AGO < 1 &&
+                    this.C_SEP < 1 &&
+                    this.C_OCT < 1 &&
+                    this.C_NOV < 1 &&
+                    this.C_DIC < 1
+                ) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Error",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else {
+                    let date = moment().endOf("day");
+                    let data = {
+                        id: this.idMod,
+                        CODART: this.codart,
+                        NOMART: this.nombre,
+                        UNIMED: this.unimed,
+                        PRECIO: this.precio,
+                        C_ENE: this.C_ENE,
+                        C_FEB: this.C_FEB,
+                        C_MAR: this.C_MAR,
+                        C_ABR: this.C_ABR,
+                        C_MAY: this.C_MAY,
+                        C_JUN: this.C_JUN,
+                        C_JUL: this.C_JUL,
+                        C_AGO: this.C_AGO,
+                        C_SEP: this.C_SEP,
+                        C_OCT: this.C_OCT,
+                        C_NOV: this.C_NOV,
+                        C_DIC: this.C_DIC,
+                        C_TOTAL: this.cantidadTotal,
+                        T_PRECIO: this.precioTotal,
+                        idServicio: 1,
+                        FECING: date.format("YYYY/MM/DD").toString(),
+                        NOMSER: this.seleccionServicio.descripcionServicio,
+                        BODEGA: 3,
+                        OBS: this.obs,
+                        ANIO: 2023
+                    };
+
+                    const dat = data;
+
+                    axios
+                        .post(
+                            this.localVal + "/api/PCompra/UpdateArticuloServ",
+                            dat,
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ` +
+                                        sessionStorage.getItem("token")
+                                }
+                            }
+                        )
+                        .then(res => {
+                            const solicitudServer = res.data;
+                            if (solicitudServer == true) {
+                                this.limpiarCampos();
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Completado",
+                                    text: "Articulo Modificado Correctamente",
+                                    color: "success",
+                                    position: "top-right"
+                                });
+                                this.TraerArticulosPresupuesto();
+                                this.TraerTotalArticulosPresupuesto();
+                                this.popUpModificarArticuloMod = false;
+                            } else {
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Error",
+                                    text:
+                                        "No fue posible modificar el Presupuesto,intentelo nuevamente",
+                                    color: "danger",
+                                    position: "top-right"
+                                });
+                            }
+                        });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        EliminarArticulo() {
+            try {
+                let data = {
+                    id: this.idMod
+                };
+
+                const dat = data;
+                axios
+                    .post(
+                        this.localVal + "/api/PCompra/DestroyArticuloServ",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        const solicitudServer = res.data;
+                        if (solicitudServer == true) {
+                            this.limpiarCampos();
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Completado",
+                                text: "Articulo Eliminado Correctamente",
+                                color: "success",
+                                position: "top-right"
+                            });
+                            this.TraerArticulosPresupuesto();
+                            this.TraerTotalArticulosPresupuesto();
+                            this.popUpEliminarArticulo = false;
+                        } else {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No fue posible eliminar el articulo,intentelo nuevamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
         cargarHoras() {
             try {
                 let date = moment().endOf("day");
@@ -1404,11 +1764,12 @@ export default {
     },
     beforeMount() {
         this.TraerServicio();
+        this.TraerArticulos();
         setTimeout(() => {
             this.TraerListadoPresupuestos();
-            this.TraerArticulos();
             this.TraerArticulosPresupuesto();
             this.TraerTotalArticulosPresupuesto();
+            this.cargarArticulosSegunBodega();
             //this.TraerUsuarios();
             this.openLoadingColor();
         }, 2000);

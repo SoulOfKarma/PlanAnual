@@ -51,4 +51,33 @@ class PlanesAnualesController extends Controller
             return false;
         }
     }
+
+    public function DestroyArticuloServ(Request $request){
+        try {
+            PlanesAnuales::where('id',$request->id)
+            ->delete();
+            return true;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function UpdateArticuloServ(Request $request){
+        try {
+            PlanesAnuales::where('id',$request->id)
+            ->update(['CODART'=>$request->CODART,'NOMART'=>$request->NOMART,'UNIMED'=>$request->UNIMED,
+                      'PRECIO'=>$request->PRECIO,'C_ENE'=> $request->C_ENE,'C_FEB'=>$request->C_FEB,
+                      'C_MAR'=> $request->C_MAR,'C_ABR'=> $request->C_ABR,'C_MAY'=>$request->C_MAY,
+                      'C_JUN'=>$request->C_JUN,'C_JUL'=>$request->C_JUL,'C_AGO'=>$request->C_AGO,
+                      'C_SEP'=>$request->C_SEP,'C_OCT'=>$request->C_OCT,'C_NOV'=>$request->C_NOV,
+                      'C_DIC'=> $request->C_DIC,'C_TOTAL'=>$request->C_TOTAL,'T_PRECIO'=>$request->T_PRECIO,
+                      'idServicio'=> $request->idServicio,'FECING'=>$request->FECING,'NOMSER'=>$request->NOMSER,
+                      'BODEGA'=>$request->BODEGA,'OBS'=> $request->OBS,'ANIO'=>$request->ANIO]);
+            return true;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
 }

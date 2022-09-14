@@ -23,6 +23,29 @@
                     @click.stop="showSidebar"
                 />
 
+                <div class="vx-col w-1/3">
+                    <h6 class="text-right">{{ texto }}</h6>
+                </div>
+                <div class="vx-col w-1/3 p-2">
+                    <v-select
+                        taggable
+                        v-model="seleccionBodega"
+                        placeholder="Medicamentos"
+                        class="w-full select-large"
+                        label="descripcionBodega"
+                        :options="listaBodega"
+                    ></v-select>
+                </div>
+                <div class="vx-col w-1/3 ">
+                    <vs-button
+                        class="text-right"
+                        color="primary"
+                        type="filled"
+                        @click="CargarDatos()"
+                        >Cargar Bodega</vs-button
+                    >
+                </div>
+
                 <!-- <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992" /> -->
 
                 <vs-spacer />
@@ -42,9 +65,24 @@ import Bookmarks from "./components/Bookmarks.vue";
 import SearchBar from "./components/SearchBar.vue";
 import NotificationDropDown from "./components/NotificationDropDown.vue";
 import ProfileDropDown from "./components/ProfileDropDown.vue";
+import vSelect from "vue-select";
+import axios from "axios";
+import router from "@/router";
 
 export default {
     name: "the-navbar-vertical",
+    data() {
+        return {
+            localVal: process.env.MIX_APP_URL,
+            siabVal: process.env.MIX_APP_URL_API_SIAB,
+            texto: "Seleccione Bodega: ",
+            seleccionBodega: {
+                id: 1,
+                descripcionBodega: "Medicamentos"
+            },
+            listaBodega: []
+        };
+    },
     props: {
         navbarColor: {
             type: String,
@@ -55,7 +93,8 @@ export default {
         Bookmarks,
         SearchBar,
         NotificationDropDown,
-        ProfileDropDown
+        ProfileDropDown,
+        "v-select": vSelect
     },
     computed: {
         navbarColorLocal() {
@@ -92,7 +131,62 @@ export default {
     methods: {
         showSidebar() {
             this.$store.commit("TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE", true);
+        },
+        CargarDatos() {
+            try {
+                sessionStorage.setItem("idBodega", this.seleccionBodega.id);
+                sessionStorage.setItem(
+                    "descripcionBodega",
+                    this.seleccionBodega.descripcionBodega
+                );
+                window.location.reload();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        TraerBodega() {
+            try {
+                axios
+                    .get(this.siabVal + "/api/Mantenedor/GetBodega", {
+                        headers: {
+                            Authorization:
+                                `Bearer ` +
+                                sessionStorage.getItem("token_externo")
+                        }
+                    })
+                    .then(res => {
+                        this.listaBodega = res.data;
+                        if (this.listaBodega.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos de las Bodegas correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        cargaBodegaSeleccionada() {
+            try {
+                this.seleccionBodega.id = sessionStorage.getItem("idBodega");
+                this.seleccionBodega.descripcionBodega = sessionStorage.getItem(
+                    "descripcionBodega"
+                );
+            } catch (error) {
+                console.log(error);
+            }
         }
+    },
+    created() {
+        this.TraerBodega();
+        setTimeout(() => {
+            this.cargaBodegaSeleccionada();
+        }, 2000);
     }
 };
 </script>
