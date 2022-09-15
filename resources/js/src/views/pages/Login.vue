@@ -219,6 +219,16 @@ export default {
                                             2
                                         ) {
                                             pr = 4;
+                                        } else if (
+                                            response2.data[0].permiso_usuario ==
+                                            3
+                                        ) {
+                                            pr = 5;
+                                        } else if (
+                                            response2.data[0].permiso_usuario ==
+                                            4
+                                        ) {
+                                            pr = 6;
                                         }
 
                                         //router.push('/home');
@@ -243,7 +253,7 @@ export default {
                             text: "Usted no posee acceso a la plataforma."
                         });
                     }
-                    if (pr == 3 || pr == 4) {
+                    if (pr == 3 || pr == 4 || pr == 5 || pr == 6) {
                         //localStorage.setItem('run',response2.data[0].permiso_usuario);
                         router.push("/home");
                     } else {

@@ -305,6 +305,91 @@ export default {
         }
     },
     created() {
+        this.NavA = [
+            {
+                url: "/home",
+                name: "Inicio",
+                slug: "Inicio",
+                icon: "HomeIcon"
+            },
+            {
+                url: null,
+                name: "Plan de Compra",
+                slug: "PlandeCompra",
+                icon: "HomeIcon",
+                submenu: [
+                    {
+                        url: "/PlandeCompra/IngresoPlandeCompra",
+                        name: "Ingreso P. Compra",
+                        slug: "/PlandeCompra/IngresoPlandeCompra",
+                        icon: "HomeIcon"
+                    },
+                    {
+                        url: "/PlandeCompra/DespachoServicioMensual",
+                        name: "Despacho Servicio M.",
+                        slug: "/PlandeCompra/DespachoServicioMensual",
+                        icon: "HomeIcon"
+                    },
+                    {
+                        url: "/PlandeCompra/DespachoPABodega",
+                        name: "Despacho P.A./Bodega",
+                        slug: "/PlandeCompra/DespachoPABodega",
+                        icon: "HomeIcon"
+                    }
+                ]
+            },
+            {
+                url: null,
+                name: "Reportes",
+                slug: "Reportes",
+                icon: "HomeIcon",
+                submenu: [
+                    {
+                        url: "/Reportes/ReportesGenerales",
+                        name: "Reportes Generales",
+                        slug: "/Reportes/ReportesGenerales",
+                        icon: "HomeIcon"
+                    }
+                ]
+            }
+        ];
+
+        this.NavB = [
+            {
+                url: "/home",
+                name: "Inicio",
+                slug: "Inicio",
+                icon: "HomeIcon"
+            },
+            {
+                url: null,
+                name: "Plan de Compra",
+                slug: "PlandeCompra",
+                icon: "HomeIcon",
+                submenu: [
+                    {
+                        url: "/PlandeCompra/IngresoPlandeCompra",
+                        name: "Ingreso P. Compra",
+                        slug: "/PlandeCompra/IngresoPlandeCompra",
+                        icon: "HomeIcon"
+                    }
+                ]
+            },
+            {
+                url: null,
+                name: "Reportes",
+                slug: "Reportes",
+                icon: "HomeIcon",
+                submenu: [
+                    {
+                        url: "/Reportes/ReportesGenerales",
+                        name: "Reportes Generales",
+                        slug: "/Reportes/ReportesGenerales",
+                        icon: "HomeIcon"
+                    }
+                ]
+            }
+        ];
         var aux = sessionStorage.getItem("run");
 
         if (aux == null) {
@@ -318,9 +403,14 @@ export default {
 
         var aux2 = sessionStorage.getItem("permiso_usuario");
         this.cargarTokenExterno();
-        if (aux2 == 1 || aux2 == 2) {
-            console.log("Acceso Correcto");
+        if (aux2 == 1) {
+            this.navMenuItems = this.NavA;
+        } else if (aux2 == 2) {
             this.navMenuItems = navMenuItems;
+        } else if (aux2 == 3) {
+            this.navMenuItems = this.NavB;
+        } else if (aux2 == 4) {
+            this.navMenuItems = this.NavB;
         } else {
             router.push("/pages/login").catch(err => {});
         }
