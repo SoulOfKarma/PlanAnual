@@ -156,6 +156,15 @@ export default {
                                         response.data[0].nombre_usuario
                                     );
                                     sessionStorage.setItem(
+                                        "idServicio",
+                                        response.data[0].idServicio
+                                    );
+                                    sessionStorage.setItem("idBodega", 1);
+                                    sessionStorage.setItem(
+                                        "descripcionBodega",
+                                        "Medicamentos"
+                                    );
+                                    sessionStorage.setItem(
                                         "apellido",
                                         response.data[0].apellido_usuario
                                     );

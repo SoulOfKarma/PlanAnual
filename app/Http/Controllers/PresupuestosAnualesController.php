@@ -44,18 +44,19 @@ class PresupuestosAnualesController extends Controller
     public function GetPresupuestoByServBodega(Request $request){
         try {
             $get = PresupuestosAnuales::select('presupuestos_anuales.ANIO','presupuestos_anuales.NOMSER','presupuestos_anuales.P_ANUAL',
-            DB::raw('ROUND((select SUM(planes_anuales.C_ENE)*planes_anuales.PRECIO + SUM(planes_anuales.C_FEB)*planes_anuales.PRECIO + SUM(planes_anuales.C_MAR)*planes_anuales.PRECIO +
-            SUM(planes_anuales.C_ABR)*planes_anuales.PRECIO + SUM(planes_anuales.C_MAY)*planes_anuales.PRECIO + SUM(planes_anuales.C_JUN)*planes_anuales.PRECIO +
-            SUM(planes_anuales.C_JUL)*planes_anuales.PRECIO + SUM(planes_anuales.C_AGO)*planes_anuales.PRECIO + SUM(planes_anuales.C_SEP)*planes_anuales.PRECIO +
-            SUM(planes_anuales.C_OCT)*planes_anuales.PRECIO + SUM(planes_anuales.C_NOV)*planes_anuales.PRECIO + SUM(planes_anuales.C_DIC)*planes_anuales.PRECIO
-            FROM planes_anuales WHERE planes_anuales.idServicio = presupuestos_anuales.NOMSER && planes_anuales.ANIO = year(presupuestos_anuales.ANIO) GROUP BY PRECIO),0) AS UTILIZADO'),
-            DB::raw('presupuestos_anuales.P_ANUAL - ROUND((select SUM(planes_anuales.C_ENE)*planes_anuales.PRECIO + SUM(planes_anuales.C_FEB)*planes_anuales.PRECIO + SUM(planes_anuales.C_MAR)*planes_anuales.PRECIO +
-            SUM(planes_anuales.C_ABR)*planes_anuales.PRECIO + SUM(planes_anuales.C_MAY)*planes_anuales.PRECIO + SUM(planes_anuales.C_JUN)*planes_anuales.PRECIO +
-            SUM(planes_anuales.C_JUL)*planes_anuales.PRECIO + SUM(planes_anuales.C_AGO)*planes_anuales.PRECIO + SUM(planes_anuales.C_SEP)*planes_anuales.PRECIO +
-            SUM(planes_anuales.C_OCT)*planes_anuales.PRECIO + SUM(planes_anuales.C_NOV)*planes_anuales.PRECIO + SUM(planes_anuales.C_DIC)*planes_anuales.PRECIO
-            FROM planes_anuales WHERE planes_anuales.idServicio = presupuestos_anuales.NOMSER && planes_anuales.ANIO = year(presupuestos_anuales.ANIO) GROUP BY PRECIO),0) AS RESTANTE'))
+            DB::raw('ROUND((select SUM(planes_anuales.C_ENE*planes_anuales.PRECIO + planes_anuales.C_FEB*planes_anuales.PRECIO + planes_anuales.C_MAR*planes_anuales.PRECIO +
+            planes_anuales.C_ABR*planes_anuales.PRECIO + planes_anuales.C_MAY*planes_anuales.PRECIO + planes_anuales.C_JUN*planes_anuales.PRECIO +
+            planes_anuales.C_JUL*planes_anuales.PRECIO + planes_anuales.C_AGO*planes_anuales.PRECIO + planes_anuales.C_SEP*planes_anuales.PRECIO +
+            planes_anuales.C_OCT*planes_anuales.PRECIO + planes_anuales.C_NOV*planes_anuales.PRECIO + planes_anuales.C_DIC*planes_anuales.PRECIO)
+            FROM planes_anuales WHERE planes_anuales.idServicio = presupuestos_anuales.NOMSER && planes_anuales.ANIO = year(presupuestos_anuales.ANIO)),0) AS UTILIZADO'),
+            DB::raw('presupuestos_anuales.P_ANUAL - ROUND((select SUM(planes_anuales.C_ENE*planes_anuales.PRECIO + planes_anuales.C_FEB*planes_anuales.PRECIO + planes_anuales.C_MAR*planes_anuales.PRECIO +
+            planes_anuales.C_ABR*planes_anuales.PRECIO + planes_anuales.C_MAY*planes_anuales.PRECIO + planes_anuales.C_JUN*planes_anuales.PRECIO +
+            planes_anuales.C_JUL*planes_anuales.PRECIO + planes_anuales.C_AGO*planes_anuales.PRECIO + planes_anuales.C_SEP*planes_anuales.PRECIO +
+            planes_anuales.C_OCT*planes_anuales.PRECIO + planes_anuales.C_NOV*planes_anuales.PRECIO + planes_anuales.C_DIC*planes_anuales.PRECIO)
+            FROM planes_anuales WHERE planes_anuales.idServicio = presupuestos_anuales.NOMSER && planes_anuales.ANIO = year(presupuestos_anuales.ANIO)),0) AS RESTANTE'))
             ->where('NOMSER',$request->idServicio)
             ->where('ANIO',$request->anio)
+            ->groupBy('presupuestos_anuales.ANIO','presupuestos_anuales.NOMSER','presupuestos_anuales.P_ANUAL')
             ->get();
             return $get;
         } catch (\Throwable $th) {

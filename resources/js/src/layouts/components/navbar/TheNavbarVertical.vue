@@ -183,10 +183,12 @@ export default {
         }
     },
     created() {
-        this.TraerBodega();
+        setTimeout(() => {
+            this.TraerBodega();
+        }, 2000);
         setTimeout(() => {
             this.cargaBodegaSeleccionada();
-        }, 2000);
+        }, 3000);
     }
 };
 </script>

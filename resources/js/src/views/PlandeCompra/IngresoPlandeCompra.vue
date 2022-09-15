@@ -1366,8 +1366,8 @@ export default {
         TraerListadoPresupuestos() {
             try {
                 let data = {
-                    idServicio: 1,
-                    idBodega: 3,
+                    idServicio: sessionStorage.getItem("idServicio"),
+                    idBodega: sessionStorage.getItem("idBodega"),
                     anio: 2023
                 };
                 axios
@@ -1402,8 +1402,8 @@ export default {
         TraerArticulosPresupuesto() {
             try {
                 let data = {
-                    idServicio: 1,
-                    bodega: 3,
+                    idServicio: sessionStorage.getItem("idServicio"),
+                    idBodega: sessionStorage.getItem("idBodega"),
                     anio: 2023
                 };
                 axios
@@ -1437,8 +1437,8 @@ export default {
         TraerTotalArticulosPresupuesto() {
             try {
                 let data = {
-                    idServicio: 1,
-                    bodega: 3,
+                    idServicio: sessionStorage.getItem("idServicio"),
+                    idBodega: sessionStorage.getItem("idBodega"),
                     anio: 2023
                 };
                 axios
@@ -1557,10 +1557,10 @@ export default {
                         C_DIC: this.C_DIC,
                         C_TOTAL: this.cantidadTotal,
                         T_PRECIO: this.precioTotal,
-                        idServicio: 1,
+                        idServicio: sessionStorage.getItem("idServicio"),
                         FECING: date.format("YYYY/MM/DD").toString(),
                         NOMSER: this.seleccionServicio.descripcionServicio,
-                        BODEGA: 3,
+                        BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
                         ANIO: 2023
                     };
@@ -1592,6 +1592,7 @@ export default {
                                 });
                                 this.TraerArticulosPresupuesto();
                                 this.TraerTotalArticulosPresupuesto();
+                                this.TraerListadoPresupuestos();
                             } else {
                                 this.$vs.notify({
                                     time: 5000,
@@ -1653,10 +1654,10 @@ export default {
                         C_DIC: this.C_DIC,
                         C_TOTAL: this.cantidadTotal,
                         T_PRECIO: this.precioTotal,
-                        idServicio: 1,
+                        idServicio: sessionStorage.getItem("idServicio"),
                         FECING: date.format("YYYY/MM/DD").toString(),
                         NOMSER: this.seleccionServicio.descripcionServicio,
-                        BODEGA: 3,
+                        BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
                         ANIO: 2023
                     };
@@ -1688,6 +1689,7 @@ export default {
                                 });
                                 this.TraerArticulosPresupuesto();
                                 this.TraerTotalArticulosPresupuesto();
+                                this.TraerListadoPresupuestos();
                                 this.popUpModificarArticuloMod = false;
                             } else {
                                 this.$vs.notify({
@@ -1736,6 +1738,7 @@ export default {
                             });
                             this.TraerArticulosPresupuesto();
                             this.TraerTotalArticulosPresupuesto();
+                            this.TraerListadoPresupuestos();
                             this.popUpEliminarArticulo = false;
                         } else {
                             this.$vs.notify({
