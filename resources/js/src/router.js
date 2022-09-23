@@ -57,47 +57,17 @@ const router = new Router({
                         import("./views/PlandeCompra/IngresoPlandeCompra.vue")
                 },
                 {
-                    path: "/PlandeCompra/DespachoServicioMensual",
-                    name: "DespachoServicioMensual",
-                    component: () =>
-                        import(
-                            "./views/PlandeCompra/DespachoServicioMensual.vue"
-                        )
-                },
-                {
-                    path: "/PlandeCompra/DespachoPABodega",
-                    name: "DespachoPABodega",
-                    component: () =>
-                        import("./views/PlandeCompra/DespachoPABodega.vue")
-                },
-                {
                     path: "/Reportes/ReportesGenerales",
                     name: "ReportesGenerales",
                     component: () =>
                         import("./views/Reportes/ReportesGenerales.vue")
                 },
                 {
-                    path: "/ReportesContables/ResumenItemPresupuestario",
-                    name: "ResumenItemPresupuestario",
+                    path: "/ReportesContables/ResumenReporteGeneral",
+                    name: "ResumenReporteGeneral",
                     component: () =>
                         import(
-                            "./views/ReportesContables/ResumenItemPresupuestario.vue"
-                        )
-                },
-                {
-                    path: "/ReportesContables/ResumenItemServicio",
-                    name: "ResumenItemServicio",
-                    component: () =>
-                        import(
-                            "./views/ReportesContables/ResumenItemServicio.vue"
-                        )
-                },
-                {
-                    path: "/ReportesContables/ResumenItemArtServicio",
-                    name: "ResumenItemArtServicio",
-                    component: () =>
-                        import(
-                            "./views/ReportesContables/ResumenItemArtServicio.vue"
+                            "./views/ReportesContables/ResumenReporteGeneral.vue"
                         )
                 },
                 {

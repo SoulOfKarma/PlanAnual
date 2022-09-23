@@ -88,7 +88,7 @@
                                     Monto Presupuesto
                                 </h6>
                                 <vs-input
-                                    class="inputx w-full  "
+                                    class="inputx w-full"
                                     v-model="MontoPresupuesto"
                                     @keypress="isNumber($event)"
                                 />
@@ -126,7 +126,6 @@
                         <div class="vx-row">
                             <div class="vx-col w-1/2 mt-5">
                                 <h6>Servicio</h6>
-                                <br />
                                 <v-select
                                     taggable
                                     v-model="seleccionServicio"
@@ -149,7 +148,7 @@
                                     :disabled-dates="disabledDates"
                                 ></datepicker>
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-full mt-5">
                                 <h6>
                                     Monto Presupuesto
                                 </h6>
@@ -563,6 +562,15 @@ export default {
         //Metodos para Agregar Datos
         AgregarListaPresupuesto() {
             try {
+                let c = this.rows;
+                let validador = false;
+
+                c.forEach((value, ind) => {
+                    if (value.NOMSER == this.seleccionServicio.id) {
+                        validador = true;
+                    }
+                });
+
                 if (this.anio == null) {
                     this.$vs.notify({
                         time: 5000,
@@ -584,6 +592,14 @@ export default {
                         time: 5000,
                         title: "Error",
                         text: "Presupuesto debe ser mayor a 0",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (validador) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Presupuesto ya ingreso a este servicio",
                         color: "danger",
                         position: "top-right"
                     });

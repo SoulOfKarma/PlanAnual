@@ -1157,8 +1157,18 @@ export default {
         //PopUp
         popArticulosPAnual() {
             try {
-                this.popUpAgregarArticulo = true;
-                this.popUpAgregarArticuloPAnual = false;
+                if (this.rows.length > 0) {
+                    this.popUpAgregarArticulo = true;
+                    this.popUpAgregarArticuloPAnual = false;
+                } else {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "No existe presupuesto para Agregar articulos",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -1389,7 +1399,7 @@ export default {
                                 time: 5000,
                                 title: "Error",
                                 text:
-                                    "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                    "No hay datos o no se cargaron los datos correctamente",
                                 color: "danger",
                                 position: "top-right"
                             });
@@ -1424,7 +1434,7 @@ export default {
                                 time: 5000,
                                 title: "Error",
                                 text:
-                                    "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                    "No hay datos o no se cargaron los datos correctamente",
                                 color: "danger",
                                 position: "top-right"
                             });
@@ -1459,7 +1469,7 @@ export default {
                                 time: 5000,
                                 title: "Error",
                                 text:
-                                    "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                    "No hay datos o no se cargaron los datos correctamente",
                                 color: "danger",
                                 position: "top-right"
                             });

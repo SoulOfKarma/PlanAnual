@@ -45,18 +45,6 @@ export default [
                 name: "Ingreso Plan de Compra",
                 slug: "/PlandeCompra/IngresoPlandeCompra",
                 icon: "HomeIcon"
-            },
-            {
-                url: "/PlandeCompra/DespachoServicioMensual",
-                name: "Despacho Servicio M.",
-                slug: "/PlandeCompra/DespachoServicioMensual",
-                icon: "HomeIcon"
-            },
-            {
-                url: "/PlandeCompra/DespachoPABodega",
-                name: "Despacho P.A./Bodega",
-                slug: "/PlandeCompra/DespachoPABodega",
-                icon: "HomeIcon"
             }
         ]
     },
@@ -81,21 +69,9 @@ export default [
         icon: "HomeIcon",
         submenu: [
             {
-                url: "/ReportesContables/ResumenItemPresupuestario",
-                name: "Resumen Item Presupuestario",
-                slug: "/ReportesContables/ResumenItemPresupuestario",
-                icon: "HomeIcon"
-            },
-            {
-                url: "/ReportesContables/ResumenItemServicio",
-                name: "Resumen Item Por Servicio",
-                slug: "/ReportesContables/ResumenItemServicio",
-                icon: "HomeIcon"
-            },
-            {
-                url: "/ReportesContables/ResumenItemArtServicio",
-                name: "Resumen Item Articulo/Servicio",
-                slug: "/ReportesContables/ResumenItemArtServicio",
+                url: "/ReportesContables/ResumenReporteGeneral",
+                name: "Reportes Generales",
+                slug: "/ReportesContables/ResumenReporteGeneral",
                 icon: "HomeIcon"
             }
         ]

@@ -1427,47 +1427,7 @@ export default {
         },
         CargaDespachoSM() {
             try {
-                if (this.seleccionMes.id == 0) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Debe seleccionar un mes para continuar",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else {
-                    let data = {
-                        mes: this.seleccionMes.id,
-                        idServicio: sessionStorage.getItem("idServicio"),
-                        BODEGA: sessionStorage.getItem("idBodega")
-                    };
-                    axios
-                        .post(
-                            this.localVal + "/api/Reportes/ReporteDSM",
-                            data,
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ` +
-                                        sessionStorage.getItem("token")
-                                }
-                            }
-                        )
-                        .then(res => {
-                            //this.rows =;
-                            this.listadoGeneral = res.data;
-                            if (this.listadoGeneral.length < 0) {
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Error",
-                                    text:
-                                        "No hay datos o no se cargaron los datos de los servicios correctamente",
-                                    color: "danger",
-                                    position: "top-right"
-                                });
-                            }
-                        });
-                }
+                console.log("Mensaje?");
             } catch (error) {
                 console.log(error);
             }

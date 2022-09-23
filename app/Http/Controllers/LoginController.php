@@ -143,6 +143,8 @@ class LoginController extends Controller
                     ->update(['run' => $run,'correo_usuario' => $request->correo_usuario,'nombre_usuario' => $request->nombre_usuario,
                     'apellido_usuario' => $request->apellido_usuario,'anexo' => $request->anexo,'bodega' => $request->bodega,
                     'password' => Hash::make($request->password),'idServicio' => $request->idServicio]);
+                tblPermisoUsuarios::where('run_usuario',$run)
+                ->update(['permiso_usuario' => $request->permiso_usuario]);
             return true;
         } catch (\Throwable $th) {
             log::info($th);

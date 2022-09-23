@@ -57,7 +57,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/Reportes/GetSaldosReporte', ['middleware' => 'cors', 'uses' => 'Reportes@GetSaldosReporte']);
 
     //Post Reportes
-    Route::post('/Reportes/GetBincard', ['middleware' => 'cors', 'uses' => 'Reportes@GetBincard']);
+    Route::post('/Reportes/ReporteDSM', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteDSM']);
 });
 
 //Generar PDF
