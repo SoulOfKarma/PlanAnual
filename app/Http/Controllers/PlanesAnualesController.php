@@ -92,7 +92,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -119,7 +119,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -146,7 +146,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -173,7 +173,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -200,7 +200,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -227,7 +227,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -254,7 +254,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'),DB::raw('MONTH(FECDES) as MES'))
                 ->where('idServicio',$request->idServicio)
                 ->whereRaw('MONTH(FECDES)',$request->mes)
@@ -284,7 +284,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -314,7 +314,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -341,7 +341,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -368,7 +368,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
@@ -395,7 +395,7 @@ class PlanesAnualesController extends Controller
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
-                $getDespachos = DB::table('laravel.despacho_detalles')
+                $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESPACHADO'))
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
