@@ -58,6 +58,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     //Post Reportes
     Route::post('/Reportes/ReporteDSM', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteDSM']);
+    Route::post('/Reportes/ReporteDPADB', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteDPADB']);
 });
 
 //Generar PDF

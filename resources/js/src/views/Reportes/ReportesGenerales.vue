@@ -88,17 +88,6 @@
                 <!-- Despacho Plan Anual V/S Despacho Bodega -->
                 <div class="vx-row" v-if="despachopab">
                     <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Servicio</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionServicio"
-                            placeholder="Ej. MEDICINA-CIRUGIA"
-                            class="w-full select-large"
-                            label="descripcionServicio"
-                            :options="listadoServicios"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Mes</h6>
                         <v-select
                             taggable
@@ -109,7 +98,7 @@
                             :options="listadoMes"
                         ></v-select>
                     </div>
-                    <div class="vx-col w-full mt-5">
+                    <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Bodega</h6>
                         <v-select
                             taggable
@@ -134,17 +123,6 @@
                 <!-- Solicitud Pedido V/S Despacho Bodega -->
                 <div class="vx-row" v-if="solicitudpdb">
                     <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Servicio</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionServicio"
-                            placeholder="Ej. MEDICINA-CIRUGIA"
-                            class="w-full select-large"
-                            label="descripcionServicio"
-                            :options="listadoServicios"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Mes</h6>
                         <v-select
                             taggable
@@ -155,7 +133,7 @@
                             :options="listadoMes"
                         ></v-select>
                     </div>
-                    <div class="vx-col w-full mt-5">
+                    <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Bodega</h6>
                         <v-select
                             taggable
@@ -179,18 +157,7 @@
                 </div>
                 <!-- Despacho Plan Anual V/S Despacho Bodega Total -->
                 <div class="vx-row" v-if="despachopadbt">
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Servicio</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionServicio"
-                            placeholder="Ej. MEDICINA-CIRUGIA"
-                            class="w-full select-large"
-                            label="descripcionServicio"
-                            :options="listadoServicios"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
+                    <div class="vx-col w-full mt-5">
                         <h6>Seleccione Bodega</h6>
                         <v-select
                             taggable
@@ -566,6 +533,30 @@ export default {
             this.cellAutoWidth = true;
             this.selectedFormat = "xlsx";
         },
+        cargaServicioBodega() {
+            try {
+                let c = this.listadoServicios;
+                c.forEach((value, ind) => {
+                    if (value.id == sessionStorage.getItem("idServicio")) {
+                        this.seleccionServicio.id = value.id;
+                        this.seleccionServicio.descripcionServicio =
+                            value.descripcionServicio;
+                    }
+                });
+
+                c = [];
+                c = this.listaBodega;
+                c.forEach((value, ind) => {
+                    if (value.id == sessionStorage.getItem("idBodega")) {
+                        this.seleccionBodega.id = value.id;
+                        this.seleccionBodega.descripcionBodega =
+                            value.descripcionBodega;
+                    }
+                });
+            } catch (error) {
+                console.log();
+            }
+        },
         GetReporteEspecifico() {
             try {
                 //despachomes
@@ -670,217 +661,217 @@ export default {
                         },
                         {
                             label: "01",
-                            field: "DIA1",
+                            field: "DAY1",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "02",
-                            field: "DIA2",
+                            field: "DAY2",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "03",
-                            field: "DIA3",
+                            field: "DAY3",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "04",
-                            field: "DIA4",
+                            field: "DAY4",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "05",
-                            field: "DIA5",
+                            field: "DAY5",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "06",
-                            field: "DIA6",
+                            field: "DAY6",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "07",
-                            field: "DIA7",
+                            field: "DAY7",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "08",
-                            field: "DIA8",
+                            field: "DAY8",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "09",
-                            field: "DIA9",
+                            field: "DAY9",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "10",
-                            field: "DIA10",
+                            field: "DAY10",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "11",
-                            field: "DIA11",
+                            field: "DAY11",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "12",
-                            field: "DIA12",
+                            field: "DAY12",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "13",
-                            field: "DIA13",
+                            field: "DAY13",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "14",
-                            field: "DIA14",
+                            field: "DAY14",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "15",
-                            field: "DIA15",
+                            field: "DAY15",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "16",
-                            field: "DIA16",
+                            field: "DAY16",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "17",
-                            field: "DIA17",
+                            field: "DAY17",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "18",
-                            field: "DIA18",
+                            field: "DAY18",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "19",
-                            field: "DIA19",
+                            field: "DAY19",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "20",
-                            field: "DIA20",
+                            field: "DAY20",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "21",
-                            field: "DIA21",
+                            field: "DAY21",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "22",
-                            field: "DIA22",
+                            field: "DAY22",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "23",
-                            field: "DIA23",
+                            field: "DAY23",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "24",
-                            field: "DIA24",
+                            field: "DAY24",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "25",
-                            field: "DIA25",
+                            field: "DAY25",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "26",
-                            field: "DIA26",
+                            field: "DAY26",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "27",
-                            field: "DIA27",
+                            field: "DAY27",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "28",
-                            field: "DIA28",
+                            field: "DAY28",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "29",
-                            field: "DIA29",
+                            field: "DAY29",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "30",
-                            field: "DIA30",
+                            field: "DAY30",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "31",
-                            field: "DIA31",
+                            field: "DAY31",
                             filterOptions: {
                                 enabled: true
                             }
@@ -937,217 +928,217 @@ export default {
                         },
                         {
                             label: "01",
-                            field: "DIA1",
+                            field: "DAY1",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "02",
-                            field: "DIA2",
+                            field: "DAY2",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "03",
-                            field: "DIA3",
+                            field: "DAY3",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "04",
-                            field: "DIA4",
+                            field: "DAY4",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "05",
-                            field: "DIA5",
+                            field: "DAY5",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "06",
-                            field: "DIA6",
+                            field: "DAY6",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "07",
-                            field: "DIA7",
+                            field: "DAY7",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "08",
-                            field: "DIA8",
+                            field: "DAY8",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "09",
-                            field: "DIA9",
+                            field: "DAY9",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "10",
-                            field: "DIA10",
+                            field: "DAY10",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "11",
-                            field: "DIA11",
+                            field: "DAY11",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "12",
-                            field: "DIA12",
+                            field: "DAY12",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "13",
-                            field: "DIA13",
+                            field: "DAY13",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "14",
-                            field: "DIA14",
+                            field: "DAY14",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "15",
-                            field: "DIA15",
+                            field: "DAY15",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "16",
-                            field: "DIA16",
+                            field: "DAY16",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "17",
-                            field: "DIA17",
+                            field: "DAY17",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "18",
-                            field: "DIA18",
+                            field: "DAY18",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "19",
-                            field: "DIA19",
+                            field: "DAY19",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "20",
-                            field: "DIA20",
+                            field: "DAY20",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "21",
-                            field: "DIA21",
+                            field: "DAY21",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "22",
-                            field: "DIA22",
+                            field: "DAY22",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "23",
-                            field: "DIA23",
+                            field: "DAY23",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "24",
-                            field: "DIA24",
+                            field: "DAY24",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "25",
-                            field: "DIA25",
+                            field: "DAY25",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "26",
-                            field: "DIA26",
+                            field: "DAY26",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "27",
-                            field: "DIA27",
+                            field: "DAY27",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "28",
-                            field: "DIA28",
+                            field: "DAY28",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "29",
-                            field: "DIA29",
+                            field: "DAY29",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "30",
-                            field: "DIA30",
+                            field: "DAY30",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "31",
-                            field: "DIA31",
+                            field: "DAY31",
                             filterOptions: {
                                 enabled: true
                             }
@@ -1204,217 +1195,217 @@ export default {
                         },
                         {
                             label: "01",
-                            field: "DIA1",
+                            field: "DAY1",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "02",
-                            field: "DIA2",
+                            field: "DAY2",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "03",
-                            field: "DIA3",
+                            field: "DAY3",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "04",
-                            field: "DIA4",
+                            field: "DAY4",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "05",
-                            field: "DIA5",
+                            field: "DAY5",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "06",
-                            field: "DIA6",
+                            field: "DAY6",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "07",
-                            field: "DIA7",
+                            field: "DAY7",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "08",
-                            field: "DIA8",
+                            field: "DAY8",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "09",
-                            field: "DIA9",
+                            field: "DAY9",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "10",
-                            field: "DIA10",
+                            field: "DAY10",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "11",
-                            field: "DIA11",
+                            field: "DAY11",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "12",
-                            field: "DIA12",
+                            field: "DAY12",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "13",
-                            field: "DIA13",
+                            field: "DAY13",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "14",
-                            field: "DIA14",
+                            field: "DAY14",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "15",
-                            field: "DIA15",
+                            field: "DAY15",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "16",
-                            field: "DIA16",
+                            field: "DAY16",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "17",
-                            field: "DIA17",
+                            field: "DAY17",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "18",
-                            field: "DIA18",
+                            field: "DAY18",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "19",
-                            field: "DIA19",
+                            field: "DAY19",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "20",
-                            field: "DIA20",
+                            field: "DAY20",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "21",
-                            field: "DIA21",
+                            field: "DAY21",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "22",
-                            field: "DIA22",
+                            field: "DAY22",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "23",
-                            field: "DIA23",
+                            field: "DAY23",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "24",
-                            field: "DIA24",
+                            field: "DAY24",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "25",
-                            field: "DIA25",
+                            field: "DAY25",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "26",
-                            field: "DIA26",
+                            field: "DAY26",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "27",
-                            field: "DIA27",
+                            field: "DAY27",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "28",
-                            field: "DIA28",
+                            field: "DAY28",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "29",
-                            field: "DIA29",
+                            field: "DAY29",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "30",
-                            field: "DIA30",
+                            field: "DAY30",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "31",
-                            field: "DIA31",
+                            field: "DAY31",
                             filterOptions: {
                                 enabled: true
                             }
@@ -1435,11 +1426,19 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
+                } else if (this.seleccionBodega.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar una bodega para continuar",
+                        color: "danger",
+                        position: "top-right"
+                    });
                 } else {
                     let data = {
                         mes: this.seleccionMes.id,
                         idServicio: sessionStorage.getItem("idServicio"),
-                        BODEGA: sessionStorage.getItem("idBodega")
+                        BODEGA: this.seleccionBodega.id
                     };
                     axios
                         .post(
@@ -1474,7 +1473,55 @@ export default {
         },
         CargaDespachoPADB() {
             try {
-                console.log("Mensaje?");
+                if (this.seleccionMes.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar un mes para continuar",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.seleccionBodega.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar una bodega para continuar",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else {
+                    let data = {
+                        mes: this.seleccionMes.id,
+                        idServicio: sessionStorage.getItem("idServicio"),
+                        BODEGA: this.seleccionBodega.id
+                    };
+                    axios
+                        .post(
+                            this.localVal + "/api/Reportes/ReporteDPADB",
+                            data,
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ` +
+                                        sessionStorage.getItem("token")
+                                }
+                            }
+                        )
+                        .then(res => {
+                            //this.rows =;
+                            this.listadoGeneral = res.data;
+                            if (this.listadoGeneral.length < 0) {
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Error",
+                                    text:
+                                        "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                    color: "danger",
+                                    position: "top-right"
+                                });
+                            }
+                        });
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -1550,9 +1597,10 @@ export default {
         }
     },
     beforeMount() {
+        this.TraerBodega();
+        this.TraerServicio();
         setTimeout(() => {
-            this.TraerBodega();
-            this.TraerServicio();
+            this.cargaServicioBodega();
             //this.TraerUsuarios();
             this.openLoadingColor();
         }, 2000);
