@@ -6,6 +6,7 @@ use App\PlanesAnuales;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Log;
+use \NumberFormatter;
 
 class PlanesAnualesController extends Controller
 {
@@ -28,14 +29,65 @@ class PlanesAnualesController extends Controller
             DB::raw('SUM(C_MAR)*PRECIO AS MARZO'),DB::raw('SUM(C_ABR)*PRECIO AS ABRIL'),DB::raw('SUM(C_MAY)*PRECIO AS MAYO'),
             DB::raw('SUM(C_JUN)*PRECIO AS JUNIO'),DB::raw('SUM(C_JUL)*PRECIO AS JULIO'),DB::raw('SUM(C_AGO)*PRECIO AS AGOSTO'),
             DB::raw('SUM(C_SEP)*PRECIO AS SEPTIEMBRE'),DB::raw('SUM(C_OCT)*PRECIO AS OCTUBRE'),DB::raw('SUM(C_NOV)*PRECIO AS NOVIEMBRE'),
-            DB::raw('SUM(C_DIC)*PRECIO AS DICIEMBRE'),DB::raw('SUM(C_ENE)*PRECIO + SUM(C_FEB)*PRECIO + SUM(C_MAR)*PRECIO + SUM(C_ABR)*PRECIO + SUM(C_MAY)*PRECIO + SUM(C_JUN)*PRECIO + SUM(C_JUL)*PRECIO + SUM(C_AGO)*PRECIO +
-            SUM(C_SEP)*PRECIO + SUM(C_OCT)*PRECIO + SUM(C_NOV)*PRECIO + SUM(C_DIC)*PRECIO AS TOTAL'))
+            DB::raw('SUM(C_DIC)*PRECIO AS DICIEMBRE'),DB::raw('SUM(T_PRECIO) AS TOTAL'))
             ->where('idServicio',$request->idServicio)
             ->where('BODEGA',$request->idBodega)
             ->where('ANIO',$request->anio)
             ->groupby('PRECIO')
             ->get();
-            return $dato;
+
+            $enero = 0;
+            $febrero = 0;
+            $marzo = 0;
+            $abril = 0;
+            $mayo = 0;
+            $junio = 0;
+            $julio = 0;
+            $agosto = 0;
+            $septiembre = 0;
+            $octubre = 0;
+            $noviembre = 0;
+            $diciembre = 0;
+            $total = 0;
+
+            foreach ($dato as $key=>$a) {
+                $enero = $enero + $a->ENERO;
+                $febrero = $febrero + $a->FEBRERO;
+                $marzo = $marzo + $a->MARZO;
+                $abril = $abril + $a->ABRIL;
+                $mayo = $mayo + $a->MAYO;                
+                $junio = $junio + $a->JUNIO;
+                $julio = $julio + $a->JULIO;
+                $agosto = $agosto + $a->AGOSTO;
+                $septiembre = $septiembre + $a->SEPTIEMBRE;
+                $octubre = $octubre + $a->OCTUBRE;
+                $noviembre = $noviembre + $a->NOVIEMBRE;
+                $diciembre = $diciembre + $a->DICIEMBRE;
+                $total = $total + $a->TOTAL;
+            }
+
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+            $enero = $fmt->formatCurrency($enero, "CLP");
+            $febrero = $fmt->formatCurrency($febrero, "CLP");
+            $marzo = $fmt->formatCurrency($marzo, "CLP");
+            $abril = $fmt->formatCurrency($abril, "CLP");
+            $mayo = $fmt->formatCurrency($mayo, "CLP");
+            $junio = $fmt->formatCurrency($junio, "CLP");
+            $julio = $fmt->formatCurrency($julio, "CLP");
+            $agosto = $fmt->formatCurrency($agosto, "CLP");
+            $septiembre = $fmt->formatCurrency($septiembre, "CLP");
+            $octubre = $fmt->formatCurrency($octubre, "CLP");
+            $noviembre = $fmt->formatCurrency($noviembre, "CLP");
+            $diciembre = $fmt->formatCurrency($diciembre, "CLP");
+            $total = $fmt->formatCurrency($total, "CLP");
+
+            $get[0] = ['ENERO' => $enero, 'FEBRERO' => $febrero, 'MARZO' => $marzo, 'ABRIL' => $abril,
+                        'MAYO' => $mayo,'JUNIO' => $junio,'JULIO' => $julio,'AGOSTO' => $agosto,'SEPTIEMBRE' => $septiembre,
+                        'OCTUBRE' => $octubre,'NOVIEMBRE' => $noviembre,'DICIEMBRE' => $diciembre,'TOTAL' => $total
+                    ];
+       
+
+            return $get;
         } catch (\Throwable $th) {
             log::info($th);
             return false;

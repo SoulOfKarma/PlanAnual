@@ -6,6 +6,7 @@ use App\PresupuestosAnuales;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Log;
+use \NumberFormatter;
 
 class PresupuestosAnualesController extends Controller
 {
@@ -58,6 +59,30 @@ class PresupuestosAnualesController extends Controller
             ->where('ANIO',$request->anio)
             ->groupBy('presupuestos_anuales.ANIO','presupuestos_anuales.NOMSER','presupuestos_anuales.P_ANUAL')
             ->get();
+
+            $anio = 0;
+            $nomser = '';
+            $panual = 0;
+            $utilizado = 0;
+            $restante = 0;
+
+            foreach ($get as $key=>$a) {
+                $anio = $a->ANIO;
+                $nomser = $a->NOMSER;
+                $panual = $a->P_ANUAL;
+                $utilizado = $a->UTILIZADO;
+                $restante = $a->RESTANTE;                
+            }
+
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+            $panual = $fmt->formatCurrency($panual, "CLP");
+            $utilizado = $fmt->formatCurrency($utilizado, "CLP");
+            $restante = $fmt->formatCurrency($restante, "CLP");
+
+            $get = [];
+            $get[0] = ['ANIO' => $anio, 'NOMSER' => $nomser, 'P_ANUAL' => $panual, 'UTILIZADO' => $utilizado,
+            'RESTANTE' => $restante];
+
             return $get;
         } catch (\Throwable $th) {
             log::info($th);

@@ -988,6 +988,7 @@ export default {
                 {
                     label: "Enero",
                     field: "ENERO",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -995,6 +996,7 @@ export default {
                 {
                     label: "Febrero",
                     field: "FEBRERO",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1002,6 +1004,7 @@ export default {
                 {
                     label: "Marzo",
                     field: "MARZO",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1009,6 +1012,7 @@ export default {
                 {
                     label: "Abril",
                     field: "ABRIL",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1016,6 +1020,7 @@ export default {
                 {
                     label: "Mayo",
                     field: "MAYO",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1023,6 +1028,7 @@ export default {
                 {
                     label: "Junio",
                     field: "JUNIO",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1030,6 +1036,7 @@ export default {
                 {
                     label: "Julio",
                     field: "JULIO",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1037,6 +1044,7 @@ export default {
                 {
                     label: "Agosto",
                     field: "AGOSTO",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1044,6 +1052,7 @@ export default {
                 {
                     label: "Septiembre",
                     field: "SEPTIEMBRE",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1051,6 +1060,7 @@ export default {
                 {
                     label: "Octubre",
                     field: "OCTUBRE",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1058,6 +1068,7 @@ export default {
                 {
                     label: "Noviembre",
                     field: "NOVIEMBRE",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1065,6 +1076,7 @@ export default {
                 {
                     label: "Diciembre",
                     field: "DICIEMBRE",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
@@ -1072,6 +1084,7 @@ export default {
                 {
                     label: "Total",
                     field: "TOTAL",
+                    type: "number",
                     filterOptions: {
                         enabled: true
                     }
