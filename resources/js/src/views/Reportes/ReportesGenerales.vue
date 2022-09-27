@@ -566,6 +566,7 @@ export default {
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
                     this.validadorLista = true;
+                    this.listadoGeneral = [];
                     this.column = [
                         {
                             label: "Codigo Articulo",
@@ -616,6 +617,7 @@ export default {
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
                     this.validadorLista = true;
+                    this.listadoGeneral = [];
                     this.column = [
                         {
                             label: "Codigo Articulo",
@@ -883,6 +885,7 @@ export default {
                     this.solicitudpdb = true;
                     this.despachopadbt = false;
                     this.validadorLista = true;
+                    this.listadoGeneral = [];
                     this.column = [
                         {
                             label: "Codigo Articulo",
@@ -1150,6 +1153,7 @@ export default {
                     this.solicitudpdb = false;
                     this.despachopadbt = true;
                     this.validadorLista = true;
+                    this.listadoGeneral = [];
                     this.column = [
                         {
                             label: "Codigo Articulo",
