@@ -22,7 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('correo_usuario')->nullable();
             $table->string('password');
             $table->string('bodega')->nullable();
-            $table->bigInteger('idServicio');       
+            $table->bigInteger('idServicio');
+            $table->bigInteger('idEstado');         
             $table->rememberToken();
             $table->timestamps();
         });

@@ -102,6 +102,7 @@ class LoginController extends Controller
                    'bodega' => $request->bodega,
                    'password' => Hash::make($request->password),
                    'idServicio' => $request->idServicio,
+                   'idEstado' => $request->idEstado,
                    'api_token' => Str::random(60),
                 ]);
        
@@ -124,7 +125,7 @@ class LoginController extends Controller
     public function GetUsers(){
         try {
             $get = Users::select('users.id','users.run','users.nombre_usuario','users.apellido_usuario','users.anexo',
-            'users.correo_usuario','users.idServicio')
+            'users.correo_usuario','users.idServicio','users.idEstado')
             ->get();
             return $get;
         } catch (\Throwable $th) {
@@ -135,14 +136,13 @@ class LoginController extends Controller
 
     public function PutUsuario(Request $request){
         try {
-                log::info($request);
                 $run = $request->run_usuario;
                 $run = str_replace('.', '', $run);
                 $run = strtoupper($run); 
                 Users::where('id',$request->id)
                     ->update(['run' => $run,'correo_usuario' => $request->correo_usuario,'nombre_usuario' => $request->nombre_usuario,
                     'apellido_usuario' => $request->apellido_usuario,'anexo' => $request->anexo,'bodega' => $request->bodega,
-                    'password' => Hash::make($request->password),'idServicio' => $request->idServicio]);
+                    'password' => Hash::make($request->password),'idServicio' => $request->idServicio,'idEstado' => $request->idEstado]);
                 tblPermisoUsuarios::where('run_usuario',$run)
                 ->update(['permiso_usuario' => $request->permiso_usuario]);
             return true;

@@ -176,6 +176,10 @@ export default {
                                         "id",
                                         response.data[0].id
                                     );
+                                    sessionStorage.setItem(
+                                        "idEstado",
+                                        response.data[0].idEstado
+                                    );
                                     sw = 1;
                                 }
                             } else {

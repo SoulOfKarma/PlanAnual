@@ -3,6 +3,7 @@
         <vx-card title="Plan de Compra Anual">
             <div>
                 <vs-button
+                    v-if="validarEstado"
                     color="primary"
                     type="filled"
                     @click="popArticulosPAnual"
@@ -85,6 +86,7 @@
                             </span>
                             <span v-else-if="props.column.field === 'action'">
                                 <plus-circle-icon
+                                    v-if="validarEstado"
                                     content="Modificar Articulo"
                                     v-tippy
                                     size="1.5x"
@@ -100,6 +102,7 @@
                                     "
                                 ></plus-circle-icon>
                                 <plus-circle-icon
+                                    v-if="validarEstado"
                                     content="Quitar Articulo"
                                     v-tippy
                                     size="1.5x"
@@ -701,6 +704,7 @@ export default {
             popUpAgregarArticuloPAnual: false,
             popUpModificarArticuloMod: false,
             popUpEliminarArticulo: false,
+            validarEstado: false,
             fechaPAnual: null,
             idArticulo: "",
             codart: "",
@@ -1786,11 +1790,26 @@ export default {
                 console.log("No se cargo la ISO hora");
                 console.log(error);
             }
+        },
+        cargarValidacionEstado() {
+            try {
+                if (
+                    sessionStorage.getItem("idEstado") == 1 ||
+                    sessionStorage.getItem("idEstado") == 3
+                ) {
+                    this.validarEstado = true;
+                } else {
+                    this.validarEstado = false;
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
     beforeMount() {
         this.TraerServicio();
         this.TraerArticulos();
+        this.cargarValidacionEstado();
         setTimeout(() => {
             this.TraerListadoPresupuestos();
             this.TraerArticulosPresupuesto();

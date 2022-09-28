@@ -147,7 +147,7 @@
                                     :options="listaPerfilUsuario"
                                 ></v-select>
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-full mt-5">
                                 <h6>Estado</h6>
                                 <br />
                                 <v-select
@@ -157,18 +157,6 @@
                                     class="w-full select-large"
                                     label="descripcionEstado"
                                     :options="listaEstado"
-                                ></v-select>
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>Bodega</h6>
-                                <br />
-                                <v-select
-                                    taggable
-                                    v-model="seleccionBodega"
-                                    placeholder="descripcion"
-                                    class="w-full select-large"
-                                    label="descripcion"
-                                    :options="listaBodega"
                                 ></v-select>
                             </div>
                         </div>
@@ -292,7 +280,7 @@
                                     :options="listaPerfilUsuario"
                                 ></v-select>
                             </div>
-                            <div class="vx-col w-1/2 mt-5">
+                            <div class="vx-col w-full mt-5">
                                 <h6>Estado</h6>
                                 <br />
                                 <v-select
@@ -302,18 +290,6 @@
                                     class="w-full select-large"
                                     label="descripcionEstado"
                                     :options="listaEstado"
-                                ></v-select>
-                            </div>
-                            <div class="vx-col w-1/2 mt-5">
-                                <h6>Bodega</h6>
-                                <br />
-                                <v-select
-                                    taggable
-                                    v-model="seleccionBodega"
-                                    placeholder="descripcion"
-                                    class="w-full select-large"
-                                    label="descripcion"
-                                    :options="listaBodega"
                                 ></v-select>
                             </div>
                         </div>
@@ -734,6 +710,14 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
+                } else if (this.seleccionEstado == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar un estado",
+                        color: "danger",
+                        position: "top-right"
+                    });
                 } else {
                     let data = {
                         run_usuario: this.run_usuario,
@@ -745,6 +729,7 @@ export default {
                         idServicio: this.seleccionServicio.id,
                         bodega: this.seleccionBodega.id,
                         permiso_usuario: this.seleccionListaPerfil.id,
+                        idEstado: this.seleccionEstado.id,
                         estado_login: 1
                     };
 
@@ -858,6 +843,14 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
+                } else if (this.seleccionEstado == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar un estado",
+                        color: "danger",
+                        position: "top-right"
+                    });
                 } else {
                     let data = {
                         id: this.idMod,
@@ -870,6 +863,7 @@ export default {
                         password: this.password,
                         bodega: this.seleccionBodega.id,
                         permiso_usuario: this.seleccionListaPerfil.id,
+                        idEstado: this.seleccionEstado.id,
                         estado_login: 1
                     };
 

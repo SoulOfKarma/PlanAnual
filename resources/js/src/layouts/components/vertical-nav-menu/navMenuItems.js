@@ -64,6 +64,20 @@ export default [
     },
     {
         url: null,
+        name: "Reportes Abastecimiento",
+        slug: "ReportesAbastecimiento",
+        icon: "HomeIcon",
+        submenu: [
+            {
+                url: "/ReportesAbastecimiento/ReportesAbastecimiento",
+                name: "Reportes Aba.",
+                slug: "/ReportesAbastecimiento/ReportesAbastecimiento",
+                icon: "HomeIcon"
+            }
+        ]
+    },
+    {
+        url: null,
         name: "Reportes Contables",
         slug: "ReportesContables",
         icon: "HomeIcon",
