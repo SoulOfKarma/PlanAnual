@@ -488,8 +488,8 @@ export default {
                 let c = this.listaEstado;
                 c.forEach((value, ind) => {
                     if (value.id == idEstado) {
-                        this.seleccionBodega.id = value.id;
-                        this.seleccionBodega.descripcion = value.descripcion;
+                        this.seleccionEstado.id = value.id;
+                        this.seleccionEstado.descripcion = value.descripcion;
                     }
                 });
             } catch (error) {
