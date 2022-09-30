@@ -11,7 +11,7 @@ class SiabArticulosController extends Controller
 {
     public function GetArticulos(){
         try {
-            $data = siabArticulos::select('CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')
+            $data = siabArticulos::select('id','CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')
             ->distinct()
             ->get();
             return $data;
