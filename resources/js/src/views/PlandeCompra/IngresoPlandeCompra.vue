@@ -1499,12 +1499,15 @@ export default {
         TraerArticulos() {
             try {
                 axios
-                    .get(this.localVal + "/api/Mantenedor/GetArticulos", {
-                        headers: {
-                            Authorization:
-                                `Bearer ` + sessionStorage.getItem("token")
+                    .get(
+                        this.localVal + "/api/Mantenedor/GetArticulosActivos",
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
                         }
-                    })
+                    )
                     .then(res => {
                         //this.rows =;
                         let c = res.data;

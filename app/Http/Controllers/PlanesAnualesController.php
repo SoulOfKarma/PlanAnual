@@ -16,7 +16,51 @@ class PlanesAnualesController extends Controller
             ->where('BODEGA',$request->idBodega)
             ->where('ANIO',$request->anio)
             ->get();
-            return $dato;
+
+            $ANIO = 0;
+            $BODEGA = 0;
+            $CODART = 0;
+            $CODSER = 0;
+            $C_ENE = 0;
+            $C_FEB = 0;
+            $C_MAR = 0;
+            $C_ABR = 0;
+            $C_MAY = 0;
+            $C_JUN = 0;
+            $C_JUL = 0;
+            $C_AGO = 0;
+            $C_SEP = 0;
+            $C_OCT = 0;
+            $C_NOV = 0;
+            $C_DIC = 0;
+            $C_TOTAL = 0;
+            $FECING = 0;
+            $NOMART = 0;
+            $NOMSER = 0;
+            $NROPED = 0;
+            $OBS = 0;
+            $PRECIO = 0;
+            $T_PRECIO = 0;
+            $UNIMED = 0;
+            $ZGEN = 0;
+            $created_at = 0;
+            $id = 0;
+            $idServicio = 0;
+            $updated_at = 0;
+
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+            $get = [];
+            foreach ($dato as $key=>$a) {
+                $get[$key] = ['ANIO' => $a->ANIO,'BODEGA' => $a->BODEGA,'CODART' => $a->CODART,'CODSER' => $a->CODSER,
+                'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'FECING' => $a->FECING,
+                'NOMART' => $a->NOMART,'NOMSER' => $a->NOMSER,'NROPED' => $a->NROPED,'OBS' => $a->OBS,'PRECIO' => $fmt->formatCurrency($a->PRECIO, "CLP"),
+                'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),'UNIMED' => $a->UNIMED,'ZGEN' => $a->ZGEN,'created_at' => $a->created_at,
+                'id' => $a->id,'idServicio' => $a->idServicio,'updated_at' => $a->updated_at];
+            }
+
+            return $get;
         } catch (\Throwable $th) {
             log::info($th);
             return false;

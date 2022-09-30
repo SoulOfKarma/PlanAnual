@@ -28,6 +28,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/Mantenedor/GetPresupuestosGenerales', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestosGenerales']);
     Route::get('/Mantenedor/GetUsers', ['middleware' => 'cors', 'uses' => 'LoginController@GetUsers']);
     Route::get('/Mantenedor/GetArticulos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@GetArticulos']);
+    Route::get('/Mantenedor/GetArticulosActivos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@GetArticulosActivos']);
     
     //Posts 
     Route::post('/Mantenedor/PostPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PostPresupuestoAnual']);

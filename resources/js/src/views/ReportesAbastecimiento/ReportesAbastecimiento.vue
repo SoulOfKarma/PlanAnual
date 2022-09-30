@@ -50,76 +50,22 @@
                         ></v-select>
                     </div>
                 </div>
-                <!-- Despacho por Servicio Mensual -->
-                <div class="vx-row" v-if="despachomes">
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Mes</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionMes"
-                            placeholder="Ej. Enero"
-                            class="w-full select-large"
-                            label="descripcionMes"
-                            :options="listadoMes"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Bodega</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionBodega"
-                            placeholder="Ej. Medicamentos"
-                            class="w-full select-large"
-                            label="descripcionBodega"
-                            :options="listaBodega"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargaDespachoSM"
-                            color="primary"
-                            type="filled"
-                            class="w-full"
-                            >Buscar</vs-button
-                        >
-                    </div>
-                </div>
-                <!-- Despacho Plan Anual V/S Despacho Bodega -->
-                <div class="vx-row" v-if="despachopab">
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Mes</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionMes"
-                            placeholder="Ej. Enero"
-                            class="w-full select-large"
-                            label="descripcionMes"
-                            :options="listadoMes"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Bodega</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionBodega"
-                            placeholder="Ej. Medicamentos"
-                            class="w-full select-large"
-                            label="descripcionBodega"
-                            :options="listaBodega"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargaDespachoPADB"
-                            color="primary"
-                            type="filled"
-                            class="w-full"
-                            >Buscar</vs-button
-                        >
-                    </div>
-                </div>
+                <!-- Consolidado -->
+                <div class="vx-row" v-if="consolidado"></div>
+                <!-- Consolidado V/S Despacho Bodega -->
+                <div class="vx-row" v-if="consolidadodesp"></div>
+                <!-- Total Mensual -->
+                <div class="vx-row" v-if="totalMensual"></div>
+                <!-- Consulta por Servicio -->
+                <div class="vx-row" v-if="consultaServicio"></div>
+                <!-- Consulta por Servicio por Despacho-->
+                <div class="vx-row" v-if="consultaServicioDesp"></div>
+                <!-- Consulta por Servicio por Despacho Fecha -->
+                <div class="vx-row" v-if="consultaServicioDespFecha"></div>
+                <!-- Lista Plan Anual -->
+                <div class="vx-row" v-if="listapanual"></div>
+                <!-- Consulta por Articulo -->
+                <div class="vx-row" v-if="consultaporArticulo"></div>
                 <br />
                 <!-- Lista Tabla Segun Reporte -->
                 <div class="vx-row" v-if="validadorLista">
@@ -200,12 +146,18 @@ export default {
                 }
             },
             //Datos Generales
-            despachomes: false,
-            despachopab: false,
+            consolidado: false,
+            consolidadodesp: false,
+            totalMensual: false,
+            consultaServicio: false,
+            consultaServicioDesp: false,
+            consultaServicioDespFecha: false,
+            listapanual: false,
+            consultaporArticulo: false,
             validadorLista: false,
             seleccionReporte: {
                 id: 0,
-                descripcionReporte: "Ej. Despacho Por Servicio Mensual"
+                descripcionReporte: "Ej. Consolidado"
             },
             seleccionServicio: {
                 id: 1,
@@ -350,12 +302,35 @@ export default {
             listadoReportes: [
                 {
                     id: 1,
-                    descripcionReporte: "Despacho Por Servicio Mensual"
+                    descripcionReporte: "Consolidado"
                 },
                 {
                     id: 2,
-                    descripcionReporte:
-                        "Despacho Plan Anual V/S Despacho Bodega"
+                    descripcionReporte: "Consolidado v/s Despacho"
+                },
+                {
+                    id: 3,
+                    descripcionReporte: "Total Mensual"
+                },
+                {
+                    id: 4,
+                    descripcionReporte: "Consulta por Servicio"
+                },
+                {
+                    id: 5,
+                    descripcionReporte: "Consulta por despacho "
+                },
+                {
+                    id: 6,
+                    descripcionReporte: "Consulta por despacho y fecha"
+                },
+                {
+                    id: 7,
+                    descripcionReporte: "Lista plan Anual"
+                },
+                {
+                    id: 8,
+                    descripcionReporte: "Consulta por Articulo"
                 }
             ],
             listadoMes: [
@@ -489,10 +464,16 @@ export default {
         },
         GetReporteEspecifico() {
             try {
-                //despachomes
+                //consolidado
                 if (this.seleccionReporte.id == 1) {
-                    this.despachomes = true;
-                    this.despachopab = false;
+                    this.consolidado = true;
+                    this.consolidadodesp = false;
+                    this.totalMensual = false;
+                    this.consultaServicio = false;
+                    this.consultaServicioDesp = false;
+                    this.consultaServicioDespFecha = false;
+                    this.listapanual = false;
+                    this.consultaporArticulo = false;
                     this.validadorLista = true;
                     this.listadoGeneral = [];
                     this.column = [
@@ -525,23 +506,124 @@ export default {
                             }
                         },
                         {
-                            label: "Solicitado",
-                            field: "SOLART",
+                            label: "ENERO",
+                            field: "C_ENE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Despachado",
-                            field: "DESART",
+                            label: "Febrero",
+                            field: "C_FEB",
                             filterOptions: {
                                 enabled: true
                             }
+                        },
+                        {
+                            label: "MARZO",
+                            field: "C_MAR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ABRIL",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MAYO",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JUNIO",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JULIO",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "AGOSTO",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "OCTUBRE",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "TOTAL",
+                            field: "T_PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Opciones",
+                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 2) {
-                    this.despachomes = false;
-                    this.despachopab = true;
+                    this.consolidado = false;
+                    this.consolidadodesp = true;
+                    this.totalMensual = false;
+                    this.consultaServicio = false;
+                    this.consultaServicioDesp = false;
+                    this.consultaServicioDespFecha = false;
+                    this.listapanual = false;
+                    this.consultaporArticulo = false;
                     this.validadorLista = true;
                     this.listadoGeneral = [];
                     this.column = [
@@ -574,347 +656,1099 @@ export default {
                             }
                         },
                         {
-                            label: "Solicitado",
-                            field: "SOLART",
+                            label: "ENERO",
+                            field: "C_ENE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "Despachado",
-                            field: "DESART",
+                            field: "D_ENE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "01",
-                            field: "DAY1",
+                            label: "Febrero",
+                            field: "C_FEB",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "02",
-                            field: "DAY2",
+                            label: "Despachado",
+                            field: "D_FEB",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "03",
-                            field: "DAY3",
+                            label: "MARZO",
+                            field: "C_MAR",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "04",
-                            field: "DAY4",
+                            label: "Despachado",
+                            field: "D_MAR",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "05",
-                            field: "DAY5",
+                            label: "ABRIL",
+                            field: "C_ABR",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "06",
-                            field: "DAY6",
+                            label: "Despachado",
+                            field: "D_ABR",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "07",
-                            field: "DAY7",
+                            label: "MAYO",
+                            field: "C_MAY",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "08",
-                            field: "DAY8",
+                            label: "Despachado",
+                            field: "D_MAY",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "09",
-                            field: "DAY9",
+                            label: "JUNIO",
+                            field: "C_JUN",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "10",
-                            field: "DAY10",
+                            label: "Despachado",
+                            field: "D_JUN",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "11",
-                            field: "DAY11",
+                            label: "JULIO",
+                            field: "C_JUL",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "12",
-                            field: "DAY12",
+                            label: "Despachado",
+                            field: "D_JUL",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "13",
-                            field: "DAY13",
+                            label: "AGOSTO",
+                            field: "C_AGO",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "14",
-                            field: "DAY14",
+                            label: "Despachado",
+                            field: "D_AGO",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "15",
-                            field: "DAY15",
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "16",
-                            field: "DAY16",
+                            label: "Despachado",
+                            field: "D_SEP",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "17",
-                            field: "DAY17",
+                            label: "OCTUBRE",
+                            field: "C_OCT",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "18",
-                            field: "DAY18",
+                            label: "Despachado",
+                            field: "D_OCT",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "19",
-                            field: "DAY19",
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "20",
-                            field: "DAY20",
+                            label: "Despachado",
+                            field: "D_NOV",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "21",
-                            field: "DAY21",
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "22",
-                            field: "DAY22",
+                            label: "Despachado",
+                            field: "D_DIC",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "23",
-                            field: "DAY23",
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "24",
-                            field: "DAY24",
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "25",
-                            field: "DAY25",
+                            label: "TOTAL",
+                            field: "T_PRECIO",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "26",
-                            field: "DAY26",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "27",
-                            field: "DAY27",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "28",
-                            field: "DAY28",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "29",
-                            field: "DAY29",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "30",
-                            field: "DAY30",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "31",
-                            field: "DAY31",
-                            filterOptions: {
-                                enabled: true
-                            }
+                            label: "Opciones",
+                            field: "action"
                         }
                     ];
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        CargaDespachoSM() {
-            try {
-                if (this.seleccionMes.id == 0) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Debe seleccionar un mes para continuar",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.seleccionBodega.id == 0) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Debe seleccionar una bodega para continuar",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else {
-                    let data = {
-                        mes: this.seleccionMes.id,
-                        idServicio: sessionStorage.getItem("idServicio"),
-                        BODEGA: this.seleccionBodega.id
-                    };
-                    axios
-                        .post(
-                            this.localVal + "/api/Reportes/ReporteDSM",
-                            data,
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ` +
-                                        sessionStorage.getItem("token")
-                                }
+                } else if (this.seleccionReporte.id == 3) {
+                    this.consolidado = false;
+                    this.consolidadodesp = false;
+                    this.totalMensual = true;
+                    this.consultaServicio = false;
+                    this.consultaServicioDesp = false;
+                    this.consultaServicioDespFecha = false;
+                    this.listapanual = false;
+                    this.consultaporArticulo = false;
+                    this.validadorLista = true;
+                    this.listadoGeneral = [];
+                    this.column = [
+                        {
+                            label: "Codigo Articulo",
+                            field: "CODART",
+                            filterOptions: {
+                                enabled: true
                             }
-                        )
-                        .then(res => {
-                            //this.rows =;
-                            this.listadoGeneral = res.data;
-                            if (this.listadoGeneral.length < 0) {
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Error",
-                                    text:
-                                        "No hay datos o no se cargaron los datos de los servicios correctamente",
-                                    color: "danger",
-                                    position: "top-right"
-                                });
+                        },
+                        {
+                            label: "Descripcion",
+                            field: "NOMART",
+                            filterOptions: {
+                                enabled: true
                             }
-                        });
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        CargaDespachoPADB() {
-            try {
-                if (this.seleccionMes.id == 0) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Debe seleccionar un mes para continuar",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else if (this.seleccionBodega.id == 0) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "Debe seleccionar una bodega para continuar",
-                        color: "danger",
-                        position: "top-right"
-                    });
-                } else {
-                    let data = {
-                        mes: this.seleccionMes.id,
-                        idServicio: sessionStorage.getItem("idServicio"),
-                        BODEGA: this.seleccionBodega.id
-                    };
-                    axios
-                        .post(
-                            this.localVal + "/api/Reportes/ReporteDPADB",
-                            data,
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ` +
-                                        sessionStorage.getItem("token")
-                                }
+                        },
+                        {
+                            label: "Unidad Medida",
+                            field: "UNIMED",
+                            filterOptions: {
+                                enabled: true
                             }
-                        )
-                        .then(res => {
-                            //this.rows =;
-                            this.listadoGeneral = res.data;
-                            if (this.listadoGeneral.length < 0) {
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Error",
-                                    text:
-                                        "No hay datos o no se cargaron los datos de los servicios correctamente",
-                                    color: "danger",
-                                    position: "top-right"
-                                });
+                        },
+                        {
+                            label: "Precio",
+                            field: "PRECIO",
+                            filterOptions: {
+                                enabled: true
                             }
-                        });
+                        },
+                        {
+                            label: "ENERO",
+                            field: "C_ENE",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Febrero",
+                            field: "C_FEB",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MARZO",
+                            field: "C_MAR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ABRIL",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MAYO",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JUNIO",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JULIO",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "AGOSTO",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "OCTUBRE",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "TOTAL",
+                            field: "T_PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Opciones",
+                            field: "action"
+                        }
+                    ];
+                } else if (this.seleccionReporte.id == 4) {
+                    this.consolidado = false;
+                    this.consolidadodesp = false;
+                    this.totalMensual = false;
+                    this.consultaServicio = true;
+                    this.consultaServicioDesp = false;
+                    this.consultaServicioDespFecha = false;
+                    this.listapanual = false;
+                    this.consultaporArticulo = false;
+                    this.validadorLista = true;
+                    this.listadoGeneral = [];
+                    this.column = [
+                        {
+                            label: "Codigo Articulo",
+                            field: "CODART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Descripcion",
+                            field: "NOMART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Unidad Medida",
+                            field: "UNIMED",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Precio",
+                            field: "PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ENERO",
+                            field: "C_ENE",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Febrero",
+                            field: "C_FEB",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MARZO",
+                            field: "C_MAR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ABRIL",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MAYO",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JUNIO",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JULIO",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "AGOSTO",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "OCTUBRE",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "TOTAL",
+                            field: "T_PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Opciones",
+                            field: "action"
+                        }
+                    ];
+                } else if (this.seleccionReporte.id == 5) {
+                    this.consolidado = false;
+                    this.consolidadodesp = false;
+                    this.totalMensual = false;
+                    this.consultaServicio = false;
+                    this.consultaServicioDesp = true;
+                    this.consultaServicioDespFecha = false;
+                    this.listapanual = false;
+                    this.consultaporArticulo = false;
+                    this.validadorLista = true;
+                    this.listadoGeneral = [];
+                    this.column = [
+                        {
+                            label: "Codigo Articulo",
+                            field: "CODART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Descripcion",
+                            field: "NOMART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Unidad Medida",
+                            field: "UNIMED",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Precio",
+                            field: "PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ENERO",
+                            field: "C_ENE",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Febrero",
+                            field: "C_FEB",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MARZO",
+                            field: "C_MAR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ABRIL",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MAYO",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JUNIO",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JULIO",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "AGOSTO",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "OCTUBRE",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "TOTAL",
+                            field: "T_PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Opciones",
+                            field: "action"
+                        }
+                    ];
+                } else if (this.seleccionReporte.id == 6) {
+                    this.consolidado = false;
+                    this.consolidadodesp = false;
+                    this.totalMensual = false;
+                    this.consultaServicio = false;
+                    this.consultaServicioDesp = false;
+                    this.consultaServicioDespFecha = true;
+                    this.listapanual = false;
+                    this.consultaporArticulo = false;
+                    this.validadorLista = true;
+                    this.listadoGeneral = [];
+                    this.column = [
+                        {
+                            label: "Codigo Articulo",
+                            field: "CODART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Descripcion",
+                            field: "NOMART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Unidad Medida",
+                            field: "UNIMED",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Precio",
+                            field: "PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ENERO",
+                            field: "C_ENE",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Febrero",
+                            field: "C_FEB",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MARZO",
+                            field: "C_MAR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ABRIL",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MAYO",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JUNIO",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JULIO",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "AGOSTO",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "OCTUBRE",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "TOTAL",
+                            field: "T_PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Opciones",
+                            field: "action"
+                        }
+                    ];
+                } else if (this.seleccionReporte.id == 7) {
+                    this.consolidado = false;
+                    this.consolidadodesp = false;
+                    this.totalMensual = false;
+                    this.consultaServicio = false;
+                    this.consultaServicioDesp = false;
+                    this.consultaServicioDespFecha = false;
+                    this.listapanual = true;
+                    this.consultaporArticulo = false;
+                    this.validadorLista = true;
+                    this.listadoGeneral = [];
+                    this.column = [
+                        {
+                            label: "Codigo Articulo",
+                            field: "CODART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Descripcion",
+                            field: "NOMART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Unidad Medida",
+                            field: "UNIMED",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Precio",
+                            field: "PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ENERO",
+                            field: "C_ENE",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Febrero",
+                            field: "C_FEB",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MARZO",
+                            field: "C_MAR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ABRIL",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MAYO",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JUNIO",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JULIO",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "AGOSTO",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "OCTUBRE",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "TOTAL",
+                            field: "T_PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Opciones",
+                            field: "action"
+                        }
+                    ];
+                } else if (this.seleccionReporte.id == 8) {
+                    this.consolidado = false;
+                    this.consolidadodesp = false;
+                    this.totalMensual = false;
+                    this.consultaServicio = false;
+                    this.consultaServicioDesp = false;
+                    this.consultaServicioDespFecha = false;
+                    this.listapanual = false;
+                    this.consultaporArticulo = true;
+                    this.validadorLista = true;
+                    this.listadoGeneral = [];
+                    this.column = [
+                        {
+                            label: "Codigo Articulo",
+                            field: "CODART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Descripcion",
+                            field: "NOMART",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Unidad Medida",
+                            field: "UNIMED",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Precio",
+                            field: "PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ENERO",
+                            field: "C_ENE",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Febrero",
+                            field: "C_FEB",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MARZO",
+                            field: "C_MAR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "ABRIL",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "MAYO",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JUNIO",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "JULIO",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "AGOSTO",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "SEPTIEMBRE",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "OCTUBRE",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "NOVIEMBRE",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "DICIEMBRE",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "C. TOTAL",
+                            field: "C_TOTAL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Saldo Bodega",
+                            field: "S_BODEGA",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "TOTAL",
+                            field: "T_PRECIO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Opciones",
+                            field: "action"
+                        }
+                    ];
                 }
             } catch (error) {
                 console.log(error);

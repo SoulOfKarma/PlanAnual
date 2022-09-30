@@ -11,7 +11,22 @@ class SiabArticulosController extends Controller
 {
     public function GetArticulos(){
         try {
-            $data = siabArticulos::all();
+            $data = siabArticulos::select('CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')
+            ->distinct()
+            ->get();
+            return $data;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function GetArticulosActivos(){
+        try {
+            $data = siabArticulos::select('CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')
+            ->distinct()
+            ->where('idEstado',1)
+            ->get();
             return $data;
         } catch (\Throwable $th) {
             log::info($th);

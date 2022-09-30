@@ -18,7 +18,8 @@ class CreateSiabArticulosTable extends Migration
             $table->string('CODART')->nullable();
             $table->string('NOMBRE')->nullable();
             $table->string('UNIMED')->nullable();
-            $table->bigInteger('PRECIO')->nullable();
+            $table->float('PRECIO',15,2)->nullable();
+            $table->float('PRE_PROM',15,2)->nullable();
             $table->bigInteger('idEstado')->nullable();
             $table->bigInteger('idBodega')->nullable();
             $table->string('NOMFAM1')->nullable();
