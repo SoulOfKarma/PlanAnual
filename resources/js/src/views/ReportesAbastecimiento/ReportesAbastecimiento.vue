@@ -51,7 +51,29 @@
                     </div>
                 </div>
                 <!-- Consolidado -->
-                <div class="vx-row" v-if="consolidado"></div>
+                <div class="vx-row" v-if="consolidado">
+                    <div class="vx-col w-full mt-5">
+                        <h6>Seleccione Bodega</h6>
+                        <v-select
+                            taggable
+                            v-model="seleccionBodega"
+                            placeholder="Ej. Medicamentos"
+                            class="w-full select-large"
+                            label="descripcionBodega"
+                            :options="listaBodega"
+                        ></v-select>
+                    </div>
+                    <div class="vx-col w-full mt-5">
+                        <h6>.</h6>
+                        <vs-button
+                            @click="CargaConsolidadoByBodega"
+                            color="primary"
+                            type="filled"
+                            class="w-full"
+                            >Buscar</vs-button
+                        >
+                    </div>
+                </div>
                 <!-- Consolidado V/S Despacho Bodega -->
                 <div class="vx-row" v-if="consolidadodesp"></div>
                 <!-- Total Mensual -->
@@ -609,10 +631,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 2) {
@@ -843,10 +861,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 3) {
@@ -993,10 +1007,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 4) {
@@ -1143,10 +1153,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 5) {
@@ -1293,10 +1299,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 6) {
@@ -1443,10 +1445,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 7) {
@@ -1593,10 +1591,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 } else if (this.seleccionReporte.id == 8) {
@@ -1743,10 +1737,6 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "Opciones",
-                            field: "action"
                         }
                     ];
                 }
@@ -1805,6 +1795,13 @@ export default {
                             });
                         }
                     });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        CargaConsolidadoByBodega() {
+            try {
+                console.log("Mensaje uwu");
             } catch (error) {
                 console.log(error);
             }
