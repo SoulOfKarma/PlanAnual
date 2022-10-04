@@ -1801,7 +1801,68 @@ export default {
         },
         CargaConsolidadoByBodega() {
             try {
-                console.log("Mensaje uwu");
+                let data = {
+                    idBodega: this.seleccionBodega.id
+                };
+                axios
+                    .post(
+                        this.localVal +
+                            "/api/RAbastecimiento/ReporteConsolidado",
+                        data,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.listadoGeneral = res.data;
+                        if (this.listadoGeneral.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        CargaConsolidadoDespachadoByBodega() {
+            try {
+                let data = {
+                    idBodega: this.seleccionBodega.id
+                };
+                axios
+                    .post(
+                        this.localVal +
+                            "/api/RAbastecimiento/ReporteConsolidadoDespachado",
+                        data,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.listadoGeneral = res.data;
+                        if (this.listadoGeneral.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
             } catch (error) {
                 console.log(error);
             }
