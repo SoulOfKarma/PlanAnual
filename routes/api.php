@@ -38,6 +38,9 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/Mantenedor/RegistrarUsuario', ['middleware' => 'cors', 'uses' => 'LoginController@RegistrarUsuario']);
     Route::post('/RAbastecimiento/ReporteConsolidado', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidado']);
     Route::post('/RAbastecimiento/ReporteConsolidadoDespachado', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoDespachado']);
+    Route::post('/RAbastecimiento/ReporteTotalServicio', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteTotalServicio']);
+    Route::post('/RAbastecimiento/ReporteTotalByServicio', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteTotalByServicio']);
+    Route::post('/RAbastecimiento/ReporteConsolidadoPorServicio', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoPorServicio']);
     
     //Post Como Get
     Route::post('/Mantenedor/GetPresupuestoByServBodega', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestoByServBodega']);
