@@ -1890,4 +1890,448 @@ class PlanesAnualesController extends Controller
         }
     }
     //
+    //Reporte por Servicio Despachado
+    public function ReporteConsolidadoPorServicioDespachado(Request $request){
+        try {
+            $get = PlanesAnuales::select('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO',
+            DB::raw('SUM(planes_anuales.C_ENE) AS C_ENE'),DB::raw('SUM(planes_anuales.C_FEB) AS C_FEB'),DB::raw('SUM(planes_anuales.C_MAR) AS C_MAR'),
+            DB::raw('SUM(planes_anuales.C_ABR) AS C_ABR'),DB::raw('SUM(planes_anuales.C_MAY) AS C_MAY'),DB::raw('SUM(planes_anuales.C_JUN) AS C_JUN'),
+            DB::raw('SUM(planes_anuales.C_JUL) AS C_JUL'),DB::raw('SUM(planes_anuales.C_AGO) AS C_AGO'),DB::raw('SUM(planes_anuales.C_SEP) AS C_SEP'),
+            DB::raw('SUM(planes_anuales.C_OCT) AS C_OCT'),DB::raw('SUM(planes_anuales.C_NOV) AS C_NOV'),DB::raw('SUM(planes_anuales.C_DIC) AS C_DIC'),
+            DB::raw('SUM(planes_anuales.C_TOTAL) AS C_TOTAL'),
+            DB::raw('ROUND(SUM(planes_anuales.T_PRECIO),0) AS T_PRECIO'))
+            ->where('planes_anuales.BODEGA',$request->idBodega)
+            ->where('planes_anuales.idServicio',$request->idServicio)
+            ->groupby('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO')
+            ->get(); 
+
+            log::info($get);
+
+            $get2 = DB::table('DBSiab.recepcion_detalles')
+            ->select('DBSiab.recepcion_detalles.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.recepcion_detalles.CANREC),0),0) AS SALDO'))
+            ->whereraw('DBSiab.recepcion_detalles.CODMOT IS NULL && DBSiab.recepcion_detalles.FOLIO IS NOT NULL')
+            ->groupby('DBSiab.recepcion_detalles.CODART')
+            ->get();
+
+            $get3 = DB::table('DBSiab.saldo_inventario')
+            ->select('DBSiab.saldo_inventario.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.saldo_inventario.SALDO),0),0) AS SALDO'))
+            ->groupby('DBSiab.saldo_inventario.CODART')
+            ->get();
+
+            $get4 = [];
+
+            foreach ($get2 as $key=>$a) {
+                $val = 0;
+                foreach ($get3 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get4[$key] = ['CODART' => $a->CODART,'SALDO' => $a->SALDO + $b->SALDO];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get4[$key] = ['CODART' => $a->CODART,'SALDO' => $a->SALDO];
+                    $val = 0;
+                }
+            }
+
+            $get4 = json_decode(json_encode($get4));
+
+            $get5 = DB::table('DBSiab.despacho_detalles')
+            ->select('DBSiab.despacho_detalles.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0),0) AS SALDO'))
+            ->where('DBSiab.despacho_detalles.idServicio',$request->idServicio)
+            ->groupby('DBSiab.despacho_detalles.CODART')
+            ->get();
+
+            $get6 = [];
+
+            foreach ($get4 as $key=>$a) {
+                $val = 0;
+                foreach ($get5 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get6[$key] = ['CODART' => $a->CODART,'SALDO' => intval($a->SALDO) - intval($b->SALDO)];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get6[$key] = ['CODART' => $a->CODART,'SALDO' => intval($a->SALDO)];
+                    $val = 0;
+                }
+            }
+
+            $get6 = json_decode(json_encode($get6));
+
+            $get7 = [];
+
+            foreach ($get as $key=>$a) {
+                $val = 0;
+                foreach ($get6 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                        'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => $b->SALDO];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                        'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => 0];
+                    $val = 0;
+                }
+            }
+
+            $get7 = json_decode(json_encode($get7));
+
+            $get8 = DB::table('DBSiab.recepcion_detalles')
+            ->select('DBSiab.recepcion_detalles.CODART',
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 1 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS ENERO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 2 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS FEBRERO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 3 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS MARZO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 4 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS ABRIL'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 5 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS MAYO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 6 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS JUNIO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 7 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS JULIO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 8 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS AGOSTO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 9 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS SEPTIEMBRE'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 10 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS OCTUBRE'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 11 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS NOVIEMBRE'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 12 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS DICIEMBRE'))
+            ->groupby('DBSiab.recepcion_detalles.CODART')
+            ->get();
+
+            $get8 = json_decode(json_encode($get8));
+
+            $get9 = [];
+
+            foreach ($get7 as $key=>$a) {
+                $val = 0;
+                foreach ($get8 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'D_ENE' => $b->ENERO,'C_FEB' => $a->C_FEB,'D_FEB' => $b->FEBRERO,'C_MAR' => $a->C_MAR,'D_MAR' => $b->MARZO,'C_ABR' => $a->C_ABR,'D_ABR' => $b->ABRIL,'C_MAY' => $a->C_MAY,'D_MAY' => $b->MAYO,
+                        'C_JUN' => $a->C_JUN,'D_JUN' => $b->JUNIO,'C_JUL' => $a->C_JUL,'D_JUL' => $b->JULIO,'C_AGO' => $a->C_AGO,'D_AGO' => $b->AGOSTO,'C_SEP' => $a->C_SEP,'D_SEP' => $b->SEPTIEMBRE,'C_OCT' => $a->C_OCT,'D_OCT' => $b->OCTUBRE,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => $a->S_BODEGA];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'D_ENE' => 0,'C_FEB' => $a->C_FEB,'D_FEB' => 0,'C_MAR' => $a->C_MAR,'D_MAR' => 0,'C_ABR' => $a->C_ABR,'D_ABR' => 0,'C_MAY' => $a->C_MAY,'D_MAY' => 0,
+                        'C_JUN' => $a->C_JUN,'D_JUN' => 0,'C_JUL' => $a->C_JUL,'D_JUL' => 0,'C_AGO' => $a->C_AGO,'D_AGO' => 0,'C_SEP' => $a->C_SEP,'D_SEP' => 0,'C_OCT' => $a->C_OCT,'D_OCT' => 0,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => $a->S_BODEGA];
+                    $val = 0;
+                }
+            }
+
+            return $get9;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+    //
+    //Reporte Por Servicio Despachado/Fecha
+    public function ReporteConsolidadoPorServicioDespachadoFecha(Request $request){
+        try {
+            $get = PlanesAnuales::select('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO',
+            DB::raw('SUM(planes_anuales.C_ENE) AS C_ENE'),DB::raw('SUM(planes_anuales.C_FEB) AS C_FEB'),DB::raw('SUM(planes_anuales.C_MAR) AS C_MAR'),
+            DB::raw('SUM(planes_anuales.C_ABR) AS C_ABR'),DB::raw('SUM(planes_anuales.C_MAY) AS C_MAY'),DB::raw('SUM(planes_anuales.C_JUN) AS C_JUN'),
+            DB::raw('SUM(planes_anuales.C_JUL) AS C_JUL'),DB::raw('SUM(planes_anuales.C_AGO) AS C_AGO'),DB::raw('SUM(planes_anuales.C_SEP) AS C_SEP'),
+            DB::raw('SUM(planes_anuales.C_OCT) AS C_OCT'),DB::raw('SUM(planes_anuales.C_NOV) AS C_NOV'),DB::raw('SUM(planes_anuales.C_DIC) AS C_DIC'),
+            DB::raw('SUM(planes_anuales.C_TOTAL) AS C_TOTAL'),
+            DB::raw('ROUND(SUM(planes_anuales.T_PRECIO),0) AS T_PRECIO'))
+            ->where('planes_anuales.BODEGA',$request->idBodega)
+            ->where('planes_anuales.idServicio',$request->idServicio)
+            ->groupby('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO')
+            ->get(); 
+
+            $get2 = DB::table('DBSiab.recepcion_detalles')
+            ->select('DBSiab.recepcion_detalles.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.recepcion_detalles.CANREC),0),0) AS SALDO'))
+            ->whereraw('DBSiab.recepcion_detalles.CODMOT IS NULL && DBSiab.recepcion_detalles.FOLIO IS NOT NULL')
+            ->groupby('DBSiab.recepcion_detalles.CODART')
+            ->get();
+
+            $get3 = DB::table('DBSiab.saldo_inventario')
+            ->select('DBSiab.saldo_inventario.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.saldo_inventario.SALDO),0),0) AS SALDO'))
+            ->groupby('DBSiab.saldo_inventario.CODART')
+            ->get();
+
+            $get4 = [];
+
+            foreach ($get2 as $key=>$a) {
+                $val = 0;
+                foreach ($get3 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get4[$key] = ['CODART' => $a->CODART,'SALDO' => $a->SALDO + $b->SALDO];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get4[$key] = ['CODART' => $a->CODART,'SALDO' => $a->SALDO];
+                    $val = 0;
+                }
+            }
+
+            $get4 = json_decode(json_encode($get4));
+
+            $get5 = DB::table('DBSiab.despacho_detalles')
+            ->select('DBSiab.despacho_detalles.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0),0) AS SALDO'))
+            ->where('DBSiab.despacho_detalles.idServicio',$request->idServicio)
+            ->whereBetween('DBSiab.despacho_detalles.FECDES', [$request->fechaInicio, $request->fechaTermino])
+            ->groupby('DBSiab.despacho_detalles.CODART')
+            ->get();
+
+            $get6 = [];
+
+            foreach ($get4 as $key=>$a) {
+                $val = 0;
+                foreach ($get5 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get6[$key] = ['CODART' => $a->CODART,'SALDO' => intval($a->SALDO) - intval($b->SALDO)];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get6[$key] = ['CODART' => $a->CODART,'SALDO' => intval($a->SALDO)];
+                    $val = 0;
+                }
+            }
+
+            $get6 = json_decode(json_encode($get6));
+
+            $get7 = [];
+
+            foreach ($get as $key=>$a) {
+                $val = 0;
+                foreach ($get6 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                        'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => $b->SALDO];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                        'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => 0];
+                    $val = 0;
+                }
+            }
+
+            $get7 = json_decode(json_encode($get7));
+
+            $get8 = DB::table('DBSiab.recepcion_detalles')
+            ->select('DBSiab.recepcion_detalles.CODART',
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 1 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS ENERO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 2 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS FEBRERO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 3 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS MARZO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 4 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS ABRIL'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 5 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS MAYO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 6 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS JUNIO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 7 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS JULIO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 8 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS AGOSTO'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 9 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS SEPTIEMBRE'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 10 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS OCTUBRE'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 11 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS NOVIEMBRE'),
+            DB::raw('(select COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0)
+            FROM DBSiab.despacho_detalles WHERE MONTH(DBSiab.despacho_detalles.FECDES) = 12 && DBSiab.recepcion_detalles.CODART = DBSiab.despacho_detalles.CODART
+            ) AS DICIEMBRE'))
+            ->groupby('DBSiab.recepcion_detalles.CODART')
+            ->get();
+
+            $get8 = json_decode(json_encode($get8));
+
+            $get9 = [];
+
+            foreach ($get7 as $key=>$a) {
+                $val = 0;
+                foreach ($get8 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'D_ENE' => $b->ENERO,'C_FEB' => $a->C_FEB,'D_FEB' => $b->FEBRERO,'C_MAR' => $a->C_MAR,'D_MAR' => $b->MARZO,'C_ABR' => $a->C_ABR,'D_ABR' => $b->ABRIL,'C_MAY' => $a->C_MAY,'D_MAY' => $b->MAYO,
+                        'C_JUN' => $a->C_JUN,'D_JUN' => $b->JUNIO,'C_JUL' => $a->C_JUL,'D_JUL' => $b->JULIO,'C_AGO' => $a->C_AGO,'D_AGO' => $b->AGOSTO,'C_SEP' => $a->C_SEP,'D_SEP' => $b->SEPTIEMBRE,'C_OCT' => $a->C_OCT,'D_OCT' => $b->OCTUBRE,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => $a->S_BODEGA];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'D_ENE' => 0,'C_FEB' => $a->C_FEB,'D_FEB' => 0,'C_MAR' => $a->C_MAR,'D_MAR' => 0,'C_ABR' => $a->C_ABR,'D_ABR' => 0,'C_MAY' => $a->C_MAY,'D_MAY' => 0,
+                        'C_JUN' => $a->C_JUN,'D_JUN' => 0,'C_JUL' => $a->C_JUL,'D_JUL' => 0,'C_AGO' => $a->C_AGO,'D_AGO' => 0,'C_SEP' => $a->C_SEP,'D_SEP' => 0,'C_OCT' => $a->C_OCT,'D_OCT' => 0,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => $a->S_BODEGA];
+                    $val = 0;
+                }
+            }
+
+            return $get9;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+    //Reporte Consolidado Completo
+    public function ReporteConsolidadoCompleto(){
+        try {
+            $get = PlanesAnuales::select('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO',
+            DB::raw('SUM(planes_anuales.C_ENE) AS C_ENE'),DB::raw('SUM(planes_anuales.C_FEB) AS C_FEB'),DB::raw('SUM(planes_anuales.C_MAR) AS C_MAR'),
+            DB::raw('SUM(planes_anuales.C_ABR) AS C_ABR'),DB::raw('SUM(planes_anuales.C_MAY) AS C_MAY'),DB::raw('SUM(planes_anuales.C_JUN) AS C_JUN'),
+            DB::raw('SUM(planes_anuales.C_JUL) AS C_JUL'),DB::raw('SUM(planes_anuales.C_AGO) AS C_AGO'),DB::raw('SUM(planes_anuales.C_SEP) AS C_SEP'),
+            DB::raw('SUM(planes_anuales.C_OCT) AS C_OCT'),DB::raw('SUM(planes_anuales.C_NOV) AS C_NOV'),DB::raw('SUM(planes_anuales.C_DIC) AS C_DIC'),
+            DB::raw('SUM(planes_anuales.C_TOTAL) AS C_TOTAL'),
+            DB::raw('ROUND(SUM(planes_anuales.T_PRECIO),0) AS T_PRECIO'))
+            ->groupby('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO')
+            ->get(); 
+
+            $get2 = DB::table('DBSiab.recepcion_detalles')
+            ->select('DBSiab.recepcion_detalles.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.recepcion_detalles.CANREC),0),0) AS SALDO'))
+            ->whereraw('DBSiab.recepcion_detalles.CODMOT IS NULL && DBSiab.recepcion_detalles.FOLIO IS NOT NULL')
+            ->groupby('DBSiab.recepcion_detalles.CODART')
+            ->get();
+
+            $get3 = DB::table('DBSiab.saldo_inventario')
+            ->select('DBSiab.saldo_inventario.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.saldo_inventario.SALDO),0),0) AS SALDO'))
+            ->groupby('DBSiab.saldo_inventario.CODART')
+            ->get();
+
+            $get4 = [];
+
+            foreach ($get2 as $key=>$a) {
+                $val = 0;
+                foreach ($get3 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get4[$key] = ['CODART' => $a->CODART,'SALDO' => $a->SALDO + $b->SALDO];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get4[$key] = ['CODART' => $a->CODART,'SALDO' => $a->SALDO];
+                    $val = 0;
+                }
+            }
+
+            $get4 = json_decode(json_encode($get4));
+
+            $get5 = DB::table('DBSiab.despacho_detalles')
+            ->select('DBSiab.despacho_detalles.CODART',
+            DB::raw('ROUND(COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0),0) AS SALDO'))
+            ->groupby('DBSiab.despacho_detalles.CODART')
+            ->get();
+
+            $get6 = [];
+
+            foreach ($get4 as $key=>$a) {
+                $val = 0;
+                foreach ($get5 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get6[$key] = ['CODART' => $a->CODART,'SALDO' => intval($a->SALDO) - intval($b->SALDO)];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get6[$key] = ['CODART' => $a->CODART,'SALDO' => intval($a->SALDO)];
+                    $val = 0;
+                }
+            }
+
+            $get6 = json_decode(json_encode($get6));
+
+            $get7 = [];
+
+            foreach ($get as $key=>$a) {
+                $val = 0;
+                foreach ($get6 as $b) {
+                    if($a->CODART == $b->CODART){
+                        $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                        'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => $b->SALDO];
+                        $val = 1;
+                    }
+                }
+                if($val == 0){
+                    $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
+                        'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                        'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'S_BODEGA' => 0];
+                    $val = 0;
+                }
+            }
+
+            $get7 = json_decode(json_encode($get7));
+
+            return $get7;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
 }

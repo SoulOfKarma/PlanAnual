@@ -29,6 +29,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/Mantenedor/GetUsers', ['middleware' => 'cors', 'uses' => 'LoginController@GetUsers']);
     Route::get('/Mantenedor/GetArticulos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@GetArticulos']);
     Route::get('/Mantenedor/GetArticulosActivos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@GetArticulosActivos']);
+    Route::get('/RAbastecimiento/ReporteConsolidadoCompleto', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoCompleto']);
     
     //Posts 
     Route::post('/Mantenedor/PostPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PostPresupuestoAnual']);
@@ -41,6 +42,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/RAbastecimiento/ReporteTotalServicio', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteTotalServicio']);
     Route::post('/RAbastecimiento/ReporteTotalByServicio', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteTotalByServicio']);
     Route::post('/RAbastecimiento/ReporteConsolidadoPorServicio', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoPorServicio']);
+    Route::post('/RAbastecimiento/ReporteConsolidadoPorServicioDespachado', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoPorServicioDespachado']);
+    Route::post('/RAbastecimiento/ReporteConsolidadoPorServicioDespachadoFecha', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoPorServicioDespachadoFecha']);
     
     //Post Como Get
     Route::post('/Mantenedor/GetPresupuestoByServBodega', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestoByServBodega']);
