@@ -1690,7 +1690,7 @@ class PlanesAnualesController extends Controller
             ->select('*')
             ->get();
 
-            $bodegas = DB::table('DBSiab.BODEGA')
+            $bodegas = DB::table('DBSiab.bodega')
             ->select('*')
             ->get();
 
@@ -1749,7 +1749,7 @@ class PlanesAnualesController extends Controller
             ->select('*')
             ->get();
 
-            $bodegas = DB::table('DBSiab.BODEGA')
+            $bodegas = DB::table('DBSiab.bodega')
             ->select('*')
             ->get();
 
