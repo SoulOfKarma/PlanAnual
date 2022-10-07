@@ -50,41 +50,8 @@
                         ></v-select>
                     </div>
                 </div>
-                <!-- Despacho por Servicio Mensual -->
-                <div class="vx-row" v-if="despachomes">
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Mes</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionMes"
-                            placeholder="Ej. Enero"
-                            class="w-full select-large"
-                            label="descripcionMes"
-                            :options="listadoMes"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Bodega</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionBodega"
-                            placeholder="Ej. Medicamentos"
-                            class="w-full select-large"
-                            label="descripcionBodega"
-                            :options="listaBodega"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargaDespachoSM"
-                            color="primary"
-                            type="filled"
-                            class="w-full"
-                            >Buscar</vs-button
-                        >
-                    </div>
-                </div>
+                <!-- Resumen Item Pre -->
+                <div class="vx-row" v-if="resumenitempre"></div>
                 <!-- Despacho Plan Anual V/S Despacho Bodega -->
                 <div class="vx-row" v-if="despachopab">
                     <div class="vx-col w-1/2 mt-5">
@@ -292,7 +259,7 @@ export default {
                 }
             },
             //Datos Generales
-            despachomes: false,
+            resumenitempre: false,
             despachopab: false,
             solicitudpdb: false,
             despachopadbt: false,
@@ -444,7 +411,7 @@ export default {
             listadoReportes: [
                 {
                     id: 1,
-                    descripcionReporte: "Despacho Por Servicio Mensual"
+                    descripcionReporte: "Resumen Item Presupuestario"
                 },
                 {
                     id: 2,
@@ -454,11 +421,6 @@ export default {
                 {
                     id: 3,
                     descripcionReporte: "Solicitud Pedido V/S Despacho Bodega"
-                },
-                {
-                    id: 4,
-                    descripcionReporte:
-                        "Despacho Plan Anual V/S Despacho Bodega Total"
                 }
             ],
             listadoMes: [
@@ -568,59 +530,123 @@ export default {
         },
         GetReporteEspecifico() {
             try {
-                //despachomes
+                //resumenitempre
                 if (this.seleccionReporte.id == 1) {
-                    this.despachomes = true;
+                    this.resumenitempre = true;
                     this.despachopab = false;
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
                     this.validadorLista = true;
                     this.column = [
                         {
-                            label: "Codigo Articulo",
-                            field: "CODART",
+                            label: "Codigo Item",
+                            field: "CODIPRE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "Descripcion",
-                            field: "NOMART",
+                            field: "NOMBREIPRE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Unidad Medida",
-                            field: "UNIMED",
+                            label: "Enero",
+                            field: "C_ENE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Precio",
-                            field: "PRECIO",
+                            label: "Febrero",
+                            field: "C_FEB",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Solicitado",
-                            field: "SOLART",
+                            label: "Marzo",
+                            field: "C_MAR",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Despachado",
-                            field: "DESART",
+                            label: "Abril",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Mayo",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Junio",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Julio",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Agosto",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Septiembre",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Octubre",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Noviembre",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Diciembre",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Total",
+                            field: "T_PRECIO",
                             filterOptions: {
                                 enabled: true
                             }
                         }
                     ];
+                    this.CargarResumenItemPresupuestario();
                 } else if (this.seleccionReporte.id == 2) {
-                    this.despachomes = false;
+                    this.resumenitempre = false;
                     this.despachopab = true;
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
@@ -667,227 +693,10 @@ export default {
                             filterOptions: {
                                 enabled: true
                             }
-                        },
-                        {
-                            label: "01",
-                            field: "DIA1",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "02",
-                            field: "DIA2",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "03",
-                            field: "DIA3",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "04",
-                            field: "DIA4",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "05",
-                            field: "DIA5",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "06",
-                            field: "DIA6",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "07",
-                            field: "DIA7",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "08",
-                            field: "DIA8",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "09",
-                            field: "DIA9",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "10",
-                            field: "DIA10",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "11",
-                            field: "DIA11",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "12",
-                            field: "DIA12",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "13",
-                            field: "DIA13",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "14",
-                            field: "DIA14",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "15",
-                            field: "DIA15",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "16",
-                            field: "DIA16",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "17",
-                            field: "DIA17",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "18",
-                            field: "DIA18",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "19",
-                            field: "DIA19",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "20",
-                            field: "DIA20",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "21",
-                            field: "DIA21",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "22",
-                            field: "DIA22",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "23",
-                            field: "DIA23",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "24",
-                            field: "DIA24",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "25",
-                            field: "DIA25",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "26",
-                            field: "DIA26",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "27",
-                            field: "DIA27",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "28",
-                            field: "DIA28",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "29",
-                            field: "DIA29",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "30",
-                            field: "DIA30",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "31",
-                            field: "DIA31",
-                            filterOptions: {
-                                enabled: true
-                            }
                         }
                     ];
                 } else if (this.seleccionReporte.id == 3) {
-                    this.despachomes = false;
+                    this.resumenitempre = false;
                     this.despachopab = false;
                     this.solicitudpdb = true;
                     this.despachopadbt = false;
@@ -931,490 +740,6 @@ export default {
                         {
                             label: "Despachado",
                             field: "DESART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "01",
-                            field: "DIA1",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "02",
-                            field: "DIA2",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "03",
-                            field: "DIA3",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "04",
-                            field: "DIA4",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "05",
-                            field: "DIA5",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "06",
-                            field: "DIA6",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "07",
-                            field: "DIA7",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "08",
-                            field: "DIA8",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "09",
-                            field: "DIA9",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "10",
-                            field: "DIA10",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "11",
-                            field: "DIA11",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "12",
-                            field: "DIA12",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "13",
-                            field: "DIA13",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "14",
-                            field: "DIA14",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "15",
-                            field: "DIA15",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "16",
-                            field: "DIA16",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "17",
-                            field: "DIA17",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "18",
-                            field: "DIA18",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "19",
-                            field: "DIA19",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "20",
-                            field: "DIA20",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "21",
-                            field: "DIA21",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "22",
-                            field: "DIA22",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "23",
-                            field: "DIA23",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "24",
-                            field: "DIA24",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "25",
-                            field: "DIA25",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "26",
-                            field: "DIA26",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "27",
-                            field: "DIA27",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "28",
-                            field: "DIA28",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "29",
-                            field: "DIA29",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "30",
-                            field: "DIA30",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "31",
-                            field: "DIA31",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        }
-                    ];
-                } else if (this.seleccionReporte.id == 4) {
-                    this.despachomes = false;
-                    this.despachopab = false;
-                    this.solicitudpdb = false;
-                    this.despachopadbt = true;
-                    this.validadorLista = true;
-                    this.column = [
-                        {
-                            label: "Codigo Articulo",
-                            field: "CODART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Descripcion",
-                            field: "NOMART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Unidad Medida",
-                            field: "UNIMED",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Precio",
-                            field: "PRECIO",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Solicitado",
-                            field: "SOLART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Despachado",
-                            field: "DESART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "01",
-                            field: "DIA1",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "02",
-                            field: "DIA2",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "03",
-                            field: "DIA3",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "04",
-                            field: "DIA4",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "05",
-                            field: "DIA5",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "06",
-                            field: "DIA6",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "07",
-                            field: "DIA7",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "08",
-                            field: "DIA8",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "09",
-                            field: "DIA9",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "10",
-                            field: "DIA10",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "11",
-                            field: "DIA11",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "12",
-                            field: "DIA12",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "13",
-                            field: "DIA13",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "14",
-                            field: "DIA14",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "15",
-                            field: "DIA15",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "16",
-                            field: "DIA16",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "17",
-                            field: "DIA17",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "18",
-                            field: "DIA18",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "19",
-                            field: "DIA19",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "20",
-                            field: "DIA20",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "21",
-                            field: "DIA21",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "22",
-                            field: "DIA22",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "23",
-                            field: "DIA23",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "24",
-                            field: "DIA24",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "25",
-                            field: "DIA25",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "26",
-                            field: "DIA26",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "27",
-                            field: "DIA27",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "28",
-                            field: "DIA28",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "29",
-                            field: "DIA29",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "30",
-                            field: "DIA30",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "31",
-                            field: "DIA31",
                             filterOptions: {
                                 enabled: true
                             }
@@ -1499,6 +824,36 @@ export default {
                                 title: "Error",
                                 text:
                                     "No hay datos o no se cargaron los datos de las Bodegas correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        CargarResumenItemPresupuestario() {
+            try {
+                axios
+                    .get(
+                        this.localVal +
+                            "/api/RAbastecimiento/ReporteItemPresupuestario",
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.listadoGeneral = res.data;
+                        if (this.listadoGeneral.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos correctamente",
                                 color: "danger",
                                 position: "top-right"
                             });
