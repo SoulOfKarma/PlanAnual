@@ -52,133 +52,8 @@
                 </div>
                 <!-- Resumen Item Pre -->
                 <div class="vx-row" v-if="resumenitempre"></div>
-                <!-- Despacho Plan Anual V/S Despacho Bodega -->
-                <div class="vx-row" v-if="despachopab">
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Servicio</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionServicio"
-                            placeholder="Ej. MEDICINA-CIRUGIA"
-                            class="w-full select-large"
-                            label="descripcionServicio"
-                            :options="listadoServicios"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Mes</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionMes"
-                            placeholder="Ej. Enero"
-                            class="w-full select-large"
-                            label="descripcionMes"
-                            :options="listadoMes"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>Seleccione Bodega</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionBodega"
-                            placeholder="Ej. Medicamentos"
-                            class="w-full select-large"
-                            label="descripcionBodega"
-                            :options="listaBodega"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargaDespachoPADB"
-                            color="primary"
-                            type="filled"
-                            class="w-full"
-                            >Buscar</vs-button
-                        >
-                    </div>
-                </div>
-                <!-- Solicitud Pedido V/S Despacho Bodega -->
-                <div class="vx-row" v-if="solicitudpdb">
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Servicio</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionServicio"
-                            placeholder="Ej. MEDICINA-CIRUGIA"
-                            class="w-full select-large"
-                            label="descripcionServicio"
-                            :options="listadoServicios"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Mes</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionMes"
-                            placeholder="Ej. Enero"
-                            class="w-full select-large"
-                            label="descripcionMes"
-                            :options="listadoMes"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>Seleccione Bodega</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionBodega"
-                            placeholder="Ej. Medicamentos"
-                            class="w-full select-large"
-                            label="descripcionBodega"
-                            :options="listaBodega"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargaDespachoSPDB"
-                            color="primary"
-                            type="filled"
-                            class="w-full"
-                            >Buscar</vs-button
-                        >
-                    </div>
-                </div>
-                <!-- Despacho Plan Anual V/S Despacho Bodega Total -->
-                <div class="vx-row" v-if="despachopadbt">
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Servicio</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionServicio"
-                            placeholder="Ej. MEDICINA-CIRUGIA"
-                            class="w-full select-large"
-                            label="descripcionServicio"
-                            :options="listadoServicios"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>Seleccione Bodega</h6>
-                        <v-select
-                            taggable
-                            v-model="seleccionBodega"
-                            placeholder="Ej. Medicamentos"
-                            class="w-full select-large"
-                            label="descripcionBodega"
-                            :options="listaBodega"
-                        ></v-select>
-                    </div>
-                    <div class="vx-col w-full mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargaDespachoPADBT"
-                            color="primary"
-                            type="filled"
-                            class="w-full"
-                            >Buscar</vs-button
-                        >
-                    </div>
-                </div>
+                <!-- Resumen Item Pre Servicio -->
+                <div class="vx-row" v-if="resumenitempreServicio"></div>
                 <br />
                 <!-- Lista Tabla Segun Reporte -->
                 <div class="vx-row" v-if="validadorLista">
@@ -260,7 +135,7 @@ export default {
             },
             //Datos Generales
             resumenitempre: false,
-            despachopab: false,
+            resumenitempreServicio: false,
             solicitudpdb: false,
             despachopadbt: false,
             validadorLista: false,
@@ -416,11 +291,7 @@ export default {
                 {
                     id: 2,
                     descripcionReporte:
-                        "Despacho Plan Anual V/S Despacho Bodega"
-                },
-                {
-                    id: 3,
-                    descripcionReporte: "Solicitud Pedido V/S Despacho Bodega"
+                        "Resumen Item Presupuestario Por Servicio"
                 }
             ],
             listadoMes: [
@@ -533,7 +404,7 @@ export default {
                 //resumenitempre
                 if (this.seleccionReporte.id == 1) {
                     this.resumenitempre = true;
-                    this.despachopab = false;
+                    this.resumenitempreServicio = false;
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
                     this.validadorLista = true;
@@ -647,133 +518,126 @@ export default {
                     this.CargarResumenItemPresupuestario();
                 } else if (this.seleccionReporte.id == 2) {
                     this.resumenitempre = false;
-                    this.despachopab = true;
+                    this.resumenitempreServicio = true;
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
                     this.validadorLista = true;
                     this.column = [
                         {
-                            label: "Codigo Articulo",
-                            field: "CODART",
+                            label: "Servicio",
+                            field: "NOMSER",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Codigo Item",
+                            field: "CODIPRE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
                             label: "Descripcion",
-                            field: "NOMART",
+                            field: "NOMBREIPRE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Unidad Medida",
-                            field: "UNIMED",
+                            label: "Enero",
+                            field: "C_ENE",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Precio",
-                            field: "PRECIO",
+                            label: "Febrero",
+                            field: "C_FEB",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Solicitado",
-                            field: "SOLART",
+                            label: "Marzo",
+                            field: "C_MAR",
                             filterOptions: {
                                 enabled: true
                             }
                         },
                         {
-                            label: "Despachado",
-                            field: "DESART",
+                            label: "Abril",
+                            field: "C_ABR",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Mayo",
+                            field: "C_MAY",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Junio",
+                            field: "C_JUN",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Julio",
+                            field: "C_JUL",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Agosto",
+                            field: "C_AGO",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Septiembre",
+                            field: "C_SEP",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Octubre",
+                            field: "C_OCT",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Noviembre",
+                            field: "C_NOV",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Diciembre",
+                            field: "C_DIC",
+                            filterOptions: {
+                                enabled: true
+                            }
+                        },
+                        {
+                            label: "Total",
+                            field: "T_PRECIO",
                             filterOptions: {
                                 enabled: true
                             }
                         }
                     ];
-                } else if (this.seleccionReporte.id == 3) {
-                    this.resumenitempre = false;
-                    this.despachopab = false;
-                    this.solicitudpdb = true;
-                    this.despachopadbt = false;
-                    this.validadorLista = true;
-                    this.column = [
-                        {
-                            label: "Codigo Articulo",
-                            field: "CODART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Descripcion",
-                            field: "NOMART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Unidad Medida",
-                            field: "UNIMED",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Precio",
-                            field: "PRECIO",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Solicitado",
-                            field: "SOLART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Despachado",
-                            field: "DESART",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        }
-                    ];
+                    this.CargarResumenItemPresupuestarioServicio();
                 }
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        CargaDespachoSM() {
-            try {
-                console.log("Mensaje?");
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        CargaDespachoPADB() {
-            try {
-                console.log("Mensaje?");
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        CargaDespachoSPDB() {
-            try {
-                console.log("Mensaje?");
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        CargaDespachoPADBT() {
-            try {
-                console.log("Mensaje?");
             } catch (error) {
                 console.log(error);
             }
@@ -839,6 +703,36 @@ export default {
                     .get(
                         this.localVal +
                             "/api/RAbastecimiento/ReporteItemPresupuestario",
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.listadoGeneral = res.data;
+                        if (this.listadoGeneral.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        CargarResumenItemPresupuestarioServicio() {
+            try {
+                axios
+                    .get(
+                        this.localVal +
+                            "/api/RAbastecimiento/ReporteItemPresupuestarioServicios",
                         {
                             headers: {
                                 Authorization:

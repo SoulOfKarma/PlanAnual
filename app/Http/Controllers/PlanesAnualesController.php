@@ -2356,4 +2356,26 @@ class PlanesAnualesController extends Controller
             return false;
         }
     }
+    //Reporte Contable
+    public function ReporteItemPresupuestarioServicios(){
+        try {
+            $get = PlanesAnuales::select(DB::raw('SUM(planes_anuales.C_ENE * planes_anuales.PRECIO) AS C_ENE'),DB::raw('SUM(planes_anuales.C_FEB * planes_anuales.PRECIO) AS C_FEB'),
+            DB::raw('SUM(planes_anuales.C_MAR * planes_anuales.PRECIO) AS C_MAR'),DB::raw('SUM(planes_anuales.C_ABR * planes_anuales.PRECIO) AS C_ABR'),
+            DB::raw('SUM(planes_anuales.C_MAY * planes_anuales.PRECIO) AS C_MAY'),DB::raw('SUM(planes_anuales.C_JUN * planes_anuales.PRECIO) AS C_JUN'),
+            DB::raw('SUM(planes_anuales.C_JUL * planes_anuales.PRECIO) AS C_JUL'),DB::raw('SUM(planes_anuales.C_AGO * planes_anuales.PRECIO) AS C_AGO'),
+            DB::raw('SUM(planes_anuales.C_SEP * planes_anuales.PRECIO) AS C_SEP'),DB::raw('SUM(planes_anuales.C_OCT * planes_anuales.PRECIO) AS C_OCT'),
+            DB::raw('SUM(planes_anuales.C_NOV * planes_anuales.PRECIO) AS C_NOV'),DB::raw('SUM(planes_anuales.C_DIC * planes_anuales.PRECIO) AS C_DIC'),
+            DB::raw('SUM(planes_anuales.T_PRECIO) AS T_PRECIO'),DB::raw('COALESCE(item_presupuestarios.CODIPRE,0) AS CODIPRE'),
+            DB::raw('COALESCE(item_presupuestarios.NOMBREIPRE,0) AS NOMBREIPRE'),
+            DB::raw('COALESCE(planes_anuales.NOMSER,0) AS NOMSER'))
+            ->join('item_presupuestarios','planes_anuales.CODART','=', 'item_presupuestarios.CODART')
+            ->groupby('item_presupuestarios.CODIPRE','item_presupuestarios.NOMBREIPRE','planes_anuales.NOMSER')
+            ->get();
+
+            return $get;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
 }
