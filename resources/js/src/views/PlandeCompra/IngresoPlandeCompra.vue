@@ -1179,6 +1179,7 @@ export default {
                     this.popUpAgregarArticulo = true;
                     this.popUpAgregarArticuloPAnual = false;
                 } else {
+                    console.log(this.panualval);
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
@@ -1421,9 +1422,15 @@ export default {
                                 color: "danger",
                                 position: "top-right"
                             });
-                        } else if (this.rows[0].PANUALVAL == 0) {
-                            this.panualval = 0;
                         }
+
+                        this.rows.forEach((value, ind) => {
+                            if (value.PANUALVAL == 0) {
+                                this.panualval = 0;
+                            } else {
+                                this.panualval = value.PANUALVAL;
+                            }
+                        });
                     });
             } catch (error) {
                 console.log(error);
