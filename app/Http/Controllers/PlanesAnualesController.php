@@ -2371,7 +2371,22 @@ class PlanesAnualesController extends Controller
             ->groupby('item_presupuestarios.CODIPRE','item_presupuestarios.NOMBREIPRE')
             ->get();
 
-            return $get;
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
+            $dato = [];
+
+            foreach ($get as $key=>$b) {
+                    $dato[$key] = ['C_ENE' => $fmt->formatCurrency($b->C_ENE, "CLP"),'C_FEB' => $fmt->formatCurrency($b->C_FEB, "CLP"),
+                    'C_MAR' => $fmt->formatCurrency($b->C_MAR, "CLP"),'C_ABR' => $fmt->formatCurrency($b->C_ABR, "CLP"),
+                    'C_MAY' => $fmt->formatCurrency($b->C_MAY, "CLP"),'C_JUN' => $fmt->formatCurrency($b->C_JUN, "CLP"),
+                    'C_JUL' => $fmt->formatCurrency($b->C_JUL, "CLP"),'C_AGO' => $fmt->formatCurrency($b->C_AGO, "CLP"),
+                    'C_SEP' => $fmt->formatCurrency($b->C_SEP, "CLP"),'C_OCT' => $fmt->formatCurrency($b->C_OCT, "CLP"),
+                    'C_NOV' => $fmt->formatCurrency($b->C_NOV, "CLP"),'C_DIC' => $fmt->formatCurrency($b->C_DIC, "CLP"),
+                    'C_TOTAL' => $fmt->formatCurrency($b->C_TOTAL, "CLP"),'T_PRECIO' => $fmt->formatCurrency($b->T_PRECIO, "CLP"),
+                    'CODIPRE' => $b->CODIPRE,'NOMBREIPRE' => $b->NOMBREIPRE];
+            }
+
+            return $dato;
         } catch (\Throwable $th) {
             log::info($th);
             return false;
@@ -2393,7 +2408,22 @@ class PlanesAnualesController extends Controller
             ->groupby('item_presupuestarios.CODIPRE','item_presupuestarios.NOMBREIPRE','planes_anuales.NOMSER')
             ->get();
 
-            return $get;
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
+            $dato = [];
+
+            foreach ($get as $key=>$b) {
+                    $dato[$key] = ['C_ENE' => $fmt->formatCurrency($b->C_ENE, "CLP"),'C_FEB' => $fmt->formatCurrency($b->C_FEB, "CLP"),
+                    'C_MAR' => $fmt->formatCurrency($b->C_MAR, "CLP"),'C_ABR' => $fmt->formatCurrency($b->C_ABR, "CLP"),
+                    'C_MAY' => $fmt->formatCurrency($b->C_MAY, "CLP"),'C_JUN' => $fmt->formatCurrency($b->C_JUN, "CLP"),
+                    'C_JUL' => $fmt->formatCurrency($b->C_JUL, "CLP"),'C_AGO' => $fmt->formatCurrency($b->C_AGO, "CLP"),
+                    'C_SEP' => $fmt->formatCurrency($b->C_SEP, "CLP"),'C_OCT' => $fmt->formatCurrency($b->C_OCT, "CLP"),
+                    'C_NOV' => $fmt->formatCurrency($b->C_NOV, "CLP"),'C_DIC' => $fmt->formatCurrency($b->C_DIC, "CLP"),
+                    'C_TOTAL' => $fmt->formatCurrency($b->C_TOTAL, "CLP"),'T_PRECIO' => $fmt->formatCurrency($b->T_PRECIO, "CLP"),
+                    'CODIPRE' => $b->CODIPRE,'NOMBREIPRE' => $b->NOMBREIPRE,'NOMSER' => $b->NOMSER];
+            }
+
+            return $dato;
         } catch (\Throwable $th) {
             log::info($th);
             return false;
