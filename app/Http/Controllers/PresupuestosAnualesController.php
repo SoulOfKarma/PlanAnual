@@ -76,13 +76,15 @@ class PresupuestosAnualesController extends Controller
             $panual = 0;
             $utilizado = 0;
             $restante = 0;
+            $panualVal = 0;
 
             foreach ($get as $key=>$a) {
                 $anio = $a->ANIO;
                 $nomser = $a->NOMSER;
                 $panual = $a->P_ANUAL;
                 $utilizado = $a->UTILIZADO;
-                $restante = $a->RESTANTE;                
+                $restante = $a->RESTANTE;
+                $panualVal = $a->P_ANUAL;              
             }
 
             $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
@@ -92,7 +94,7 @@ class PresupuestosAnualesController extends Controller
 
             $get = [];
             $get[0] = ['ANIO' => $anio, 'NOMSER' => $nomser, 'P_ANUAL' => $panual, 'UTILIZADO' => $utilizado,
-            'RESTANTE' => $restante];
+            'RESTANTE' => $restante,'PANUALVAL' => $panualVal];
 
             return $get;
         } catch (\Throwable $th) {

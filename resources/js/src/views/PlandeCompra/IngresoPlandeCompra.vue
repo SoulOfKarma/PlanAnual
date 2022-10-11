@@ -714,6 +714,7 @@ export default {
             cantidadTotal: 0,
             precioTotal: 0,
             topeMaximo: 0,
+            panualval: 0,
             obs: "",
             C_ENE: 0,
             C_FEB: 0,
@@ -1174,7 +1175,7 @@ export default {
         //PopUp
         popArticulosPAnual() {
             try {
-                if (this.rows.length > 0) {
+                if (this.rows.length > 0 && this.panualval > 0) {
                     this.popUpAgregarArticulo = true;
                     this.popUpAgregarArticuloPAnual = false;
                 } else {
@@ -1420,6 +1421,8 @@ export default {
                                 color: "danger",
                                 position: "top-right"
                             });
+                        } else if (this.rows[0].PANUALVAL == 0) {
+                            this.panualval = 0;
                         }
                     });
             } catch (error) {
@@ -1812,13 +1815,13 @@ export default {
     beforeMount() {
         this.TraerServicio();
         this.TraerArticulos();
-        this.cargarValidacionEstado();
         setTimeout(() => {
             this.TraerListadoPresupuestos();
             this.TraerArticulosPresupuesto();
             this.TraerTotalArticulosPresupuesto();
             this.cargarArticulosSegunBodega();
             //this.TraerUsuarios();
+            this.cargarValidacionEstado();
             this.openLoadingColor();
         }, 2000);
     }
