@@ -42,6 +42,20 @@
                                         )
                                     "
                                 ></plus-circle-icon>
+                                <plus-circle-icon
+                                    content="Eliminar Presupuesto"
+                                    v-tippy
+                                    size="1.5x"
+                                    class="custom-class"
+                                    @click="
+                                        popEliminarPresupuestoAnual(
+                                            props.row.id,
+                                            props.row.NOMSER,
+                                            props.row.ANIO,
+                                            props.row.P_ANUAL
+                                        )
+                                    "
+                                ></plus-circle-icon>
                             </span>
                             <!-- Column: Common -->
                             <span v-else>
@@ -181,6 +195,37 @@
                     <div class="vx-row"></div>
                 </div>
             </vs-popup>
+            <vs-popup
+                classContent="Presupuesto"
+                title="Eliminar Presupuesto"
+                :active.sync="popUpListaPresupuestoDel"
+            >
+                <div class="vx-col md:w-1/1 w-full mb-base">
+                    <vx-card title="">
+                        <div class="vx-row">
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="popUpListaPresupuestoDel = false"
+                                    color="primary"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Volver</vs-button
+                                >
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="EliminarPresupuestoAnual"
+                                    color="danger"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Eliminar Presupuesto</vs-button
+                                >
+                            </div>
+                        </div>
+                    </vx-card>
+                    <div class="vx-row"></div>
+                </div>
+            </vs-popup>
         </vx-card>
     </div>
 </template>
@@ -283,6 +328,7 @@ export default {
             //Datos Campos
             popUpListaPresupuesto: false,
             popUpListaPresupuestoMod: false,
+            popUpListaPresupuestoDel: false,
             fechaPAnual: null,
             anio: null,
             idMod: 0,
@@ -479,6 +525,14 @@ export default {
                 console.log(error);
             }
         },
+        popEliminarPresupuestoAnual(id) {
+            try {
+                this.popUpListaPresupuestoDel = true;
+                this.idMod = id;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         //Carga de Datos
         TraerServicio() {
             try {
@@ -512,7 +566,7 @@ export default {
                 axios
                     .get(
                         this.localVal +
-                            "/api/Mantenedor/GetPresupuestosGenerales",
+                            "/api/Mantenedor/GetPresupuestosFormato",
                         {
                             headers: {
                                 Authorization:
@@ -730,6 +784,54 @@ export default {
                             }
                         });
                 }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        EliminarPresupuestoAnual() {
+            try {
+                let data = {
+                    id: this.idMod
+                };
+
+                const dat = data;
+
+                axios
+                    .post(
+                        this.localVal +
+                            "/api/Mantenedor/DeletePresupuestoAnual",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        const solicitudServer = res.data;
+                        if (solicitudServer == true) {
+                            this.limpiarCampos();
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Completado",
+                                text: "Presupuesto Eliminado Correctamente",
+                                color: "success",
+                                position: "top-right"
+                            });
+                            this.popUpListaPresupuestoDel = false;
+                            this.TraerListadoPresupuestos();
+                        } else {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No fue posible Eliminar el presupuesto,intentelo nuevamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
             } catch (error) {
                 console.log(error);
             }

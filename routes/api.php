@@ -32,6 +32,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/RAbastecimiento/ReporteConsolidadoCompleto', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoCompleto']);
     Route::get('/RAbastecimiento/ReporteItemPresupuestario', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteItemPresupuestario']);
     Route::get('/RAbastecimiento/ReporteItemPresupuestarioServicios', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteItemPresupuestarioServicios']);
+    Route::get('/Mantenedor/GetPresupuestosFormato', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestosFormato']);
     
     //Posts 
     Route::post('/Mantenedor/PostPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PostPresupuestoAnual']);
@@ -60,6 +61,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
     //Post como Delete
     Route::post('/PCompra/DestroyArticuloServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@DestroyArticuloServ']);
+    Route::post('/Mantenedor/DeletePresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@DeletePresupuestoAnual']);
 
     //Post Documentos
     Route::post('/Mantenedor/PostDocumentoAuthUsuario', ['middleware' => 'cors', 'uses' => 'DocumentacionAuthUsuariosController@PostDocumentoAuthUsuario']);

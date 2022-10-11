@@ -6,6 +6,7 @@ use App\siabArticulos;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Log;
+use \NumberFormatter;
 
 class SiabArticulosController extends Controller
 {
@@ -14,7 +15,17 @@ class SiabArticulosController extends Controller
             $data = siabArticulos::select('id','CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')
             ->distinct()
             ->get();
-            return $data;
+
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
+            $get = [];
+
+            foreach ($data as $key=>$a) {
+                $get[$key] = ['id' => $a->id,'CODART' => $a->CODART,'NOMBRE' => $a->NOMBRE,'UNIMED' => $a->UNIMED,
+                'PRECIO' => $fmt->formatCurrency($a->PRECIO, "CLP"),'idEstado' => $a->idEstado,'idBodega' => $a->idBodega];
+            }
+
+            return $get;
         } catch (\Throwable $th) {
             log::info($th);
             return false;

@@ -42,6 +42,17 @@ class PresupuestosAnualesController extends Controller
         }
     }
 
+    public function DeletePresupuestoAnual(Request $request){
+        try {
+            PresupuestosAnuales::where('id',$request->id)
+            ->delete();
+            return true;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
     public function GetPresupuestoByServBodega(Request $request){
         try {
             $get = PresupuestosAnuales::select('presupuestos_anuales.ANIO','presupuestos_anuales.NOMSER','presupuestos_anuales.P_ANUAL',
@@ -82,6 +93,27 @@ class PresupuestosAnualesController extends Controller
             $get = [];
             $get[0] = ['ANIO' => $anio, 'NOMSER' => $nomser, 'P_ANUAL' => $panual, 'UTILIZADO' => $utilizado,
             'RESTANTE' => $restante];
+
+            return $get;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function GetPresupuestosFormato(){
+        try {
+            $data = PresupuestosAnuales::select('id','NOMSER','ANIO','P_ANUAL')
+            ->get();
+
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
+            $get = [];
+
+            foreach ($data as $key=>$a) {
+                $get[$key] = ['id' => $a->id,'NOMSER' => $a->NOMSER,'ANIO' => $a->ANIO,
+                'P_ANUAL' => $fmt->formatCurrency($a->P_ANUAL, "CLP")];
+            }
 
             return $get;
         } catch (\Throwable $th) {

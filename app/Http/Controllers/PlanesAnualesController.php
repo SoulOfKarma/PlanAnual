@@ -1475,6 +1475,8 @@ class PlanesAnualesController extends Controller
 
             $get7 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get as $key=>$a) {
                 $val = 0;
                 foreach ($get6 as $b) {
@@ -1482,7 +1484,7 @@ class PlanesAnualesController extends Controller
                         $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
                         'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
-                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $b->SALDO];
                         $val = 1;
                     }
@@ -1491,7 +1493,7 @@ class PlanesAnualesController extends Controller
                     $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
                         'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
-                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => 0];
                     $val = 0;
                 }
@@ -1644,6 +1646,8 @@ class PlanesAnualesController extends Controller
 
             $get9 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get7 as $key=>$a) {
                 $val = 0;
                 foreach ($get8 as $b) {
@@ -1651,7 +1655,7 @@ class PlanesAnualesController extends Controller
                         $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'D_ENE' => $b->ENERO,'C_FEB' => $a->C_FEB,'D_FEB' => $b->FEBRERO,'C_MAR' => $a->C_MAR,'D_MAR' => $b->MARZO,'C_ABR' => $a->C_ABR,'D_ABR' => $b->ABRIL,'C_MAY' => $a->C_MAY,'D_MAY' => $b->MAYO,
                         'C_JUN' => $a->C_JUN,'D_JUN' => $b->JUNIO,'C_JUL' => $a->C_JUL,'D_JUL' => $b->JULIO,'C_AGO' => $a->C_AGO,'D_AGO' => $b->AGOSTO,'C_SEP' => $a->C_SEP,'D_SEP' => $b->SEPTIEMBRE,'C_OCT' => $a->C_OCT,'D_OCT' => $b->OCTUBRE,
-                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $a->S_BODEGA];
                         $val = 1;
                     }
@@ -1660,7 +1664,7 @@ class PlanesAnualesController extends Controller
                     $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'D_ENE' => 0,'C_FEB' => $a->C_FEB,'D_FEB' => 0,'C_MAR' => $a->C_MAR,'D_MAR' => 0,'C_ABR' => $a->C_ABR,'D_ABR' => 0,'C_MAY' => $a->C_MAY,'D_MAY' => 0,
                         'C_JUN' => $a->C_JUN,'D_JUN' => 0,'C_JUL' => $a->C_JUL,'D_JUL' => 0,'C_AGO' => $a->C_AGO,'D_AGO' => 0,'C_SEP' => $a->C_SEP,'D_SEP' => 0,'C_OCT' => $a->C_OCT,'D_OCT' => 0,
-                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $a->S_BODEGA];
                     $val = 0;
                 }
@@ -1697,13 +1701,18 @@ class PlanesAnualesController extends Controller
 
             $get1 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get as $key=>$a) {
                 foreach ($servicios as $b) {
                     if($a->idServicio == $b->id){
-                        $get1[$key] = ['NOMSER' => $b->descripcionServicio,'BODEGA' => $a->BODEGA,'ENERO' => $a->ENERO,
-                        'FEBRERO' => $a->FEBRERO,'MARZO' => $a->MARZO,'ABRIL' => $a->ABRIL,'MAYO' => $a->MAYO,'JUNIO' => $a->JUNIO,
-                        'JULIO' => $a->JULIO,'AGOSTO' => $a->AGOSTO,'SEPTIEMBRE' => $a->SEPTIEMBRE,'OCTUBRE' => $a->OCTUBRE,
-                        'NOVIEMBRE' => $a->NOVIEMBRE,'DICIEMBRE' => $a->DICIEMBRE,'T_PRECIO' => $a->T_PRECIO];
+                        $get1[$key] = ['NOMSER' => $b->descripcionServicio,'BODEGA' => $a->BODEGA,'ENERO' => $fmt->formatCurrency($a->ENERO, "CLP"),'FEBRERO' => $fmt->formatCurrency($a->FEBRERO, "CLP"),
+                        'MARZO' => $fmt->formatCurrency($a->MARZO, "CLP"),'ABRIL' => $fmt->formatCurrency($a->ABRIL, "CLP"),
+                        'MAYO' => $fmt->formatCurrency($a->MAYO, "CLP"),'JUNIO' => $fmt->formatCurrency($a->JUNIO, "CLP"),
+                        'JULIO' => $fmt->formatCurrency($a->JULIO, "CLP"),'AGOSTO' => $fmt->formatCurrency($a->AGOSTO, "CLP"),
+                        'SEPTIEMBRE' => $fmt->formatCurrency($a->SEPTIEMBRE, "CLP"),'OCTUBRE' => $fmt->formatCurrency($a->OCTUBRE,"CLP"),
+                        'NOVIEMBRE' => $fmt->formatCurrency($a->NOVIEMBRE, "CLP"),'DICIEMBRE' => $fmt->formatCurrency($a->DICIEMBRE, "CLP"),
+                        'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP")];
                     }
                 }
             }
@@ -1756,13 +1765,19 @@ class PlanesAnualesController extends Controller
 
             $get1 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get as $key=>$a) {
                 foreach ($servicios as $b) {
                     if($a->idServicio == $b->id){
-                        $get1[$key] = ['NOMSER' => $b->descripcionServicio,'BODEGA' => $a->BODEGA,'ENERO' => $a->ENERO,
-                        'FEBRERO' => $a->FEBRERO,'MARZO' => $a->MARZO,'ABRIL' => $a->ABRIL,'MAYO' => $a->MAYO,'JUNIO' => $a->JUNIO,
-                        'JULIO' => $a->JULIO,'AGOSTO' => $a->AGOSTO,'SEPTIEMBRE' => $a->SEPTIEMBRE,'OCTUBRE' => $a->OCTUBRE,
-                        'NOVIEMBRE' => $a->NOVIEMBRE,'DICIEMBRE' => $a->DICIEMBRE,'T_PRECIO' => $a->T_PRECIO];
+                        $get1[$key] = ['NOMSER' => $b->descripcionServicio,'BODEGA' => $a->BODEGA,
+                        'ENERO' => $fmt->formatCurrency($a->ENERO, "CLP"),'FEBRERO' => $fmt->formatCurrency($a->FEBRERO, "CLP"),
+                        'MARZO' => $fmt->formatCurrency($a->MARZO, "CLP"),'ABRIL' => $fmt->formatCurrency($a->ABRIL, "CLP"),
+                        'MAYO' => $fmt->formatCurrency($a->MAYO, "CLP"),'JUNIO' => $fmt->formatCurrency($a->JUNIO, "CLP"),
+                        'JULIO' => $fmt->formatCurrency($a->JULIO, "CLP"),'AGOSTO' => $fmt->formatCurrency($a->AGOSTO, "CLP"),
+                        'SEPTIEMBRE' => $fmt->formatCurrency($a->SEPTIEMBRE, "CLP"),'OCTUBRE' => $fmt->formatCurrency($a->OCTUBRE,"CLP"),
+                        'NOVIEMBRE' => $fmt->formatCurrency($a->NOVIEMBRE, "CLP"),'DICIEMBRE' => $fmt->formatCurrency($a->DICIEMBRE, "CLP"),
+                        'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP")];
                     }
                 }
             }
@@ -1860,6 +1875,8 @@ class PlanesAnualesController extends Controller
 
             $get7 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get as $key=>$a) {
                 $val = 0;
                 foreach ($get6 as $b) {
@@ -1867,7 +1884,7 @@ class PlanesAnualesController extends Controller
                         $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
                         'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
-                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $b->SALDO];
                         $val = 1;
                     }
@@ -1876,7 +1893,7 @@ class PlanesAnualesController extends Controller
                     $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
                         'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
-                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => 0];
                     $val = 0;
                 }
@@ -1905,8 +1922,6 @@ class PlanesAnualesController extends Controller
             ->where('planes_anuales.idServicio',$request->idServicio)
             ->groupby('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO')
             ->get(); 
-
-            log::info($get);
 
             $get2 = DB::table('DBSiab.recepcion_detalles')
             ->select('DBSiab.recepcion_detalles.CODART',
@@ -2035,6 +2050,8 @@ class PlanesAnualesController extends Controller
 
             $get9 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get7 as $key=>$a) {
                 $val = 0;
                 foreach ($get8 as $b) {
@@ -2042,7 +2059,7 @@ class PlanesAnualesController extends Controller
                         $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'D_ENE' => $b->ENERO,'C_FEB' => $a->C_FEB,'D_FEB' => $b->FEBRERO,'C_MAR' => $a->C_MAR,'D_MAR' => $b->MARZO,'C_ABR' => $a->C_ABR,'D_ABR' => $b->ABRIL,'C_MAY' => $a->C_MAY,'D_MAY' => $b->MAYO,
                         'C_JUN' => $a->C_JUN,'D_JUN' => $b->JUNIO,'C_JUL' => $a->C_JUL,'D_JUL' => $b->JULIO,'C_AGO' => $a->C_AGO,'D_AGO' => $b->AGOSTO,'C_SEP' => $a->C_SEP,'D_SEP' => $b->SEPTIEMBRE,'C_OCT' => $a->C_OCT,'D_OCT' => $b->OCTUBRE,
-                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $a->S_BODEGA];
                         $val = 1;
                     }
@@ -2051,7 +2068,7 @@ class PlanesAnualesController extends Controller
                     $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'D_ENE' => 0,'C_FEB' => $a->C_FEB,'D_FEB' => 0,'C_MAR' => $a->C_MAR,'D_MAR' => 0,'C_ABR' => $a->C_ABR,'D_ABR' => 0,'C_MAY' => $a->C_MAY,'D_MAY' => 0,
                         'C_JUN' => $a->C_JUN,'D_JUN' => 0,'C_JUL' => $a->C_JUL,'D_JUL' => 0,'C_AGO' => $a->C_AGO,'D_AGO' => 0,'C_SEP' => $a->C_SEP,'D_SEP' => 0,'C_OCT' => $a->C_OCT,'D_OCT' => 0,
-                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $a->S_BODEGA];
                     $val = 0;
                 }
@@ -2207,6 +2224,8 @@ class PlanesAnualesController extends Controller
 
             $get9 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get7 as $key=>$a) {
                 $val = 0;
                 foreach ($get8 as $b) {
@@ -2214,7 +2233,7 @@ class PlanesAnualesController extends Controller
                         $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'D_ENE' => $b->ENERO,'C_FEB' => $a->C_FEB,'D_FEB' => $b->FEBRERO,'C_MAR' => $a->C_MAR,'D_MAR' => $b->MARZO,'C_ABR' => $a->C_ABR,'D_ABR' => $b->ABRIL,'C_MAY' => $a->C_MAY,'D_MAY' => $b->MAYO,
                         'C_JUN' => $a->C_JUN,'D_JUN' => $b->JUNIO,'C_JUL' => $a->C_JUL,'D_JUL' => $b->JULIO,'C_AGO' => $a->C_AGO,'D_AGO' => $b->AGOSTO,'C_SEP' => $a->C_SEP,'D_SEP' => $b->SEPTIEMBRE,'C_OCT' => $a->C_OCT,'D_OCT' => $b->OCTUBRE,
-                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => $b->NOVIEMBRE,'C_DIC' => $a->C_DIC,'D_DIC' => $b->DICIEMBRE,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $a->S_BODEGA];
                         $val = 1;
                     }
@@ -2223,7 +2242,7 @@ class PlanesAnualesController extends Controller
                     $get9[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'D_ENE' => 0,'C_FEB' => $a->C_FEB,'D_FEB' => 0,'C_MAR' => $a->C_MAR,'D_MAR' => 0,'C_ABR' => $a->C_ABR,'D_ABR' => 0,'C_MAY' => $a->C_MAY,'D_MAY' => 0,
                         'C_JUN' => $a->C_JUN,'D_JUN' => 0,'C_JUL' => $a->C_JUL,'D_JUL' => 0,'C_AGO' => $a->C_AGO,'D_AGO' => 0,'C_SEP' => $a->C_SEP,'D_SEP' => 0,'C_OCT' => $a->C_OCT,'D_OCT' => 0,
-                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'D_NOV' => 0,'C_DIC' => $a->C_DIC,'D_DIC' => 0,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $a->S_BODEGA];
                     $val = 0;
                 }
@@ -2305,6 +2324,8 @@ class PlanesAnualesController extends Controller
 
             $get7 = [];
 
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+
             foreach ($get as $key=>$a) {
                 $val = 0;
                 foreach ($get6 as $b) {
@@ -2312,7 +2333,7 @@ class PlanesAnualesController extends Controller
                         $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
                         'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
-                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => $b->SALDO];
                         $val = 1;
                     }
@@ -2321,7 +2342,7 @@ class PlanesAnualesController extends Controller
                     $get7[$key] = ['CODART' => $a->CODART,'NOMART' => $a->NOMART,'UNIMED' => $a->UNIMED,'PRECIO' => $a->PRECIO,
                         'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
                         'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
-                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $a->T_PRECIO,
+                        'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),
                         'S_BODEGA' => 0];
                     $val = 0;
                 }
