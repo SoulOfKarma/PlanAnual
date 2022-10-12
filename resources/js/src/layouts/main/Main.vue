@@ -333,9 +333,9 @@ export default {
                 icon: "HomeIcon",
                 submenu: [
                     {
-                        url: "/Reportes/ReportesGenerales",
-                        name: "Reportes Generales",
-                        slug: "/Reportes/ReportesGenerales",
+                        url: "/Reportes/ReporteUsuarios",
+                        name: "Reportes Usuarios",
+                        slug: "/Reportes/ReporteUsuarios",
                         icon: "HomeIcon"
                     }
                 ]
@@ -370,9 +370,9 @@ export default {
                 icon: "HomeIcon",
                 submenu: [
                     {
-                        url: "/Reportes/ReportesGenerales",
-                        name: "Reportes Generales",
-                        slug: "/Reportes/ReportesGenerales",
+                        url: "/Reportes/ReporteUsuarios",
+                        name: "Reportes Usuarios",
+                        slug: "/Reportes/ReporteUsuarios",
                         icon: "HomeIcon"
                     }
                 ]

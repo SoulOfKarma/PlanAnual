@@ -63,6 +63,12 @@ const router = new Router({
                         import("./views/Reportes/ReportesGenerales.vue")
                 },
                 {
+                    path: "/Reportes/ReporteUsuarios",
+                    name: "ReporteUsuarios",
+                    component: () =>
+                        import("./views/Reportes/ReporteUsuarios.vue")
+                },
+                {
                     path: "/ReportesAbastecimiento/ReportesAbastecimiento",
                     name: "ReportesAbastecimiento",
                     component: () =>
