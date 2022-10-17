@@ -47,6 +47,7 @@ class SiabArticulosController extends Controller
 
     public function PostArticulos(Request $request){
         try {
+            log::info($request);
             $data = siabArticulos::create($request->all());
             return true;
         } catch (\Throwable $th) {
@@ -59,7 +60,18 @@ class SiabArticulosController extends Controller
         try {
             $data = siabArticulos::where('id', $request->id)
             ->update(['CODART' => $request->CODART,'NOMBRE' => $request->NOMBRE,'UNIMED' => $request->UNIMED,
-            'PRECIO' => $request->PRECIO,'idEstado' => $request->idEstado]);
+            'PRECIO' => $request->PRECIO,'idEstado' => $request->idEstado,'idBodega' => $request->idBodega]);
+            return true;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function EliminarArticulo(Request $request){
+        try {
+            $data = siabArticulos::where('id', $request->id)
+            ->delete();
             return true;
         } catch (\Throwable $th) {
             log::info($th);

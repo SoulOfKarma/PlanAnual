@@ -40,9 +40,17 @@
                                             props.row.NOMBRE,
                                             props.row.UNIMED,
                                             props.row.PRECIO,
-                                            props.row.idEstado
+                                            props.row.idEstado,
+                                            props.row.idBodega
                                         )
                                     "
+                                ></plus-circle-icon>
+                                <plus-circle-icon
+                                    content="Eliminar Articulo"
+                                    v-tippy
+                                    size="1.5x"
+                                    class="custom-class"
+                                    @click="popDeleteArticulo(props.row.id)"
                                 ></plus-circle-icon>
                             </span>
                             <!-- Column: Common -->
@@ -98,9 +106,8 @@
                                     @keypress="isNumber($event)"
                                 />
                             </div>
-                            <div class="vx-col w-full mt-5">
+                            <div class="vx-col w-1/2 mt-5">
                                 <h6>Estado</h6>
-                                <br />
                                 <v-select
                                     taggable
                                     v-model="seleccionEstado"
@@ -110,7 +117,17 @@
                                     :options="listaEstado"
                                 ></v-select>
                             </div>
-
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>Seleccione Bodega</h6>
+                                <v-select
+                                    taggable
+                                    v-model="seleccionBodega"
+                                    placeholder="Ej. Medicamentos"
+                                    class="w-full select-large"
+                                    label="descripcionBodega"
+                                    :options="listaBodega"
+                                ></v-select>
+                            </div>
                             <div class="vx-col w-1/2 mt-5">
                                 <vs-button
                                     @click="popUpListaArticulos = false"
@@ -179,9 +196,8 @@
                                     @keypress="isNumber($event)"
                                 />
                             </div>
-                            <div class="vx-col w-full mt-5">
+                            <div class="vx-col w-1/2 mt-5">
                                 <h6>Estado</h6>
-                                <br />
                                 <v-select
                                     taggable
                                     v-model="seleccionEstado"
@@ -191,7 +207,17 @@
                                     :options="listaEstado"
                                 ></v-select>
                             </div>
-
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>Seleccione Bodega</h6>
+                                <v-select
+                                    taggable
+                                    v-model="seleccionBodega"
+                                    placeholder="Ej. Medicamentos"
+                                    class="w-full select-large"
+                                    label="descripcionBodega"
+                                    :options="listaBodega"
+                                ></v-select>
+                            </div>
                             <div class="vx-col w-1/2 mt-5">
                                 <vs-button
                                     @click="popUpListaArticulosMod = false"
@@ -213,6 +239,36 @@
                         </div>
                     </vx-card>
                     <div class="vx-row"></div>
+                </div>
+            </vs-popup>
+            <vs-popup
+                classContent="EliminarArticulo"
+                title="Eliminar Articulo"
+                :active.sync="popUpEliminarArticulo"
+            >
+                <div class="vx-col md:w-1/1 w-full mb-base">
+                    <vx-card title="">
+                        <div class="vx-row w-full">
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="popUpEliminarArticulo = false"
+                                    color="primary"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Volver</vs-button
+                                >
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="EliminarArticulo()"
+                                    color="danger"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Eliminar Articulo</vs-button
+                                >
+                            </div>
+                        </div>
+                    </vx-card>
                 </div>
             </vs-popup>
         </vx-card>
@@ -315,8 +371,13 @@ export default {
             //Fechas Anios Habilitadas
             disabledDates: {},
             //Datos Campos
+            seleccionBodega: {
+                id: 1,
+                descripcionBodega: "Medicamentos"
+            },
             popUpListaArticulos: false,
             popUpListaArticulosMod: false,
+            popUpEliminarArticulo: false,
             codart: "",
             nombre: "",
             unimed: "",
@@ -416,12 +477,20 @@ export default {
                     }
                 },
                 {
+                    label: "Bodega",
+                    field: "descripcionBodega",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
                     label: "Opciones",
                     field: "action"
                 }
             ],
             //Datos Listado Proveedor
             rows: [],
+            listaBodega: [],
             listaEstado: [
                 {
                     id: 1,
@@ -476,7 +545,15 @@ export default {
                 console.log(error);
             }
         },
-        popModificarArticulo(id, CODART, NOMBRE, UNIMED, PRECIO, idEstado) {
+        popModificarArticulo(
+            id,
+            CODART,
+            NOMBRE,
+            UNIMED,
+            PRECIO,
+            idEstado,
+            idBodega
+        ) {
             try {
                 this.popUpListaArticulosMod = true;
                 this.idMod = id;
@@ -492,11 +569,56 @@ export default {
                         this.seleccionEstado.descripcion = value.descripcion;
                     }
                 });
+
+                let d = this.listaBodega;
+
+                d.forEach((value, ind) => {
+                    if (value.id == idBodega) {
+                        this.seleccionBodega.id = value.id;
+                        this.seleccionBodega.descripcionBodega =
+                            value.descripcionBodega;
+                    }
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        popDeleteArticulo(id) {
+            try {
+                this.idMod = id;
+                this.popUpEliminarArticulo = true;
             } catch (error) {
                 console.log(error);
             }
         },
         //Carga de Datos
+        TraerBodega() {
+            try {
+                axios
+                    .get(this.siabVal + "/api/Mantenedor/GetBodega", {
+                        headers: {
+                            Authorization:
+                                `Bearer ` +
+                                sessionStorage.getItem("token_externo")
+                        }
+                    })
+                    .then(res => {
+                        this.listaBodega = res.data;
+                        if (this.listaBodega.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos de las Bodegas correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
         TraerArticulos() {
             try {
                 axios
@@ -532,7 +654,19 @@ export default {
                                 });
                             });
 
-                            this.rows = f;
+                            let g = this.listaBodega;
+                            let h = [];
+                            f.forEach((value, ind) => {
+                                g.forEach((val, index) => {
+                                    if (value.idBodega == val.id) {
+                                        value.descripcionBodega =
+                                            val.descripcionBodega;
+                                        h.push(value);
+                                    }
+                                });
+                            });
+
+                            this.rows = h;
                         }
                     });
             } catch (error) {
@@ -574,13 +708,31 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
+                } else if (this.seleccionEstado.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar un Estado",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.seleccionBodega.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar una Bodega",
+                        color: "danger",
+                        position: "top-right"
+                    });
                 } else {
                     let data = {
                         CODART: this.codart,
                         NOMBRE: this.nombre,
                         UNIMED: this.unimed,
                         PRECIO: this.precio,
-                        idEstado: this.seleccionEstado.id
+                        PRE_PROM: this.precio,
+                        idEstado: this.seleccionEstado.id,
+                        idBodega: this.seleccionBodega.id
                     };
 
                     const dat = data;
@@ -651,6 +803,22 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
+                } else if (this.seleccionEstado.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar un Estado",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (this.seleccionBodega.id == 0) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar una Bodega",
+                        color: "danger",
+                        position: "top-right"
+                    });
                 } else {
                     let data = {
                         id: this.idMod,
@@ -658,7 +826,9 @@ export default {
                         NOMBRE: this.nombre,
                         UNIMED: this.unimed,
                         PRECIO: this.precio,
-                        idEstado: this.seleccionEstado.id
+                        PRE_PROM: this.precio,
+                        idEstado: this.seleccionEstado.id,
+                        idBodega: this.seleccionBodega.id
                     };
 
                     const dat = data;
@@ -703,6 +873,51 @@ export default {
                 console.log(error);
             }
         },
+        EliminarArticulo() {
+            try {
+                let data = {
+                    id: this.idMod
+                };
+
+                const dat = data;
+                axios
+                    .post(
+                        this.localVal + "/api/Mantenedor/EliminarArticulo",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        const solicitudServer = res.data;
+                        if (solicitudServer == true) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Completado",
+                                text: "Articulo Eliminado Correctamente",
+                                color: "success",
+                                position: "top-right"
+                            });
+                            this.TraerArticulos();
+                            this.popUpEliminarArticulo = false;
+                        } else {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No fue posible eliminar el articulo,intentelo nuevamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
         cargarHoras() {
             try {
                 let date = moment().endOf("day");
@@ -723,6 +938,7 @@ export default {
     },
     beforeMount() {
         this.cargarAnios();
+        this.TraerBodega();
         setTimeout(() => {
             //this.TraerUsuarios();
             this.TraerArticulos();
