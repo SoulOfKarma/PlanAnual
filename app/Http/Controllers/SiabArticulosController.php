@@ -12,7 +12,7 @@ class SiabArticulosController extends Controller
 {
     public function GetArticulos(){
         try {
-            $data = siabArticulos::select('id','CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')
+            $data = siabArticulos::select('id','CODART','NOMBRE','UNIMED','PRECIO','PRE_PROM','idEstado','idBodega')
             ->distinct()
             ->get();
 
@@ -22,7 +22,8 @@ class SiabArticulosController extends Controller
 
             foreach ($data as $key=>$a) {
                 $get[$key] = ['id' => $a->id,'CODART' => $a->CODART,'NOMBRE' => $a->NOMBRE,'UNIMED' => $a->UNIMED,
-                'PRECIO' => $fmt->formatCurrency($a->PRECIO, "CLP"),'idEstado' => $a->idEstado,'idBodega' => $a->idBodega];
+                'PRE_PROM' => $fmt->formatCurrency($a->PRE_PROM, "CLP"),'PRE_PROM2' => $a->PRE_PROM,
+                'idEstado' => $a->idEstado,'idBodega' => $a->idBodega];
             }
 
             return $get;

@@ -39,7 +39,7 @@
                                             props.row.CODART,
                                             props.row.NOMBRE,
                                             props.row.UNIMED,
-                                            props.row.PRECIO,
+                                            props.row.PRE_PROM2,
                                             props.row.idEstado,
                                             props.row.idBodega
                                         )
@@ -464,7 +464,7 @@ export default {
                 },
                 {
                     label: "Precio",
-                    field: "PRECIO",
+                    field: "PRE_PROM",
                     filterOptions: {
                         enabled: true
                     }
@@ -550,7 +550,7 @@ export default {
             CODART,
             NOMBRE,
             UNIMED,
-            PRECIO,
+            PRE_PROM,
             idEstado,
             idBodega
         ) {
@@ -560,7 +560,7 @@ export default {
                 this.codart = CODART;
                 this.nombre = NOMBRE;
                 this.unimed = UNIMED;
-                this.precio = PRECIO;
+                this.precio = PRE_PROM;
 
                 let c = this.listaEstado;
                 c.forEach((value, ind) => {
