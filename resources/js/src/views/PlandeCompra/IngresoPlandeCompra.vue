@@ -373,6 +373,7 @@
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="cantidadTotal"
+                                    disabled
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -381,8 +382,9 @@
                                     Precio
                                 </h6>
                                 <vs-input
-                                    class="inputx w-full  "
+                                    class="inputx w-full"
                                     v-model="precioTotal"
+                                    disabled
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -391,8 +393,9 @@
                                     Maximo Tope
                                 </h6>
                                 <vs-input
-                                    class="inputx w-full  "
+                                    class="inputx w-full"
                                     v-model="topeMaximo"
+                                    disabled
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -594,6 +597,7 @@
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="cantidadTotal"
+                                    disabled
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -602,8 +606,9 @@
                                     Precio
                                 </h6>
                                 <vs-input
-                                    class="inputx w-full  "
+                                    class="inputx w-full"
                                     v-model="precioTotal"
+                                    disabled
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -614,6 +619,7 @@
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="topeMaximo"
+                                    disabled
                                     @keypress="isNumber($event)"
                                 />
                             </div>
@@ -969,130 +975,82 @@ export default {
             columnsPresupuesto: [
                 {
                     label: "P.Total",
-                    field: "P_ANUAL",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    field: "P_ANUAL"
                 },
                 {
                     label: "P.Utilizado",
-                    field: "UTILIZADO",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    field: "UTILIZADO"
                 },
                 {
                     label: "P.Restante",
-                    field: "RESTANTE",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    field: "RESTANTE"
                 }
             ],
             columnsPlanAnualConsumo: [
                 {
                     label: "Enero",
                     field: "ENERO",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Febrero",
                     field: "FEBRERO",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Marzo",
                     field: "MARZO",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Abril",
                     field: "ABRIL",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Mayo",
                     field: "MAYO",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Junio",
                     field: "JUNIO",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Julio",
                     field: "JULIO",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Agosto",
                     field: "AGOSTO",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Septiembre",
                     field: "SEPTIEMBRE",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Octubre",
                     field: "OCTUBRE",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Noviembre",
                     field: "NOVIEMBRE",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Diciembre",
                     field: "DICIEMBRE",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 },
                 {
                     label: "Total",
                     field: "TOTAL",
-                    type: "number",
-                    filterOptions: {
-                        enabled: true
-                    }
+                    type: "number"
                 }
             ],
             //Datos Listado Proveedor
@@ -1277,6 +1235,18 @@ export default {
                     this.precio = precio;
                     this.popUpAgregarArticulo = false;
                     this.popUpAgregarArticuloPAnual = true;
+                    this.C_ENE = 0;
+                    this.C_FEB = 0;
+                    this.C_MAR = 0;
+                    this.C_ABR = 0;
+                    this.C_MAY = 0;
+                    this.C_JUN = 0;
+                    this.C_JUL = 0;
+                    this.C_AGO = 0;
+                    this.C_SEP = 0;
+                    this.C_OCT = 0;
+                    this.C_NOV = 0;
+                    this.C_DIC = 0;
                 }
             } catch (error) {
                 console.log(error);
@@ -1429,6 +1399,7 @@ export default {
                                 this.panualval = 0;
                             } else {
                                 this.panualval = value.PANUALVAL;
+                                this.topeMaximo = value.RESTANTE;
                             }
                         });
                     });
@@ -1555,6 +1526,18 @@ export default {
         //Metodos para Agregar,Modificar o Eliminar Datos
         AgregarArticuloPAnual() {
             try {
+                this.C_ENE = parseInt(this.C_ENE) + parseInt(0);
+                this.C_FEB = parseInt(this.C_FEB) + parseInt(0);
+                this.C_MAR = parseInt(this.C_MAR) + parseInt(0);
+                this.C_ABR = parseInt(this.C_ABR) + parseInt(0);
+                this.C_MAY = parseInt(this.C_MAY) + parseInt(0);
+                this.C_JUN = parseInt(this.C_JUN) + parseInt(0);
+                this.C_JUL = parseInt(this.C_JUL) + parseInt(0);
+                this.C_AGO = parseInt(this.C_AGO) + parseInt(0);
+                this.C_SEP = parseInt(this.C_SEP) + parseInt(0);
+                this.C_OCT = parseInt(this.C_OCT) + parseInt(0);
+                this.C_NOV = parseInt(this.C_NOV) + parseInt(0);
+                this.C_DIC = parseInt(this.C_DIC) + parseInt(0);
                 if (
                     this.C_ENE < 1 &&
                     this.C_FEB < 1 &&
@@ -1567,12 +1550,24 @@ export default {
                     this.C_SEP < 1 &&
                     this.C_OCT < 1 &&
                     this.C_NOV < 1 &&
-                    this.C_DIC < 1
+                    this.C_DIC < 1 &&
+                    this.C_ENE == "" &&
+                    this.C_FEB == "" &&
+                    this.C_MAR == "" &&
+                    this.C_ABR == "" &&
+                    this.C_MAY == "" &&
+                    this.C_JUN == "" &&
+                    this.C_JUL == "" &&
+                    this.C_AGO == "" &&
+                    this.C_SEP == "" &&
+                    this.C_OCT == "" &&
+                    this.C_NOV == "" &&
+                    this.C_DIC == ""
                 ) {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
-                        text: "Error",
+                        text: "No puede dejar el campo en blanco o menor que 1",
                         color: "danger",
                         position: "top-right"
                     });
@@ -1633,6 +1628,8 @@ export default {
                                 this.TraerArticulosPresupuesto();
                                 this.TraerTotalArticulosPresupuesto();
                                 this.TraerListadoPresupuestos();
+                                this.popUpAgregarArticulo = true;
+                                this.popUpAgregarArticuloPAnual = false;
                             } else {
                                 this.$vs.notify({
                                     time: 5000,
@@ -1651,6 +1648,18 @@ export default {
         },
         ModificarArticuloPAnual() {
             try {
+                this.C_ENE = parseInt(this.C_ENE) + parseInt(0);
+                this.C_FEB = parseInt(this.C_FEB) + parseInt(0);
+                this.C_MAR = parseInt(this.C_MAR) + parseInt(0);
+                this.C_ABR = parseInt(this.C_ABR) + parseInt(0);
+                this.C_MAY = parseInt(this.C_MAY) + parseInt(0);
+                this.C_JUN = parseInt(this.C_JUN) + parseInt(0);
+                this.C_JUL = parseInt(this.C_JUL) + parseInt(0);
+                this.C_AGO = parseInt(this.C_AGO) + parseInt(0);
+                this.C_SEP = parseInt(this.C_SEP) + parseInt(0);
+                this.C_OCT = parseInt(this.C_OCT) + parseInt(0);
+                this.C_NOV = parseInt(this.C_NOV) + parseInt(0);
+                this.C_DIC = parseInt(this.C_DIC) + parseInt(0);
                 if (
                     this.C_ENE < 1 &&
                     this.C_FEB < 1 &&
@@ -1663,7 +1672,19 @@ export default {
                     this.C_SEP < 1 &&
                     this.C_OCT < 1 &&
                     this.C_NOV < 1 &&
-                    this.C_DIC < 1
+                    this.C_DIC < 1 &&
+                    this.C_ENE == "" &&
+                    this.C_FEB == "" &&
+                    this.C_MAR == "" &&
+                    this.C_ABR == "" &&
+                    this.C_MAY == "" &&
+                    this.C_JUN == "" &&
+                    this.C_JUL == "" &&
+                    this.C_AGO == "" &&
+                    this.C_SEP == "" &&
+                    this.C_OCT == "" &&
+                    this.C_NOV == "" &&
+                    this.C_DIC == ""
                 ) {
                     this.$vs.notify({
                         time: 5000,
