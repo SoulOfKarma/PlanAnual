@@ -1570,7 +1570,30 @@ export default {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
-                        text: "No puede dejar el campo en blanco o menor que 1",
+                        text:
+                            "No puede dejar el campo vacio o todos los campos menor a 1",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (
+                    isNaN(this.C_ENE) ||
+                    isNaN(this.C_FEB) ||
+                    isNaN(this.C_MAR) ||
+                    isNaN(this.C_ABR) ||
+                    isNaN(this.C_MAY) ||
+                    isNaN(this.C_JUN) ||
+                    isNaN(this.C_JUL) ||
+                    isNaN(this.C_AGO) ||
+                    isNaN(this.C_SEP) ||
+                    isNaN(this.C_NOV) ||
+                    isNaN(this.C_OCT) ||
+                    isNaN(this.C_DIC)
+                ) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text:
+                            "No puede dejar el campo vacio o todos los campos menor a 1",
                         color: "danger",
                         position: "top-right"
                     });
@@ -1692,7 +1715,30 @@ export default {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
-                        text: "Error",
+                        text:
+                            "No puede dejar el campo vacio o todos los campos menor a 1",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (
+                    isNaN(this.C_ENE) ||
+                    isNaN(this.C_FEB) ||
+                    isNaN(this.C_MAR) ||
+                    isNaN(this.C_ABR) ||
+                    isNaN(this.C_MAY) ||
+                    isNaN(this.C_JUN) ||
+                    isNaN(this.C_JUL) ||
+                    isNaN(this.C_AGO) ||
+                    isNaN(this.C_SEP) ||
+                    isNaN(this.C_NOV) ||
+                    isNaN(this.C_OCT) ||
+                    isNaN(this.C_DIC)
+                ) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text:
+                            "No puede dejar el campo vacio o todos los campos menor a 1",
                         color: "danger",
                         position: "top-right"
                     });
