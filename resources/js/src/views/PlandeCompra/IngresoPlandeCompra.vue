@@ -97,7 +97,8 @@
                                             props.row.CODART,
                                             props.row.NOMART,
                                             props.row.UNIMED,
-                                            props.row.PRECIO
+                                            props.row.PRECIO,
+                                            props.row.PRECIO2
                                         )
                                     "
                                 ></plus-circle-icon>
@@ -1180,7 +1181,7 @@ export default {
                 console.log(error);
             }
         },
-        popModificarArticulo(id, codart, nombre, unimed, precio) {
+        popModificarArticulo(id, codart, nombre, unimed, precio, precio2) {
             try {
                 this.idMod = id;
                 this.popUpModificarArticuloMod = true;
@@ -1202,7 +1203,7 @@ export default {
                         this.codart = codart;
                         this.nombre = nombre;
                         this.unimed = unimed;
-                        this.precio = precio;
+                        this.precio = precio2;
                     }
                 });
             } catch (error) {
@@ -1247,6 +1248,8 @@ export default {
                     this.C_OCT = 0;
                     this.C_NOV = 0;
                     this.C_DIC = 0;
+                    this.precioTotal = 0;
+                    this.cantidadTotal = 0;
                 }
             } catch (error) {
                 console.log(error);
@@ -1318,18 +1321,18 @@ export default {
                 preDic = parseInt(this.C_DIC) * parseInt(this.precio);
 
                 this.precioTotal =
-                    preEne +
-                    preFeb +
-                    preMar +
-                    preAbr +
-                    preMay +
-                    preJun +
-                    preJul +
-                    preAgo +
-                    preSep +
-                    preOct +
-                    preNov +
-                    preDic;
+                    parseInt(preEne) +
+                    parseInt(preFeb) +
+                    parseInt(preMar) +
+                    parseInt(preAbr) +
+                    parseInt(preMay) +
+                    parseInt(preJun) +
+                    parseInt(preJul) +
+                    parseInt(preAgo) +
+                    parseInt(preSep) +
+                    parseInt(preOct) +
+                    parseInt(preNov) +
+                    parseInt(preDic);
             } catch (error) {
                 console.log(error);
             }
@@ -1498,7 +1501,7 @@ export default {
                                 time: 5000,
                                 title: "Error",
                                 text:
-                                    "No hay datos o no se cargaron los datos de los servicios correctamente",
+                                    "No hay datos o no se cargaron los datos correctamente",
                                 color: "danger",
                                 position: "top-right"
                             });
