@@ -114,7 +114,7 @@ class PresupuestosAnualesController extends Controller
 
             foreach ($data as $key=>$a) {
                 $get[$key] = ['id' => $a->id,'NOMSER' => $a->NOMSER,'ANIO' => $a->ANIO,
-                'P_ANUAL' => $fmt->formatCurrency($a->P_ANUAL, "CLP")];
+                'P_ANUAL' => $fmt->formatCurrency($a->P_ANUAL, "CLP"),'P_ANUAL2' => $a->P_ANUAL];
             }
 
             return $get;

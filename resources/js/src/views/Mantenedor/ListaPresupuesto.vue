@@ -38,7 +38,7 @@
                                             props.row.id,
                                             props.row.NOMSER,
                                             props.row.ANIO,
-                                            props.row.P_ANUAL
+                                            props.row.P_ANUAL2
                                         )
                                     "
                                 ></plus-circle-icon>
@@ -49,10 +49,7 @@
                                     class="custom-class"
                                     @click="
                                         popEliminarPresupuestoAnual(
-                                            props.row.id,
-                                            props.row.NOMSER,
-                                            props.row.ANIO,
-                                            props.row.P_ANUAL
+                                            props.row.id
                                         )
                                     "
                                 ></plus-circle-icon>
