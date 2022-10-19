@@ -84,7 +84,9 @@ class PresupuestosAnualesController extends Controller
                 $panual = $a->P_ANUAL;
                 $utilizado = $a->UTILIZADO;
                 $restante = $a->RESTANTE;
-                $panualVal = $a->P_ANUAL;              
+                $panualVal = $a->P_ANUAL;
+                $utilizadoVal = $a->UTILIZADO;
+                $restanteVal = $a->RESTANTE;             
             }
 
             $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
@@ -94,7 +96,7 @@ class PresupuestosAnualesController extends Controller
 
             $get = [];
             $get[0] = ['ANIO' => $anio, 'NOMSER' => $nomser, 'P_ANUAL' => $panual, 'UTILIZADO' => $utilizado,
-            'RESTANTE' => $restante,'PANUALVAL' => $panualVal];
+            'RESTANTE' => $restante,'PANUALVAL' => $panualVal,'UTILIZADOVAL' => $utilizadoVal,'RESTANTEVAL' => $restanteVal];
 
             return $get;
         } catch (\Throwable $th) {

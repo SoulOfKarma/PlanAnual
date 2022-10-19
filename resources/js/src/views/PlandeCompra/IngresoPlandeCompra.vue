@@ -367,7 +367,7 @@
                                     @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/3 mt-5">
+                            <div class="vx-col w-1/4 mt-5">
                                 <h6>
                                     Cantidad
                                 </h6>
@@ -378,7 +378,7 @@
                                     @keypress="isNumber($event)"
                                 />
                             </div>
-                            <div class="vx-col w-1/3 mt-5">
+                            <div class="vx-col w-1/4 mt-5">
                                 <h6>
                                     Precio
                                 </h6>
@@ -389,7 +389,18 @@
                                     @keypress="isNumber($event)"
                                 />
                             </div>
-                            <div class="vx-col w-1/3 mt-5">
+                            <div class="vx-col w-1/4 mt-5">
+                                <h6>
+                                    Utilizado
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full"
+                                    v-model="valorUtilizado"
+                                    disabled
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/4 mt-5">
                                 <h6>
                                     Maximo Tope
                                 </h6>
@@ -591,7 +602,7 @@
                                     @blur="CalculoCantPrecio()"
                                 />
                             </div>
-                            <div class="vx-col w-1/3 mt-5">
+                            <div class="vx-col w-1/4 mt-5">
                                 <h6>
                                     Cantidad
                                 </h6>
@@ -602,7 +613,7 @@
                                     @keypress="isNumber($event)"
                                 />
                             </div>
-                            <div class="vx-col w-1/3 mt-5">
+                            <div class="vx-col w-1/4 mt-5">
                                 <h6>
                                     Precio
                                 </h6>
@@ -613,7 +624,18 @@
                                     @keypress="isNumber($event)"
                                 />
                             </div>
-                            <div class="vx-col w-1/3 mt-5">
+                            <div class="vx-col w-1/4 mt-5">
+                                <h6>
+                                    Utilizado
+                                </h6>
+                                <vs-input
+                                    class="inputx w-full"
+                                    v-model="valorUtilizado"
+                                    disabled
+                                    @keypress="isNumber($event)"
+                                />
+                            </div>
+                            <div class="vx-col w-1/4 mt-5">
                                 <h6>
                                     Maximo Tope
                                 </h6>
@@ -720,6 +742,7 @@ export default {
             precio: "",
             cantidadTotal: 0,
             precioTotal: 0,
+            valorUtilizado: 0,
             topeMaximo: 0,
             panualval: 0,
             obs: "",
@@ -1402,7 +1425,8 @@ export default {
                                 this.panualval = 0;
                             } else {
                                 this.panualval = value.PANUALVAL;
-                                this.topeMaximo = value.RESTANTE;
+                                this.topeMaximo = value.RESTANTEVAL;
+                                this.valorUtilizado = value.UTILIZADOVAL;
                             }
                         });
                     });
@@ -1529,6 +1553,8 @@ export default {
         //Metodos para Agregar,Modificar o Eliminar Datos
         AgregarArticuloPAnual() {
             try {
+                let valorTotal =
+                    parseInt(this.precioTotal) + parseInt(this.valorUtilizado);
                 this.C_ENE = parseInt(this.C_ENE) + parseInt(0);
                 this.C_FEB = parseInt(this.C_FEB) + parseInt(0);
                 this.C_MAR = parseInt(this.C_MAR) + parseInt(0);
@@ -1572,6 +1598,15 @@ export default {
                         title: "Error",
                         text:
                             "No puede dejar el campo vacio o todos los campos menor a 1",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (valorTotal > this.topeMaximo) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text:
+                            "El valor total supera su presupuesto asignado, verifique los datos",
                         color: "danger",
                         position: "top-right"
                     });
@@ -1674,6 +1709,8 @@ export default {
         },
         ModificarArticuloPAnual() {
             try {
+                let valorTotal =
+                    parseInt(this.precioTotal) + parseInt(this.valorUtilizado);
                 this.C_ENE = parseInt(this.C_ENE) + parseInt(0);
                 this.C_FEB = parseInt(this.C_FEB) + parseInt(0);
                 this.C_MAR = parseInt(this.C_MAR) + parseInt(0);
@@ -1717,6 +1754,15 @@ export default {
                         title: "Error",
                         text:
                             "No puede dejar el campo vacio o todos los campos menor a 1",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else if (valorTotal > this.topeMaximo) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text:
+                            "El valor total supera su presupuesto asignado, verifique los datos",
                         color: "danger",
                         position: "top-right"
                     });
