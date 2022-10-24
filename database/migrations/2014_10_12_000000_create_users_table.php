@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('bodega')->nullable();
             $table->bigInteger('idServicio');
+            $table->string('NOMSER')->nullable();
             $table->bigInteger('idEstado');         
             $table->rememberToken();
             $table->timestamps();
