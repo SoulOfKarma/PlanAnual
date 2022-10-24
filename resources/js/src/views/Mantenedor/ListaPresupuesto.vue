@@ -534,7 +534,7 @@ export default {
         TraerServicio() {
             try {
                 axios
-                    .get(this.siabVal + "/api/Mantenedor/GetServicios", {
+                    .get(this.siabVal + "/api/Mantenedor/GetServiciosActivos", {
                         headers: {
                             Authorization:
                                 `Bearer ` +
