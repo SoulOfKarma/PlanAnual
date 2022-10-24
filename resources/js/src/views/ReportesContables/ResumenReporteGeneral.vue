@@ -654,7 +654,24 @@ export default {
                         }
                     })
                     .then(res => {
-                        this.listadoServicios = res.data;
+                        let c = res.data;
+                        let valor = 0;
+
+                        let nombre = "";
+                        let d = [];
+                        c.forEach((val, index) => {
+                            if (valor == 0) {
+                                d.push(val);
+                                valor = 1;
+                                nombre = val.descripcionServicio;
+                            } else if (nombre != val.descripcionServicio) {
+                                d.push(val);
+                                nombre = "";
+                                nombre = val.descripcionServicio;
+                            }
+                        });
+
+                        this.listadoServicios = d;
                         if (this.listadoServicios.length < 0) {
                             this.$vs.notify({
                                 time: 5000,
