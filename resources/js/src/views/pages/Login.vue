@@ -159,6 +159,10 @@ export default {
                                         "idServicio",
                                         response.data[0].idServicio
                                     );
+                                    sessionStorage.setItem(
+                                        "NOMSER",
+                                        response.data[0].NOMSER
+                                    );
                                     sessionStorage.setItem("idBodega", 1);
                                     sessionStorage.setItem(
                                         "descripcionBodega",

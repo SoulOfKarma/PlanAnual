@@ -2452,7 +2452,7 @@ export default {
             try {
                 let data = {
                     idBodega: this.seleccionBodega.id,
-                    idServicio: this.seleccionServicio.id
+                    NOMSER: this.seleccionServicio.descripcionServicio
                 };
                 axios
                     .post(
@@ -2487,7 +2487,7 @@ export default {
             try {
                 let data = {
                     idBodega: this.seleccionBodega.id,
-                    idServicio: this.seleccionServicio.id
+                    NOMSER: this.seleccionServicio.descripcionServicio
                 };
                 axios
                     .post(
@@ -2522,7 +2522,7 @@ export default {
             try {
                 let data = {
                     idBodega: this.seleccionBodega.id,
-                    idServicio: this.seleccionServicio.id
+                    NOMSER: this.seleccionServicio.descripcionServicio
                 };
                 axios
                     .post(
@@ -2577,7 +2577,7 @@ export default {
                 } else {
                     let data = {
                         idBodega: this.seleccionBodega.id,
-                        idServicio: this.seleccionServicio.id,
+                        NOMSER: this.seleccionServicio.descripcionServicio,
                         fechaInicio: moment(
                             this.fechaInicio,
                             "DD-MM-YYYY"

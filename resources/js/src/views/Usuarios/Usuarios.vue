@@ -603,8 +603,6 @@ export default {
                             }
                         });
 
-                        console.log(d);
-
                         this.listadoServicios = d;
                         if (this.listadoServicios.length < 0) {
                             this.$vs.notify({

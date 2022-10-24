@@ -13,7 +13,7 @@ class PlanesAnualesController extends Controller
 {
     public function GetArticulosServ(Request $request){
         try {
-            $dato = PlanesAnuales::where('idServicio',$request->idServicio)
+            $dato = PlanesAnuales::where('NOMSER',$request->NOMSER)
             ->where('BODEGA',$request->idBodega)
             ->where('ANIO',$request->anio)
             ->get();
@@ -44,7 +44,7 @@ class PlanesAnualesController extends Controller
             DB::raw('SUM(C_JUN)*PRECIO AS JUNIO'),DB::raw('SUM(C_JUL)*PRECIO AS JULIO'),DB::raw('SUM(C_AGO)*PRECIO AS AGOSTO'),
             DB::raw('SUM(C_SEP)*PRECIO AS SEPTIEMBRE'),DB::raw('SUM(C_OCT)*PRECIO AS OCTUBRE'),DB::raw('SUM(C_NOV)*PRECIO AS NOVIEMBRE'),
             DB::raw('SUM(C_DIC)*PRECIO AS DICIEMBRE'),DB::raw('SUM(T_PRECIO) AS TOTAL'))
-            ->where('idServicio',$request->idServicio)
+            ->where('NOMSER',$request->NOMSER)
             ->where('BODEGA',$request->idBodega)
             ->where('ANIO',$request->anio)
             ->groupby('PRECIO')
@@ -154,7 +154,7 @@ class PlanesAnualesController extends Controller
             $get = [];
             if($request->mes == 1){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_ENE,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -181,7 +181,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 2){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_FEB,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -208,7 +208,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 3){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_MAR,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -235,7 +235,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 4){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_ABR,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -262,7 +262,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 5){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_MAY,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -289,7 +289,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 6){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_JUN,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -316,13 +316,12 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 7){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_JUL,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
                 $getDespachos = DB::table('DBSiab.despacho_detalles')
                 ->select('CODART',DB::raw('ROUND(COALESCE(CANTIDAD,0),0) AS DESART'))
-                ->where('idServicio',$request->idServicio)
                 ->whereRaw('MONTH(FECDES)',$request->mes)
                 ->get();
 
@@ -344,7 +343,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 8){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_AGO,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -371,7 +370,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 9){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_SEP,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -398,7 +397,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 10){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_OCT,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -425,7 +424,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 11){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_NOV,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -452,7 +451,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 12){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_DIC,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -491,7 +490,7 @@ class PlanesAnualesController extends Controller
             $get = [];
             if($request->mes == 1){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_ENE,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -528,7 +527,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -565,7 +564,7 @@ class PlanesAnualesController extends Controller
 
             }elseif($request->mes == 2){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_FEB,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -602,7 +601,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -638,7 +637,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 3){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_MAR,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -675,7 +674,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -711,7 +710,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 4){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_ABR,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -748,7 +747,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -784,7 +783,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 5){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_MAY,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -821,7 +820,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -857,7 +856,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 6){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_JUN,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -894,7 +893,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -930,7 +929,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 7){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_JUL,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -967,7 +966,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -1003,7 +1002,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 8){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_AGO,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -1040,7 +1039,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -1077,7 +1076,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 9){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_SEP,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -1114,7 +1113,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -1150,7 +1149,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 10){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_OCT,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -1187,7 +1186,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -1223,7 +1222,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 11){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_NOV,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -1260,7 +1259,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -1296,7 +1295,7 @@ class PlanesAnualesController extends Controller
                 }
             }elseif($request->mes == 12){
                 $getall = PlanesAnuales::select('CODART','NOMART','UNIMED',DB::raw('ROUND(PRECIO,0) AS PRECIO'),DB::raw('COALESCE(C_DIC,0) as SOLART'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->where('BODEGA',$request->BODEGA)
                 ->get();
 
@@ -1333,7 +1332,7 @@ class PlanesAnualesController extends Controller
                 DB::raw('CASE WHEN DAY(FECDES) = 29 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY29'),
                 DB::raw('CASE WHEN DAY(FECDES) = 30 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY30'),
                 DB::raw('CASE WHEN DAY(FECDES) = 31 THEN ROUND(COALESCE(CANTIDAD,0),0) ELSE 0 END AS DAY31'))
-                ->where('idServicio',$request->idServicio)
+                ->where('NOMSER',$request->NOMSER)
                 ->whereMonth('FECDES','=',$request->mes)
                 ->get();
 
@@ -1649,7 +1648,7 @@ class PlanesAnualesController extends Controller
     public function ReporteTotalServicio(Request $request){
         try {
             $get = [];
-            $get = PlanesAnuales::select('idServicio','BODEGA',DB::raw('ROUND(sum(C_ENE * PRECIO),0) AS ENERO'),
+            $get = PlanesAnuales::select('NOMSER','BODEGA',DB::raw('ROUND(sum(C_ENE * PRECIO),0) AS ENERO'),
             DB::raw('ROUND(sum(C_FEB * PRECIO),0) AS FEBRERO'),DB::raw('ROUND(sum(C_MAR * PRECIO),0) AS MARZO'),
             DB::raw('ROUND(sum(C_ABR * PRECIO),0) AS ABRIL'),DB::raw('ROUND(sum(C_MAY * PRECIO),0) AS MAYO'),
             DB::raw('ROUND(sum(C_JUN * PRECIO),0) AS JUNIO'),DB::raw('ROUND(sum(C_JUL * PRECIO),0) AS JULIO'),
@@ -1657,12 +1656,41 @@ class PlanesAnualesController extends Controller
             DB::raw('ROUND(sum(C_OCT * PRECIO),0) AS OCTUBRE'),DB::raw('ROUND(sum(C_NOV * PRECIO),0) AS NOVIEMBRE'),
             DB::raw('ROUND(sum(C_DIC * PRECIO),0) AS DICIEMBRE'),DB::raw('ROUND(SUM(T_PRECIO),0) AS T_PRECIO'))
             ->where('BODEGA',$request->idBodega)
-            ->groupby('idServicio','BODEGA')
+            ->groupby('NOMSER','BODEGA')
             ->get();
 
-            $servicios = DB::table('DBSiab.servicios')
-            ->select('*')
-            ->get();
+            $serv = DB::table('DBSiab.servicio_familia1s')
+                        ->select(DB::raw('COALESCE(DBSiab.servicio_familia3s.descripcionSF3,"No tiene Departamentos") as descripcionSF3'),
+                        DB::raw('DBSiab.servicio_familia3s.visualizar as VisualizarSF3'),
+                        DB::raw('COALESCE(DBSiab.servicio_familia4s.descripcionSF4,"No Tiene Unidades") as descripcionSF4'),
+                        DB::raw('DBSiab.servicio_familia4s.visualizar as VisualizarSF4'),
+                        DB::raw('COALESCE(DBSiab.servicio_familia5s.descripcionSF5,"No tiene Sub-Unidades") as descripcionSF5'),
+                        DB::raw('DBSiab.servicio_familia5s.visualizar as VisualizarSF5'))
+                        ->distinct()
+                        ->join('DBSiab.servicio_familia2s','DBSiab.servicio_familia1s.id','=','DBSiab.servicio_familia2s.idSF1')
+                        ->leftjoin('DBSiab.servicio_familia3s','DBSiab.servicio_familia2s.id','=','DBSiab.servicio_familia3s.idSF2')
+                        ->leftjoin('DBSiab.servicio_familia4s','DBSiab.servicio_familia3s.id','=','DBSiab.servicio_familia4s.idSF3')
+                        ->leftjoin('DBSiab.servicio_familia5s','DBSiab.servicio_familia4s.id','=','DBSiab.servicio_familia5s.idSF4')
+                        ->where('DBSiab.servicio_familia3s.visualizar',true)
+                        ->orwhere('DBSiab.servicio_familia4s.visualizar',true)
+                        ->orwhere('DBSiab.servicio_familia5s.visualizar',true)
+                        ->get();
+
+                        $dato = [];
+
+                        foreach ($serv as $key=>$b) {
+                                if($b->VisualizarSF3){
+                                    $dato[$key] = ['id' => $key+1,'descripcionServicio' => $b->descripcionSF3];
+                                }else if($b->VisualizarSF4){
+                                    $dato[$key] = ['id' => $key+1,'descripcionServicio' => $b->descripcionSF4];
+                                }else if($b->VisualizarSF5){
+                                    $dato[$key] = ['id' => $key+1,'descripcionServicio' => $b->descripcionSF5];
+                                }
+                        }
+
+                        $dato = json_encode($dato);
+
+                        $dato = json_decode($dato);
 
             $bodegas = DB::table('DBSiab.bodega')
             ->select('*')
@@ -1673,8 +1701,8 @@ class PlanesAnualesController extends Controller
             $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
 
             foreach ($get as $key=>$a) {
-                foreach ($servicios as $b) {
-                    if($a->idServicio == $b->id){
+                foreach ($dato as $keys=>$b) {
+                    if($a->NOMSER == $b->descripcionServicio){
                         $get1[$key] = ['NOMSER' => $b->descripcionServicio,'BODEGA' => $a->BODEGA,'ENERO' => $fmt->formatCurrency($a->ENERO, "CLP"),'FEBRERO' => $fmt->formatCurrency($a->FEBRERO, "CLP"),
                         'MARZO' => $fmt->formatCurrency($a->MARZO, "CLP"),'ABRIL' => $fmt->formatCurrency($a->ABRIL, "CLP"),
                         'MAYO' => $fmt->formatCurrency($a->MAYO, "CLP"),'JUNIO' => $fmt->formatCurrency($a->JUNIO, "CLP"),
@@ -1712,7 +1740,7 @@ class PlanesAnualesController extends Controller
     public function ReporteTotalByServicio(Request $request){
         try {
             $get = [];
-            $get = PlanesAnuales::select('idServicio','BODEGA',DB::raw('ROUND(sum(C_ENE * PRECIO),0) AS ENERO'),
+            $get = PlanesAnuales::select('NOMSER','BODEGA',DB::raw('ROUND(sum(C_ENE * PRECIO),0) AS ENERO'),
             DB::raw('ROUND(sum(C_FEB * PRECIO),0) AS FEBRERO'),DB::raw('ROUND(sum(C_MAR * PRECIO),0) AS MARZO'),
             DB::raw('ROUND(sum(C_ABR * PRECIO),0) AS ABRIL'),DB::raw('ROUND(sum(C_MAY * PRECIO),0) AS MAYO'),
             DB::raw('ROUND(sum(C_JUN * PRECIO),0) AS JUNIO'),DB::raw('ROUND(sum(C_JUL * PRECIO),0) AS JULIO'),
@@ -1720,13 +1748,44 @@ class PlanesAnualesController extends Controller
             DB::raw('ROUND(sum(C_OCT * PRECIO),0) AS OCTUBRE'),DB::raw('ROUND(sum(C_NOV * PRECIO),0) AS NOVIEMBRE'),
             DB::raw('ROUND(sum(C_DIC * PRECIO),0) AS DICIEMBRE'),DB::raw('ROUND(SUM(T_PRECIO),0) AS T_PRECIO'))
             ->where('BODEGA',$request->idBodega)
-            ->where('idServicio',$request->idServicio)
-            ->groupby('idServicio','BODEGA')
+            ->where('NOMSER',$request->NOMSER)
+            ->groupby('NOMSER','BODEGA')
             ->get();
 
-            $servicios = DB::table('DBSiab.servicios')
-            ->select('*')
-            ->get();
+            $serv = DB::table('DBSiab.servicio_familia1s')
+                        ->select(DB::raw('COALESCE(DBSiab.servicio_familia3s.descripcionSF3,"No tiene Departamentos") as descripcionSF3'),
+                        DB::raw('DBSiab.servicio_familia3s.visualizar as VisualizarSF3'),
+                        DB::raw('COALESCE(DBSiab.servicio_familia4s.descripcionSF4,"No Tiene Unidades") as descripcionSF4'),
+                        DB::raw('DBSiab.servicio_familia4s.visualizar as VisualizarSF4'),
+                        DB::raw('COALESCE(DBSiab.servicio_familia5s.descripcionSF5,"No tiene Sub-Unidades") as descripcionSF5'),
+                        DB::raw('DBSiab.servicio_familia5s.visualizar as VisualizarSF5'))
+                        ->distinct()
+                        ->join('DBSiab.servicio_familia2s','DBSiab.servicio_familia1s.id','=','DBSiab.servicio_familia2s.idSF1')
+                        ->leftjoin('DBSiab.servicio_familia3s','DBSiab.servicio_familia2s.id','=','DBSiab.servicio_familia3s.idSF2')
+                        ->leftjoin('DBSiab.servicio_familia4s','DBSiab.servicio_familia3s.id','=','DBSiab.servicio_familia4s.idSF3')
+                        ->leftjoin('DBSiab.servicio_familia5s','DBSiab.servicio_familia4s.id','=','DBSiab.servicio_familia5s.idSF4')
+                        ->where('DBSiab.servicio_familia3s.visualizar',true)
+                        ->orwhere('DBSiab.servicio_familia4s.visualizar',true)
+                        ->orwhere('DBSiab.servicio_familia5s.visualizar',true)
+                        ->get();
+
+                        $dato = [];
+
+                        foreach ($serv as $key=>$b) {
+                                if($b->VisualizarSF3){
+                                    $dato[$key] = ['id' => $key+1,'descripcionServicio' => $b->descripcionSF3];
+                                }else if($b->VisualizarSF4){
+                                    $dato[$key] = ['id' => $key+1,'descripcionServicio' => $b->descripcionSF4];
+                                }else if($b->VisualizarSF5){
+                                    $dato[$key] = ['id' => $key+1,'descripcionServicio' => $b->descripcionSF5];
+                                }
+                        }
+
+                        $dato = json_encode($dato);
+
+                        $dato = json_decode($dato);
+
+                        
 
             $bodegas = DB::table('DBSiab.bodega')
             ->select('*')
@@ -1737,8 +1796,8 @@ class PlanesAnualesController extends Controller
             $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
 
             foreach ($get as $key=>$a) {
-                foreach ($servicios as $b) {
-                    if($a->idServicio == $b->id){
+                foreach ($dato as $keys=>$b) {
+                    if($a->NOMSER == $b->descripcionServicio){
                         $get1[$key] = ['NOMSER' => $b->descripcionServicio,'BODEGA' => $a->BODEGA,
                         'ENERO' => $fmt->formatCurrency($a->ENERO, "CLP"),'FEBRERO' => $fmt->formatCurrency($a->FEBRERO, "CLP"),
                         'MARZO' => $fmt->formatCurrency($a->MARZO, "CLP"),'ABRIL' => $fmt->formatCurrency($a->ABRIL, "CLP"),
@@ -1783,7 +1842,7 @@ class PlanesAnualesController extends Controller
             DB::raw('SUM(planes_anuales.C_TOTAL) AS C_TOTAL'),
             DB::raw('ROUND(SUM(planes_anuales.T_PRECIO),0) AS T_PRECIO'))
             ->where('planes_anuales.BODEGA',$request->idBodega)
-            ->where('idServicio',$request->idServicio)
+            ->where('NOMSER',$request->NOMSER)
             ->groupby('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO')
             ->get(); 
 
@@ -1888,7 +1947,7 @@ class PlanesAnualesController extends Controller
             DB::raw('SUM(planes_anuales.C_TOTAL) AS C_TOTAL'),
             DB::raw('ROUND(SUM(planes_anuales.T_PRECIO),0) AS T_PRECIO'))
             ->where('planes_anuales.BODEGA',$request->idBodega)
-            ->where('planes_anuales.idServicio',$request->idServicio)
+            ->where('NOMSER',$request->NOMSER)
             ->groupby('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO')
             ->get(); 
 
@@ -2061,7 +2120,7 @@ class PlanesAnualesController extends Controller
             DB::raw('SUM(planes_anuales.C_TOTAL) AS C_TOTAL'),
             DB::raw('ROUND(SUM(planes_anuales.T_PRECIO),0) AS T_PRECIO'))
             ->where('planes_anuales.BODEGA',$request->idBodega)
-            ->where('planes_anuales.idServicio',$request->idServicio)
+            ->where('NOMSER',$request->NOMSER)
             ->groupby('planes_anuales.CODART','planes_anuales.NOMART','planes_anuales.UNIMED','planes_anuales.PRECIO')
             ->get(); 
 
@@ -2099,7 +2158,7 @@ class PlanesAnualesController extends Controller
             $get5 = DB::table('DBSiab.despacho_detalles')
             ->select('DBSiab.despacho_detalles.CODART',
             DB::raw('ROUND(COALESCE(SUM(DBSiab.despacho_detalles.CANTIDAD),0),0) AS SALDO'))
-            ->where('DBSiab.despacho_detalles.idServicio',$request->idServicio)
+            ->where('DBSiab.despacho_detalles.NOMSER',$request->NOMSER)
             ->whereBetween('DBSiab.despacho_detalles.FECDES', [$request->fechaInicio, $request->fechaTermino])
             ->groupby('DBSiab.despacho_detalles.CODART')
             ->get();

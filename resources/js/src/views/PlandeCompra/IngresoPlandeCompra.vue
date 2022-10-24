@@ -1408,7 +1408,7 @@ export default {
         TraerListadoPresupuestos() {
             try {
                 let data = {
-                    idServicio: sessionStorage.getItem("idServicio"),
+                    NOMSER: sessionStorage.getItem("NOMSER"),
                     idBodega: sessionStorage.getItem("idBodega"),
                     anio: 2023
                 };
@@ -1454,7 +1454,7 @@ export default {
         TraerArticulosPresupuesto() {
             try {
                 let data = {
-                    idServicio: sessionStorage.getItem("idServicio"),
+                    NOMSER: sessionStorage.getItem("NOMSER"),
                     idBodega: sessionStorage.getItem("idBodega"),
                     anio: 2023
                 };
@@ -1489,7 +1489,7 @@ export default {
         TraerTotalArticulosPresupuesto() {
             try {
                 let data = {
-                    idServicio: sessionStorage.getItem("idServicio"),
+                    NOMSER: sessionStorage.getItem("NOMSER"),
                     idBodega: sessionStorage.getItem("idBodega"),
                     anio: 2023
                 };

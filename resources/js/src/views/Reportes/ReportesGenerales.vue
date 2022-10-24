@@ -467,7 +467,10 @@ export default {
             try {
                 let c = this.listadoServicios;
                 c.forEach((value, ind) => {
-                    if (value.id == sessionStorage.getItem("idServicio")) {
+                    if (
+                        value.descripcionServicio ==
+                        sessionStorage.getItem("NOMSER")
+                    ) {
                         this.seleccionServicio.id = value.id;
                         this.seleccionServicio.descripcionServicio =
                             value.descripcionServicio;
@@ -831,7 +834,7 @@ export default {
                 } else {
                     let data = {
                         mes: this.seleccionMes.id,
-                        idServicio: sessionStorage.getItem("idServicio"),
+                        NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: this.seleccionBodega.id
                     };
                     axios
@@ -886,7 +889,7 @@ export default {
                 } else {
                     let data = {
                         mes: this.seleccionMes.id,
-                        idServicio: sessionStorage.getItem("idServicio"),
+                        NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: this.seleccionBodega.id
                     };
                     axios

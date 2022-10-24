@@ -333,8 +333,8 @@ export default {
             MontoPresupuesto: 0,
             val_run: false,
             seleccionServicio: {
-                id: 1,
-                descripcionServicio: "MEDICINA-CIRUGIA"
+                id: 0,
+                descripcionServicio: "Seleccione Servicio"
             },
             seleccionBodega: {
                 id: 1,
@@ -490,8 +490,8 @@ export default {
                 this.idMod = 0;
                 this.anio = null;
                 this.seleccionServicio = {
-                    id: 1,
-                    descripcionServicio: "MEDICINA-CIRUGIA"
+                    id: 0,
+                    descripcionServicio: "Seleccione Servicio"
                 };
                 this.seleccionBodega = {
                     id: 1,
@@ -512,7 +512,7 @@ export default {
 
                 let c = this.listadoServicios;
                 c.forEach((value, ind) => {
-                    if (value.id == idServicio) {
+                    if (value.descripcionServicio == idServicio) {
                         this.seleccionServicio.id = value.id;
                         this.seleccionServicio.descripcionServicio =
                             value.descripcionServicio;
@@ -607,7 +607,9 @@ export default {
 
                             c.forEach((value, ind) => {
                                 d.forEach((vals, ind) => {
-                                    if (vals.id == value.NOMSER) {
+                                    if (
+                                        vals.descripcionServicio == value.NOMSER
+                                    ) {
                                         value.descripcionServicio =
                                             vals.descripcionServicio;
                                         value.aniofiltrado = moment(value.ANIO)
@@ -634,7 +636,10 @@ export default {
                 let validador = false;
 
                 c.forEach((value, ind) => {
-                    if (value.NOMSER == this.seleccionServicio.id) {
+                    if (
+                        value.NOMSER ==
+                        this.seleccionServicio.descripcionServicio
+                    ) {
                         validador = true;
                     }
                 });
@@ -674,7 +679,7 @@ export default {
                 } else {
                     let data = {
                         ANIO: this.anio,
-                        NOMSER: this.seleccionServicio.id,
+                        NOMSER: this.seleccionServicio.descripcionServicio,
                         P_ANUAL: this.MontoPresupuesto
                     };
 
@@ -753,7 +758,7 @@ export default {
                     let data = {
                         id: this.idMod,
                         ANIO: this.anio,
-                        NOMSER: this.seleccionServicio.id,
+                        NOMSER: this.seleccionServicio.descripcionServicio,
                         P_ANUAL: this.MontoPresupuesto
                     };
 
