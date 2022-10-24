@@ -603,6 +603,8 @@ export default {
                             }
                         });
 
+                        console.log(d);
+
                         this.listadoServicios = d;
                         if (this.listadoServicios.length < 0) {
                             this.$vs.notify({
@@ -635,7 +637,7 @@ export default {
                         let d = [];
                         c.forEach((value, index) => {
                             f.forEach((val, index) => {
-                                if (value.idServicio == val.id) {
+                                if (value.NOMSER == val.descripcionServicio) {
                                     value.descripcionServicio =
                                         val.descripcionServicio;
                                     d.push(value);
