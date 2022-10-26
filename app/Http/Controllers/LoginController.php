@@ -29,7 +29,7 @@ class LoginController extends Controller
         ->get();
 
         $hashedpassword = "";
-
+        log::info($get_all);
         log::info($request->password);
 
         foreach ($get_all as $p){
