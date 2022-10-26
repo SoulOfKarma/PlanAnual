@@ -19,12 +19,6 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class LoginController extends Controller
 {
     public function getUsuarios(Request $request){
-        try {
-            DB::connection()->getPdo();
-        } catch (\Exception $e) {
-            die("Could not connect to the database.  Please check your configuration. error:" . $e );
-        }
-        
         $rut = str_replace('.', '', $request->input('rut'));
         $rut = strtoupper($rut);
 
@@ -32,13 +26,9 @@ class LoginController extends Controller
         ->get();
 
         $hashedpassword = "";
-        log::info($get_all);
-        log::info($rut);
-        log::info($request->password);
 
         foreach ($get_all as $p){
             $hashedpassword = $p->password;
-            log::info($hashedpassword);
             if(Hash::check($request->password,$hashedpassword)){
                 return $get_all;
             }
@@ -47,6 +37,11 @@ class LoginController extends Controller
             }
         }
 
+    }
+
+    public function getTodo(Request $request){
+       $getall = Users::all();
+        return $getall;
     }
 
     public function login(Request $request){

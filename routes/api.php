@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 
 Route::post('/Login/Salir', 'LoginController@salir');
 Route::post('/Login/GetUsers', 'LoginController@getUsuarios');
+Route::post('/Login/getTodo', 'LoginController@getTodo');
 Route::post('/Login/getpr', 'LoginController@adminPr');
 Route::post('/auth/login','LoginController@login');
 Route::post('/auth/RefreshToken','AuthJWT@handle');
