@@ -22,6 +22,8 @@ class LoginController extends Controller
         
         $rut = str_replace('.', '', $request->input('rut'));
         $rut = strtoupper($rut);
+
+        log::info($rut);
         $get_all = Users::where('run',$rut)
         ->get();
 
