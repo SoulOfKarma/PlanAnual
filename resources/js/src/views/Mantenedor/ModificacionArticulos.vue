@@ -76,6 +76,7 @@
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="codart"
+                                    v-on:blur="BuscarArticuloCODART"
                                 />
                             </div>
                             <div class="vx-col w-1/2 mt-5">
@@ -85,6 +86,7 @@
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="nombre"
+                                    disabled
                                 />
                             </div>
                             <div class="vx-col w-1/2 mt-5">
@@ -94,6 +96,7 @@
                                 <vs-input
                                     class="inputx w-full  "
                                     v-model="unimed"
+                                    disabled
                                 />
                             </div>
                             <div class="vx-col w-1/2 mt-5">
@@ -115,6 +118,7 @@
                                     class="w-full select-large"
                                     label="descripcion"
                                     :options="listaEstado"
+                                    disabled
                                 ></v-select>
                             </div>
                             <div class="vx-col w-1/2 mt-5">
@@ -126,6 +130,7 @@
                                     class="w-full select-large"
                                     label="descripcionBodega"
                                     :options="listaBodega"
+                                    disabled
                                 ></v-select>
                             </div>
                             <div class="vx-col w-1/2 mt-5">
@@ -934,6 +939,72 @@ export default {
                     .add(1, "years")
                     .toDate()
             };
+        },
+        BuscarArticuloCODART() {
+            try {
+                let dato = {
+                    CODART: this.codart
+                };
+                axios
+                    .post(
+                        this.siabVal + "/api/PAnual/BusquedaArticuloCodArt",
+                        dato,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` +
+                                    sessionStorage.getItem("token_externo")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        let c = res.data;
+                        if (c.length < 1) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text: "No hay datos sobre el codigo ingresado",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        } else {
+                            this.seleccionBodega = {
+                                id: 0,
+                                descripcionBodega: ""
+                            };
+                            this.seleccionEstado = {
+                                id: 1,
+                                descripcion: "Activo"
+                            };
+                            this.nombre = c[0].NOMBRE;
+                            this.unimed = c[0].UNIMED;
+
+                            let d = this.listaBodega;
+
+                            d.forEach((val, index) => {
+                                if (c[0].idBodega == val.id) {
+                                    this.seleccionBodega.id = val.id;
+                                    this.seleccionBodega.descripcionBodega =
+                                        val.descripcionBodega;
+                                }
+                            });
+
+                            d = [];
+
+                            d = this.listaEstado;
+
+                            d.forEach((val, index) => {
+                                if (c[0].idEstado == val.id) {
+                                    this.seleccionEstado.id = val.id;
+                                    this.seleccionEstado.descripcion =
+                                        val.descripcion;
+                                }
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
     beforeMount() {
