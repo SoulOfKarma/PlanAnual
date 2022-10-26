@@ -39,11 +39,6 @@ class LoginController extends Controller
 
     }
 
-    public function getTodo(Request $request){
-       $getall = Users::all();
-        return $getall;
-    }
-
     public function login(Request $request){
         $request->validate([
             'run' => 'required|string',
