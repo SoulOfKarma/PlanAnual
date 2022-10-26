@@ -25,6 +25,8 @@ class LoginController extends Controller
         $get_all = Users::where('run',$rut)
         ->get();
 
+        log::info($get_all);
+
         $hashedpassword = "";
 
         foreach ($get_all as $p){
