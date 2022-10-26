@@ -30,6 +30,8 @@ class LoginController extends Controller
 
         $hashedpassword = "";
 
+        log::info($request->password);
+
         foreach ($get_all as $p){
             $hashedpassword = $p->password;
             log::info($hashedpassword);
