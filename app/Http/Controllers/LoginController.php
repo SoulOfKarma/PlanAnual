@@ -23,17 +23,17 @@ class LoginController extends Controller
         $rut = str_replace('.', '', $request->input('rut'));
         $rut = strtoupper($rut);
 
-        log::info($rut);
-        $get_all = Users::where('run',$rut)
+        $get_all = Users::select('id','run','nombre_usuario','apellido_usuario','anexo','correo_usuario',
+        'bodega','idServicio','NOMSER','idEstado','password')
+        ->where('run',$rut)
         ->get();
-
-        log::info($get_all);
 
         $hashedpassword = "";
 
         foreach ($get_all as $p){
             $hashedpassword = $p->password;
-            if(Hash::check($request->input('password'),$hashedpassword)){
+            log::info($hashedpassword);
+            if(Hash::check($request->password,$hashedpassword)){
                 return $get_all;
             }
             else{
