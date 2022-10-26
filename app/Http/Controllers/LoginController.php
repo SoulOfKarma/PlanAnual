@@ -19,6 +19,10 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class LoginController extends Controller
 {
     public function getUsuarios(Request $request){
+
+        $dds = DB::connection()->getPdo();
+
+        log::info($dds);
         
         $rut = str_replace('.', '', $request->input('rut'));
         $rut = strtoupper($rut);
