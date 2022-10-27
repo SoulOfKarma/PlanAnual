@@ -1,10 +1,25 @@
 <template>
     <div>
         <vx-card title="Usuarios">
-            <div>
-                <vs-button color="primary" type="filled" @click="popUsuarios"
-                    >Agregar Nuevo Usuario</vs-button
-                >
+            <div class="vx-row">
+                <div class="vx-col w-1/2 mt-5">
+                    <vs-button
+                        class="w-full"
+                        color="primary"
+                        type="filled"
+                        @click="popUsuarios"
+                        >Agregar Nuevo Usuario</vs-button
+                    >
+                </div>
+                <div class="vx-col w-1/2 mt-5">
+                    <vs-button
+                        class="w-full"
+                        color="warning"
+                        type="filled"
+                        @click="popAPUsuarios"
+                        >Dejar Activo o Pasivo a todos los Usuarios</vs-button
+                    >
+                </div>
             </div>
             <br />
             <div>
@@ -39,7 +54,8 @@
                                             props.row.anexo,
                                             props.row.correo_usuario,
                                             props.row.idServicio,
-                                            props.row.permiso_usuario
+                                            props.row.permiso_usuario,
+                                            props.row.idEstado
                                         )
                                     "
                                 ></plus-circle-icon>
@@ -174,7 +190,7 @@
                             <div class="vx-col w-1/2 mt-5">
                                 <vs-button
                                     @click="AgregarUsuario"
-                                    color="danger"
+                                    color="success"
                                     type="filled"
                                     class="w-full m-1"
                                     >Agregar Usuario</vs-button
@@ -307,10 +323,54 @@
                             <div class="vx-col w-1/2 mt-5">
                                 <vs-button
                                     @click="ModificarUsuario"
-                                    color="danger"
+                                    color="warning"
                                     type="filled"
                                     class="w-full m-1"
                                     >Modificar Usuario</vs-button
+                                >
+                            </div>
+                        </div>
+                    </vx-card>
+                    <div class="vx-row"></div>
+                </div>
+            </vs-popup>
+            <vs-popup
+                classContent="APUsuario"
+                title="Activar o Desactivar Todas las Cuentas de Usuario"
+                :active.sync="popUpAPUsuario"
+            >
+                <div class="vx-col md:w-1/1 w-full mb-base">
+                    <vx-card title="">
+                        <div class="vx-row">
+                            <div class="vx-col w-full mt-5">
+                                <h6>Estado</h6>
+                                <br />
+                                <v-select
+                                    taggable
+                                    v-model="seleccionEstadoAP"
+                                    placeholder="descripcion"
+                                    class="w-full select-large"
+                                    label="descripcionEstado"
+                                    :options="listaEstadoAP"
+                                ></v-select>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="popUpAPUsuario = false"
+                                    color="primary"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Volver</vs-button
+                                >
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <vs-button
+                                    @click="APUsuarios"
+                                    color="danger"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Activar o Desactivar Todas las Cuentas de
+                                    Usuario</vs-button
                                 >
                             </div>
                         </div>
@@ -368,6 +428,7 @@ export default {
             //Datos Campos
             popUpUsuario: false,
             popUpUsuarioMod: false,
+            popUpAPUsuario: false,
             run_usuario: "",
             nombre_usuario: "",
             apellido_usuario: "",
@@ -382,14 +443,18 @@ export default {
                 descripcionServicio: ""
             },
             seleccionListaPerfil: {
-                id: 1,
-                descripcionPerfil: "ADM"
+                id: 4,
+                descripcionPerfil: "USU"
             },
             seleccionBodega: {
                 id: 1,
                 descripcion: "Farmacia"
             },
             seleccionEstado: {
+                id: 1,
+                descripcionEstado: "Activo"
+            },
+            seleccionEstadoAP: {
                 id: 1,
                 descripcionEstado: "Activo"
             },
@@ -470,6 +535,16 @@ export default {
                     descripcionEstado: "Administrador"
                 }
             ],
+            listaEstadoAP: [
+                {
+                    id: 1,
+                    descripcionEstado: "Activo"
+                },
+                {
+                    id: 2,
+                    descripcionEstado: "Pasivo"
+                }
+            ],
             listaBodega: [
                 {
                     id: 1,
@@ -520,6 +595,14 @@ export default {
                 this.anexo = "";
                 this.correo_usuario = "";
                 this.password = "";
+                this.seleccionListaPerfil = {
+                    id: 4,
+                    descripcionPerfil: "USU"
+                };
+                this.seleccionEstado = {
+                    id: 1,
+                    descripcionEstado: "Activo"
+                };
             } catch (error) {
                 console.log(error);
             }
@@ -533,6 +616,13 @@ export default {
                 console.log(error);
             }
         },
+        popAPUsuarios() {
+            try {
+                this.popUpAPUsuario = true;
+            } catch (error) {
+                console.log(error);
+            }
+        },
         popModificarUsuario(
             id,
             rut,
@@ -541,7 +631,8 @@ export default {
             anexo,
             correo,
             idServicio,
-            PerfilUsuario
+            PerfilUsuario,
+            idEstado
         ) {
             try {
                 this.run_usuario = rut;
@@ -562,13 +653,22 @@ export default {
                 });
 
                 c = [];
-
                 c = this.listaPerfilUsuario;
                 c.forEach((value, ind) => {
                     if (PerfilUsuario == value.id) {
                         this.seleccionListaPerfil.id = value.id;
                         this.seleccionListaPerfil.descripcionPerfil =
                             value.descripcionPerfil;
+                    }
+                });
+
+                c = [];
+                c = this.listaEstado;
+                c.forEach((value, ind) => {
+                    if (idEstado == value.id) {
+                        this.seleccionEstado.id = value.id;
+                        this.seleccionEstado.descripcionEstado =
+                            value.descripcionEstado;
                     }
                 });
             } catch (error) {
@@ -631,7 +731,8 @@ export default {
                     })
                     .then(res => {
                         //this.rows = res.data;
-                        let c = res.data;
+                        let c = [];
+                        c = res.data;
                         let f = this.listadoServicios;
                         let d = [];
                         c.forEach((value, index) => {
@@ -915,6 +1016,66 @@ export default {
                                     title: "Error",
                                     text:
                                         "No fue posible modificar al usuario,intentelo nuevamente",
+                                    color: "danger",
+                                    position: "top-right"
+                                });
+                            }
+                        });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        APUsuarios() {
+            try {
+                if (
+                    this.seleccionEstadoAP == null ||
+                    this.seleccionEstadoAP.id == 0
+                ) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text:
+                            "No fue posible activar o desactivar las cuentas, intentelo nuevamente",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else {
+                    let dat = {
+                        idEstado: this.seleccionEstadoAP.id,
+                        idPerfil: 4
+                    };
+                    axios
+                        .post(
+                            this.localVal + "/api/Usuario/PutAPUsuario",
+                            dat,
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ` +
+                                        sessionStorage.getItem("token")
+                                }
+                            }
+                        )
+                        .then(res => {
+                            const solicitudServer = res.data;
+                            if (solicitudServer == true) {
+                                this.limpiarCampos();
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Completado",
+                                    text: "Usuarios Modificados Correctamente",
+                                    color: "success",
+                                    position: "top-right"
+                                });
+                                this.popUpAPUsuario = false;
+                                this.TraerUsuarios();
+                            } else {
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Error",
+                                    text:
+                                        "No fue posible modificar a los usuarios,intentelo nuevamente",
                                     color: "danger",
                                     position: "top-right"
                                 });

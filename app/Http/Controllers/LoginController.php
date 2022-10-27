@@ -126,7 +126,8 @@ class LoginController extends Controller
     public function GetUsers(){
         try {
             $get = Users::select('users.id','users.run','users.nombre_usuario','users.apellido_usuario','users.anexo',
-            'users.correo_usuario','users.idServicio','users.idEstado','users.NOMSER')
+            'users.correo_usuario','users.idServicio','users.idEstado','users.NOMSER','tbl_permiso_usuarios.permiso_usuario')
+            ->join('tbl_permiso_usuarios','users.run','=','tbl_permiso_usuarios.run_usuario')
             ->get();
             return $get;
         } catch (\Throwable $th) {
@@ -146,6 +147,18 @@ class LoginController extends Controller
                     'password' => Hash::make($request->password),'idServicio' => $request->idServicio,'NOMSER' => $request->NOMSER,'idEstado' => $request->idEstado]);
                 tblPermisoUsuarios::where('run_usuario',$run)
                 ->update(['permiso_usuario' => $request->permiso_usuario]);
+            return true;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function PutAPUsuario(Request $request){
+        try {
+            Users::where('tbl_permiso_usuarios.permiso_usuario',$request->idPerfil)
+            ->join('tbl_permiso_usuarios','users.run','=','tbl_permiso_usuarios.run_usuario')
+            ->update(['idEstado' => $request->idEstado]);
             return true;
         } catch (\Throwable $th) {
             log::info($th);

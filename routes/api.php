@@ -59,6 +59,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/Usuario/PutUsuario', ['middleware' => 'cors', 'uses' => 'LoginController@PutUsuario']);
     Route::post('/Mantenedor/PutArticulos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@PutArticulos']);
     Route::post('/PCompra/UpdateArticuloServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@UpdateArticuloServ']);
+    Route::post('/Usuario/PutAPUsuario', ['middleware' => 'cors', 'uses' => 'LoginController@PutAPUsuario']);
 
     //Post como Delete
     Route::post('/PCompra/DestroyArticuloServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@DestroyArticuloServ']);
