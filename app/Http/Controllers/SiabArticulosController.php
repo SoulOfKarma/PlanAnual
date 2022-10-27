@@ -33,6 +33,26 @@ class SiabArticulosController extends Controller
         }
     }
 
+    public function ValidarArticulo(Request $request){
+        try {
+            $data = siabArticulos::where('CODART',$request->CODART)
+            ->limit(1)
+            ->get();
+
+            $dato = count($data);
+
+            if($dato > 0){
+                return true;
+            }else{
+                return false;
+            }
+            
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
     public function GetArticulosActivos(){
         try {
             $data = siabArticulos::select('CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')

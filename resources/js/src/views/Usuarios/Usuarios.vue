@@ -528,6 +528,7 @@ export default {
         popUsuarios() {
             try {
                 this.popUpUsuario = true;
+                this.limpiarCampos();
             } catch (error) {
                 console.log(error);
             }

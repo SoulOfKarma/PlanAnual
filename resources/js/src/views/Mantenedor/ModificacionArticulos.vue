@@ -730,53 +730,65 @@ export default {
                         position: "top-right"
                     });
                 } else {
-                    let data = {
-                        CODART: this.codart,
-                        NOMBRE: this.nombre,
-                        UNIMED: this.unimed,
-                        PRECIO: this.precio,
-                        PRE_PROM: this.precio,
-                        idEstado: this.seleccionEstado.id,
-                        idBodega: this.seleccionBodega.id
-                    };
+                    this.VerificarExistenciaArticulo(this.codart);
+                    if (this.validarArticulo) {
+                        let data = {
+                            CODART: this.codart,
+                            NOMBRE: this.nombre,
+                            UNIMED: this.unimed,
+                            PRECIO: this.precio,
+                            PRE_PROM: this.precio,
+                            idEstado: this.seleccionEstado.id,
+                            idBodega: this.seleccionBodega.id
+                        };
 
-                    const dat = data;
+                        const dat = data;
 
-                    axios
-                        .post(
-                            this.localVal + "/api/Mantenedor/PostArticulos",
-                            dat,
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ` +
-                                        sessionStorage.getItem("token")
+                        axios
+                            .post(
+                                this.localVal + "/api/Mantenedor/PostArticulos",
+                                dat,
+                                {
+                                    headers: {
+                                        Authorization:
+                                            `Bearer ` +
+                                            sessionStorage.getItem("token")
+                                    }
                                 }
-                            }
-                        )
-                        .then(res => {
-                            const solicitudServer = res.data;
-                            if (solicitudServer == true) {
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Completado",
-                                    text: "Articulo Registrado Correctamente",
-                                    color: "success",
-                                    position: "top-right"
-                                });
-                                this.popUpListaArticulos = false;
-                                this.TraerArticulos();
-                            } else {
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Error",
-                                    text:
-                                        "No fue posible registrar el articulo,intentelo nuevamente",
-                                    color: "danger",
-                                    position: "top-right"
-                                });
-                            }
+                            )
+                            .then(res => {
+                                const solicitudServer = res.data;
+                                if (solicitudServer == true) {
+                                    this.$vs.notify({
+                                        time: 5000,
+                                        title: "Completado",
+                                        text:
+                                            "Articulo Registrado Correctamente",
+                                        color: "success",
+                                        position: "top-right"
+                                    });
+                                    this.popUpListaArticulos = false;
+                                    this.TraerArticulos();
+                                } else {
+                                    this.$vs.notify({
+                                        time: 5000,
+                                        title: "Error",
+                                        text:
+                                            "No fue posible registrar el articulo,intentelo nuevamente",
+                                        color: "danger",
+                                        position: "top-right"
+                                    });
+                                }
+                            });
+                    } else {
+                        this.$vs.notify({
+                            time: 5000,
+                            title: "Error",
+                            text: "Articulo ya existe en el registro",
+                            color: "danger",
+                            position: "top-right"
                         });
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -923,6 +935,32 @@ export default {
                 console.log(error);
             }
         },
+        VerificarExistenciaArticulo(codart) {
+            try {
+                let data = {
+                    CODART: codart
+                };
+
+                axios
+                    .post(
+                        this.localVal + "/api/Mantenedor/ValidarArticulo",
+                        data,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.validarArticulo = res.data;
+                        console.log(this.validarArticulo);
+                    });
+            } catch (error) {
+                console.log(error);
+                this.validarArticulo = false;
+            }
+        },
         cargarHoras() {
             try {
                 let date = moment().endOf("day");
@@ -945,6 +983,14 @@ export default {
                 let dato = {
                     CODART: this.codart
                 };
+                this.idMod = 0;
+                this.nombre = "";
+                this.seleccionEstado = {
+                    id: 1,
+                    descripcion: "Activo"
+                };
+                this.precio = 0;
+                this.unimed = "";
                 axios
                     .post(
                         this.siabVal + "/api/PAnual/BusquedaArticuloCodArt",
@@ -977,7 +1023,7 @@ export default {
                                 descripcion: "Activo"
                             };
                             this.nombre = c[0].NOMBRE;
-                            this.unimed = c[0].UNIMED;
+                            this.unimed = c[0].UNIMEDBASE;
 
                             let d = this.listaBodega;
 
