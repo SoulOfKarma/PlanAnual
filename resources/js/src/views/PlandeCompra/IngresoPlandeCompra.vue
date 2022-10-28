@@ -1,15 +1,18 @@
 <template>
     <div>
         <vx-card title="Plan de Compra Anual">
-            <div>
-                <vs-button
-                    v-if="validarEstado"
-                    color="primary"
-                    type="filled"
-                    @click="popArticulosPAnual"
-                    >Agregar Articulos</vs-button
-                >
-            </div>
+            <vx-card>
+                <div>
+                    <vs-button
+                        class="w-full"
+                        v-if="validarEstado"
+                        color="primary"
+                        type="filled"
+                        @click="popArticulosPAnual"
+                        >Agregar Articulos</vs-button
+                    >
+                </div>
+            </vx-card>
             <br />
             <div>
                 <vx-card>
