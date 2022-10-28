@@ -1161,7 +1161,6 @@ export default {
                     this.popUpAgregarArticulo = true;
                     this.popUpAgregarArticuloPAnual = false;
                 } else {
-                    console.log(this.panualval);
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
@@ -1425,7 +1424,27 @@ export default {
                         }
                     )
                     .then(res => {
-                        this.rows = res.data;
+                        let c = res.data;
+                        let d = [];
+
+                        c.forEach((value, ind) => {
+                            if (value.PANUALVAL == 0) {
+                                this.panualval = 0;
+                            } else {
+                                this.panualval = value.PANUALVAL;
+                                this.topeMaximo = value.RESTANTEVAL;
+                                this.valorUtilizado = value.UTILIZADOVAL;
+                                if (this.topeMaximo == null) {
+                                    this.topeMaximo = value.PANUALVAL;
+                                    value.RESTANTE = value.P_ANUAL;
+                                }
+
+                                d.push(value);
+                            }
+                        });
+
+                        this.rows = d;
+
                         if (this.rows.length < 0) {
                             this.$vs.notify({
                                 time: 5000,
@@ -1436,16 +1455,6 @@ export default {
                                 position: "top-right"
                             });
                         }
-
-                        this.rows.forEach((value, ind) => {
-                            if (value.PANUALVAL == 0) {
-                                this.panualval = 0;
-                            } else {
-                                this.panualval = value.PANUALVAL;
-                                this.topeMaximo = value.RESTANTEVAL;
-                                this.valorUtilizado = value.UTILIZADOVAL;
-                            }
-                        });
                     });
             } catch (error) {
                 console.log(error);
@@ -1570,6 +1579,12 @@ export default {
         //Metodos para Agregar,Modificar o Eliminar Datos
         AgregarArticuloPAnual() {
             try {
+                if (this.valorUtilizado == null) {
+                    this.valorUtilizado = 0;
+                }
+                if (this.topeMaximo == null) {
+                    this.topeMaximo = 0;
+                }
                 let valorTotal =
                     parseInt(this.precioTotal) + parseInt(this.valorUtilizado);
                 this.C_ENE = parseInt(this.C_ENE) + parseInt(0);
@@ -1618,7 +1633,10 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
-                } else if (valorTotal > this.topeMaximo) {
+                } else if (
+                    valorTotal > this.panualval ||
+                    valorTotal > this.topeMaximo
+                ) {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
@@ -1672,7 +1690,7 @@ export default {
                         T_PRECIO: this.precioTotal,
                         idServicio: sessionStorage.getItem("idServicio"),
                         FECING: date.format("YYYY/MM/DD").toString(),
-                        NOMSER: this.seleccionServicio.descripcionServicio,
+                        NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
                         ANIO: 2023
@@ -1713,7 +1731,7 @@ export default {
                                     time: 5000,
                                     title: "Error",
                                     text:
-                                        "No fue posible modificar el Presupuesto,intentelo nuevamente",
+                                        "No fue posible ingresar el articulo,intentelo nuevamente",
                                     color: "danger",
                                     position: "top-right"
                                 });
@@ -1728,6 +1746,7 @@ export default {
             try {
                 let valorTotal =
                     parseInt(this.precioTotal) + parseInt(this.valorUtilizado);
+
                 this.C_ENE = parseInt(this.C_ENE) + parseInt(0);
                 this.C_FEB = parseInt(this.C_FEB) + parseInt(0);
                 this.C_MAR = parseInt(this.C_MAR) + parseInt(0);
@@ -1774,7 +1793,10 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
-                } else if (valorTotal > this.topeMaximo) {
+                } else if (
+                    valorTotal > this.panualval ||
+                    valorTotal > this.topeMaximo
+                ) {
                     this.$vs.notify({
                         time: 5000,
                         title: "Error",
@@ -1829,7 +1851,7 @@ export default {
                         T_PRECIO: this.precioTotal,
                         idServicio: sessionStorage.getItem("idServicio"),
                         FECING: date.format("YYYY/MM/DD").toString(),
-                        NOMSER: this.seleccionServicio.descripcionServicio,
+                        NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
                         ANIO: 2023
@@ -1869,7 +1891,7 @@ export default {
                                     time: 5000,
                                     title: "Error",
                                     text:
-                                        "No fue posible modificar el Presupuesto,intentelo nuevamente",
+                                        "No fue posible modificar el articulo,intentelo nuevamente",
                                     color: "danger",
                                     position: "top-right"
                                 });
