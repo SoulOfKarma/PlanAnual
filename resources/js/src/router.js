@@ -57,6 +57,12 @@ const router = new Router({
                         import("./views/PlandeCompra/IngresoPlandeCompra.vue")
                 },
                 {
+                    path: "/PlandeCompra/ReprogramacionPC",
+                    name: "ReprogramacionPC",
+                    component: () =>
+                        import("./views/PlandeCompra/ReprogramacionPC.vue")
+                },
+                {
                     path: "/Reportes/ReportesGenerales",
                     name: "ReportesGenerales",
                     component: () =>

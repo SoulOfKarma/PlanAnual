@@ -45,6 +45,12 @@ export default [
                 name: "Ingreso Plan de Compra",
                 slug: "/PlandeCompra/IngresoPlandeCompra",
                 icon: "HomeIcon"
+            },
+            {
+                url: "/PlandeCompra/ReprogramacionPC",
+                name: "Reprogramacion",
+                slug: "/PlandeCompra/ReprogramacionPC",
+                icon: "HomeIcon"
             }
         ]
     },
