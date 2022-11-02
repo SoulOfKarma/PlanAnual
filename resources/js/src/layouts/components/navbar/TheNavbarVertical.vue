@@ -134,7 +134,10 @@ export default {
         },
         CargarDatos() {
             try {
-                sessionStorage.setItem("idBodega", this.seleccionBodega.id);
+                sessionStorage.setItem(
+                    "idBodega",
+                    this.seleccionBodega.idBodega
+                );
                 sessionStorage.setItem(
                     "descripcionBodega",
                     this.seleccionBodega.descripcionBodega
@@ -144,24 +147,29 @@ export default {
                 console.log(error);
             }
         },
-        TraerBodega() {
+        TraerBodegaAsociada() {
             try {
+                let dat = {
+                    run_usuario: sessionStorage.getItem("run")
+                };
                 axios
-                    .get(this.siabVal + "/api/Mantenedor/GetBodega", {
-                        headers: {
-                            Authorization:
-                                `Bearer ` +
-                                sessionStorage.getItem("token_externo")
+                    .post(
+                        this.localVal + "/api/Usuario/GetUsuarioBodegas",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
                         }
-                    })
+                    )
                     .then(res => {
                         this.listaBodega = res.data;
                         if (this.listaBodega.length < 0) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
-                                text:
-                                    "No hay datos o no se cargaron los datos de las Bodegas correctamente",
+                                text: "No hay datos o no se cargaron los datos",
                                 color: "danger",
                                 position: "top-right"
                             });
@@ -184,7 +192,7 @@ export default {
     },
     created() {
         setTimeout(() => {
-            this.TraerBodega();
+            this.TraerBodegaAsociada();
         }, 2000);
         setTimeout(() => {
             this.cargaBodegaSeleccionada();
