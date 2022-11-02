@@ -40,7 +40,7 @@
                             >
                             </span>
                             <span v-else-if="props.column.field === 'action'">
-                                <plus-circle-icon
+                                <upload-icon
                                     content="Modificar Usuario"
                                     v-tippy
                                     size="1.5x"
@@ -58,6 +58,13 @@
                                             props.row.idEstado
                                         )
                                     "
+                                ></upload-icon>
+                                <plus-circle-icon
+                                    content="Asociar Bodegas a Usuario"
+                                    v-tippy
+                                    size="1.5x"
+                                    class="custom-class"
+                                    @click="TraerBodegaAsociada(props.row.run)"
                                 ></plus-circle-icon>
                             </span>
                             <!-- Column: Common -->
@@ -378,6 +385,110 @@
                     <div class="vx-row"></div>
                 </div>
             </vs-popup>
+            <vs-popup
+                classContent="ABUsuarios"
+                title="Asociar Bodegas a Usuario"
+                :active.sync="popUpAsociarBodega"
+            >
+                <div class="vx-col md:w-1/1 w-full mb-base">
+                    <vx-card title="">
+                        <div class="vx-row">
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>Bodega</h6>
+                                <v-select
+                                    taggable
+                                    v-model="seleccionBodega"
+                                    placeholder="Ej. Medicamentos"
+                                    class="w-full select-large"
+                                    label="descripcionBodega"
+                                    :options="listaBodega"
+                                ></v-select>
+                            </div>
+                            <div class="vx-col w-1/2 mt-5">
+                                <h6>.</h6>
+                                <vs-button
+                                    @click="AgregarBodegaAsociada"
+                                    color="success"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Asociar Bodega</vs-button
+                                >
+                            </div>
+                        </div>
+                        <br />
+                        <div class="vx-row">
+                            <div class="vx-col w-full mt-5">
+                                <vx-card title="">
+                                    <vue-good-table
+                                        :columns="columnsBodega"
+                                        :rows="rowsBodega"
+                                        :pagination-options="{
+                                            enabled: true,
+                                            perPage: 10
+                                        }"
+                                    >
+                                        <template
+                                            slot="table-row"
+                                            slot-scope="props"
+                                        >
+                                            <!-- Column: Name -->
+                                            <span
+                                                v-if="
+                                                    props.column.field ===
+                                                        'fullName'
+                                                "
+                                                class="text-nowrap"
+                                            >
+                                            </span>
+                                            <span
+                                                v-else-if="
+                                                    props.column.field ===
+                                                        'action'
+                                                "
+                                            >
+                                                <trash-2-icon
+                                                    content="Quitar Bodega"
+                                                    v-tippy
+                                                    size="1.5x"
+                                                    class="custom-class"
+                                                    @click="
+                                                        EliminarBodegaAsociada(
+                                                            props.row.idBodega,
+                                                            props.row
+                                                                .run_usuario
+                                                        )
+                                                    "
+                                                ></trash-2-icon>
+                                            </span>
+                                            <!-- Column: Common -->
+                                            <span v-else>
+                                                {{
+                                                    props.formattedRow[
+                                                        props.column.field
+                                                    ]
+                                                }}
+                                            </span>
+                                        </template>
+                                    </vue-good-table>
+                                </vx-card>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="vx-row">
+                            <div class="vx-col w-full mt-5">
+                                <vs-button
+                                    @click="popUpAsociarBodega = false"
+                                    color="primary"
+                                    type="filled"
+                                    class="w-full m-1"
+                                    >Volver</vs-button
+                                >
+                            </div>
+                        </div>
+                    </vx-card>
+                    <div class="vx-row"></div>
+                </div>
+            </vs-popup>
         </vx-card>
     </div>
 </template>
@@ -392,6 +503,8 @@ import { quillEditor } from "vue-quill-editor";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { PlusCircleIcon } from "vue-feather-icons";
+import { UploadIcon } from "vue-feather-icons";
+import { Trash2Icon } from "vue-feather-icons";
 import { validate, clean, format } from "rut.js";
 import Vue from "vue";
 import VueTippy, { TippyComponent } from "vue-tippy";
@@ -403,7 +516,9 @@ export default {
         VueGoodTable,
         "v-select": vSelect,
         quillEditor,
-        PlusCircleIcon
+        PlusCircleIcon,
+        UploadIcon,
+        Trash2Icon
     },
     data() {
         return {
@@ -429,6 +544,7 @@ export default {
             popUpUsuario: false,
             popUpUsuarioMod: false,
             popUpAPUsuario: false,
+            popUpAsociarBodega: false,
             run_usuario: "",
             nombre_usuario: "",
             apellido_usuario: "",
@@ -447,8 +563,8 @@ export default {
                 descripcionPerfil: "USU"
             },
             seleccionBodega: {
-                id: 1,
-                descripcion: "Farmacia"
+                id: 0,
+                descripcionBodega: "Seleccione Bodega"
             },
             seleccionEstado: {
                 id: 1,
@@ -500,8 +616,22 @@ export default {
                     field: "action"
                 }
             ],
+            columnsBodega: [
+                {
+                    label: "Descripcion Bodega",
+                    field: "descripcionBodega",
+                    filterOptions: {
+                        enabled: true
+                    }
+                },
+                {
+                    label: "Opciones",
+                    field: "action"
+                }
+            ],
             //Datos Listado Proveedor
             rows: [],
+            rowsBodega: [],
             listadoServicios: [],
             listaPerfilUsuario: [
                 {
@@ -545,16 +675,7 @@ export default {
                     descripcionEstado: "Pasivo"
                 }
             ],
-            listaBodega: [
-                {
-                    id: 1,
-                    descripcion: "Farmacia"
-                },
-                {
-                    id: 2,
-                    descripcion: "Economato"
-                }
-            ]
+            listaBodega: []
         };
     },
     methods: {
@@ -676,6 +797,33 @@ export default {
             }
         },
         //Carga de Datos
+        TraerBodega() {
+            try {
+                axios
+                    .get(this.siabVal + "/api/Mantenedor/GetBodega", {
+                        headers: {
+                            Authorization:
+                                `Bearer ` +
+                                sessionStorage.getItem("token_externo")
+                        }
+                    })
+                    .then(res => {
+                        this.listaBodega = res.data;
+                        if (this.listaBodega.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No hay datos o no se cargaron los datos de las Bodegas correctamente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
         TraerServicio() {
             try {
                 axios
@@ -1085,12 +1233,132 @@ export default {
             } catch (error) {
                 console.log(error);
             }
+        },
+        TraerBodegaAsociada(run) {
+            try {
+                this.limpiarCampos();
+                this.popUpAsociarBodega = true;
+                this.run_usuario = run;
+                let dat = {
+                    run_usuario: run
+                };
+                axios
+                    .post(
+                        this.localVal + "/api/Usuario/GetUsuarioBodegas",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.rowsBodega = res.data;
+                        if (this.rowsBodega.length < 0) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text: "No hay datos o no se cargaron los datos",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        AgregarBodegaAsociada() {
+            try {
+                if (
+                    this.seleccionBodega == null ||
+                    this.seleccionBodega.id == 0
+                ) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text: "Debe seleccionar una bodega para continuar",
+                        color: "danger",
+                        position: "top-right"
+                    });
+                } else {
+                    let dat = {
+                        run_usuario: this.run_usuario,
+                        idBodega: this.seleccionBodega.id,
+                        descripcionBodega: this.seleccionBodega
+                            .descripcionBodega
+                    };
+                    axios
+                        .post(
+                            this.localVal + "/api/Usuario/PostUsuarioBodegas",
+                            dat,
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ` +
+                                        sessionStorage.getItem("token")
+                                }
+                            }
+                        )
+                        .then(res => {
+                            let dato = res.data;
+                            if (dato) {
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Completado",
+                                    text: "Bodega Asociada Correctamente",
+                                    color: "success",
+                                    position: "top-right"
+                                });
+                                this.TraerBodegaAsociada(this.run_usuario);
+                            }
+                        });
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        EliminarBodegaAsociada(id, run) {
+            try {
+                let dat = {
+                    run_usuario: run,
+                    idBodega: id
+                };
+                axios
+                    .post(
+                        this.localVal + "/api/Usuario/DeleteUsuarioBodegas",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        let dato = res.data;
+                        if (dato) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Completado",
+                                text: "Bodega Asociada Eliminada Correctamente",
+                                color: "success",
+                                position: "top-right"
+                            });
+                            this.TraerBodegaAsociada(this.run_usuario);
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
         }
     },
     beforeMount() {
         this.TraerServicio();
         setTimeout(() => {
             this.TraerUsuarios();
+            this.TraerBodega();
             this.openLoadingColor();
         }, 2000);
     }

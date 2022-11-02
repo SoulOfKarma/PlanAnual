@@ -124,7 +124,7 @@
                             >
                             </span>
                             <span v-else-if="props.column.field === 'action'">
-                                <plus-circle-icon
+                                <upload-icon
                                     content="Modificar Articulo"
                                     v-tippy
                                     size="1.5x"
@@ -139,14 +139,14 @@
                                             props.row.PRECIO2
                                         )
                                     "
-                                ></plus-circle-icon>
-                                <plus-circle-icon
+                                ></upload-icon>
+                                <trash-2-icon
                                     content="Quitar Articulo"
                                     v-tippy
                                     size="1.5x"
                                     class="custom-class"
                                     @click="popDeleteArticulo(props.row.id)"
-                                ></plus-circle-icon>
+                                ></trash-2-icon>
                             </span>
                             <!-- Column: Common -->
                             <span v-else>
@@ -732,6 +732,8 @@ import { quillEditor } from "vue-quill-editor";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { PlusCircleIcon } from "vue-feather-icons";
+import { Trash2Icon } from "vue-feather-icons";
+import { UploadIcon } from "vue-feather-icons";
 import { validate, clean, format } from "rut.js";
 import Vue from "vue";
 import VueTippy, { TippyComponent } from "vue-tippy";
@@ -744,6 +746,8 @@ export default {
         "v-select": vSelect,
         quillEditor,
         PlusCircleIcon,
+        Trash2Icon,
+        UploadIcon,
         flatPickr
     },
     data() {

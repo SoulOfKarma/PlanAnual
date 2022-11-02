@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\PlanesAnuales;
+use App\PlanAnualReprogramadosAntiguos;
 use App\ItemPresupuestarios;
 use Illuminate\Http\Request;
 use DB;
@@ -111,6 +112,7 @@ class PlanesAnualesController extends Controller
     public function PostArticuloServ(Request $request){
         try {
             PlanesAnuales::create($request->all());
+            PlanAnualReprogramadosAntiguos::create($request->all());
             return true;
         } catch (\Throwable $th) {
             log::info($th);
@@ -121,6 +123,8 @@ class PlanesAnualesController extends Controller
     public function DestroyArticuloServ(Request $request){
         try {
             PlanesAnuales::where('id',$request->id)
+            ->delete();
+            PlanAnualReprogramadosAntiguos::where('id',$request->id)
             ->delete();
             return true;
         } catch (\Throwable $th) {

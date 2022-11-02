@@ -88,7 +88,7 @@
                             >
                             </span>
                             <span v-else-if="props.column.field === 'action'">
-                                <plus-circle-icon
+                                <upload-icon
                                     v-if="validarEstado"
                                     content="Modificar Articulo"
                                     v-tippy
@@ -104,15 +104,15 @@
                                             props.row.PRECIO2
                                         )
                                     "
-                                ></plus-circle-icon>
-                                <plus-circle-icon
+                                ></upload-icon>
+                                <trash-2-icon
                                     v-if="validarEstado"
                                     content="Quitar Articulo"
                                     v-tippy
                                     size="1.5x"
                                     class="custom-class"
                                     @click="popDeleteArticulo(props.row.id)"
-                                ></plus-circle-icon>
+                                ></trash-2-icon>
                             </span>
                             <!-- Column: Common -->
                             <span v-else>
@@ -698,6 +698,8 @@ import { quillEditor } from "vue-quill-editor";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { PlusCircleIcon } from "vue-feather-icons";
+import { Trash2Icon } from "vue-feather-icons";
+import { UploadIcon } from "vue-feather-icons";
 import { validate, clean, format } from "rut.js";
 import Vue from "vue";
 import VueTippy, { TippyComponent } from "vue-tippy";
@@ -710,6 +712,8 @@ export default {
         "v-select": vSelect,
         quillEditor,
         PlusCircleIcon,
+        Trash2Icon,
+        UploadIcon,
         flatPickr
     },
     data() {
@@ -748,6 +752,7 @@ export default {
             valorUtilizado: 0,
             topeMaximo: 0,
             panualval: 0,
+            reprogramacion: 1,
             obs: "",
             C_ENE: 0,
             C_FEB: 0,
@@ -1696,7 +1701,8 @@ export default {
                         NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
-                        ANIO: 2023
+                        ANIO: 2023,
+                        idReprogramado: this.reprogramacion
                     };
 
                     const dat = data;
@@ -1857,7 +1863,8 @@ export default {
                         NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
-                        ANIO: 2023
+                        ANIO: 2023,
+                        idReprogramado: this.reprogramacion
                     };
 
                     const dat = data;

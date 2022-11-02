@@ -48,11 +48,13 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/RAbastecimiento/ReporteConsolidadoPorServicioDespachado', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoPorServicioDespachado']);
     Route::post('/RAbastecimiento/ReporteConsolidadoPorServicioDespachadoFecha', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoPorServicioDespachadoFecha']);
     Route::post('/Mantenedor/ValidarArticulo', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@ValidarArticulo']);
+    Route::post('/Usuario/PostUsuarioBodegas', ['middleware' => 'cors', 'uses' => 'UsuarioBodegasController@PostUsuarioBodegas']);
     
     //Post Como Get
     Route::post('/Mantenedor/GetPresupuestoByServBodega', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestoByServBodega']);
     Route::post('/PCompra/GetArticulosServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetArticulosServ']);
     Route::post('/PCompra/GetTotalArticulosServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetTotalArticulosServ']);
+    Route::post('/Usuario/GetUsuarioBodegas', ['middleware' => 'cors', 'uses' => 'UsuarioBodegasController@GetUsuarioBodegas']);
 
     //Post Como Put
     Route::post('/Mantenedor/PutPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PutPresupuestoAnual']);
@@ -65,6 +67,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/PCompra/DestroyArticuloServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@DestroyArticuloServ']);
     Route::post('/Mantenedor/DeletePresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@DeletePresupuestoAnual']);
     Route::post('/Mantenedor/EliminarArticulo', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@EliminarArticulo']);
+    Route::post('/Usuario/DeleteUsuarioBodegas', ['middleware' => 'cors', 'uses' => 'UsuarioBodegasController@DeleteUsuarioBodegas']);
 
     //Post Documentos
     Route::post('/Mantenedor/PostDocumentoAuthUsuario', ['middleware' => 'cors', 'uses' => 'DocumentacionAuthUsuariosController@PostDocumentoAuthUsuario']);
