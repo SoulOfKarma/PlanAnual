@@ -55,6 +55,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/PCompra/GetArticulosServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetArticulosServ']);
     Route::post('/PCompra/GetTotalArticulosServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetTotalArticulosServ']);
     Route::post('/Usuario/GetUsuarioBodegas', ['middleware' => 'cors', 'uses' => 'UsuarioBodegasController@GetUsuarioBodegas']);
+    Route::post('/PCompra/GetUltimoReprogramado', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetUltimoReprogramado']);
 
     //Post Como Put
     Route::post('/Mantenedor/PutPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PutPresupuestoAnual']);

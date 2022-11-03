@@ -770,6 +770,7 @@ export default {
                 }
             },
             //Datos Campos
+            reprogramacion: 0,
             popUpAgregarArticulo: false,
             popUpAgregarArticuloPAnual: false,
             popUpModificarArticuloMod: false,
@@ -1572,6 +1573,60 @@ export default {
                 console.log(error);
             }
         },
+        TraerUltimoNReprogramado(NOMSER, idBodega) {
+            try {
+                let data = {
+                    NOMSER: NOMSER,
+                    idBodega: idBodega,
+                    anio: 2023
+                };
+                axios
+                    .post(
+                        this.localVal + "/api/PCompra/GetUltimoReprogramado",
+                        data,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        if (
+                            res.data == [] ||
+                            res.data == null ||
+                            res.data.length == 0
+                        ) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No se cargo el ultimo numero reprogramado",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                            this.reprogramacion = null;
+                        } else {
+                            this.reprogramacion =
+                                res.data[0].ultimoReprogramado;
+                            console.log(this.reprogramacion);
+                        }
+
+                        if (this.reprogramacion < 1) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text:
+                                    "No se cargo el ultimo numero reprogramado",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
         TraerArticulos() {
             try {
                 axios
@@ -1687,6 +1742,15 @@ export default {
                         color: "danger",
                         position: "top-right"
                     });
+                } else if (this.reprogramacion == null) {
+                    this.$vs.notify({
+                        time: 5000,
+                        title: "Error",
+                        text:
+                            "No puede ingresar datos ya que el N° de reprogramacion esta nulo",
+                        color: "danger",
+                        position: "top-right"
+                    });
                 } else if (
                     isNaN(this.C_ENE) ||
                     isNaN(this.C_FEB) ||
@@ -1735,12 +1799,25 @@ export default {
                         NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
-                        ANIO: 2023
+                        ANIO: 2023,
+                        idReprogramado: this.reprogramacion
                     };
 
                     const dat = data;
 
-                    axios
+                    let c = this.rowsArticulos;
+
+                    c.push(dat);
+
+                    c.forEach((val, index) => {
+                        val.idReprogramado = this.reprogramacion;
+                    });
+
+                    console.log(c);
+
+                    console.log(dat);
+
+                    /* axios
                         .post(
                             this.localVal + "/api/PCompra/PostArticuloServ",
                             dat,
@@ -1778,7 +1855,7 @@ export default {
                                     position: "top-right"
                                 });
                             }
-                        });
+                        }); */
                 }
             } catch (error) {
                 console.log(error);
@@ -1896,12 +1973,17 @@ export default {
                         NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
-                        ANIO: 2023
+                        ANIO: 2023,
+                        idReprogramado: this.reprogramacion
                     };
 
                     const dat = data;
 
-                    axios
+                    console.log(this.rowsArticulos);
+
+                    console.log(dat);
+
+                    /* axios
                         .post(
                             this.localVal + "/api/PCompra/UpdateArticuloServ",
                             dat,
@@ -1938,7 +2020,7 @@ export default {
                                     position: "top-right"
                                 });
                             }
-                        });
+                        }); */
                 }
             } catch (error) {
                 console.log(error);
@@ -1951,7 +2033,12 @@ export default {
                 };
 
                 const dat = data;
-                axios
+
+                this.rowsArticulos.splice(this.idMod, 1);
+
+                console.log(this.rowsArticulos);
+
+                /* axios
                     .post(
                         this.localVal + "/api/PCompra/DestroyArticuloServ",
                         dat,
@@ -1987,7 +2074,7 @@ export default {
                                 position: "top-right"
                             });
                         }
-                    });
+                    }); */
             } catch (error) {
                 console.log(error);
             }
@@ -2045,6 +2132,10 @@ export default {
                         this.seleccionBodega.id
                     );
                     this.TraerTotalArticulosPresupuesto(
+                        this.seleccionServicio.descripcionServicio,
+                        this.seleccionBodega.id
+                    );
+                    this.TraerUltimoNReprogramado(
                         this.seleccionServicio.descripcionServicio,
                         this.seleccionBodega.id
                     );

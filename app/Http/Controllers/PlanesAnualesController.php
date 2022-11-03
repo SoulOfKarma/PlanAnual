@@ -120,6 +120,22 @@ class PlanesAnualesController extends Controller
         }
     }
 
+    public function GetUltimoReprogramado(Request $request){
+        try {
+            $get = PlanAnualReprogramadosAntiguos::select(DB::raw('sum(PRECIO) as precio'),
+            DB::raw('max(idReprogramado) as ultimoReprogramado'),'idReprogramado')
+            ->where('NOMSER',$request->NOMSER)
+            ->where('BODEGA',$request->idBodega)
+            ->groupBy('idReprogramado')
+            ->limit(1)
+            ->get();
+            return $get;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
     public function DestroyArticuloServ(Request $request){
         try {
             PlanesAnuales::where('id',$request->id)
