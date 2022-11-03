@@ -55,7 +55,7 @@ class SiabArticulosController extends Controller
 
     public function GetArticulosActivos(){
         try {
-            $data = siabArticulos::select('CODART','NOMBRE','UNIMED','PRECIO','idEstado','idBodega')
+            $data = siabArticulos::select('CODART','NOMBRE','UNIMED',DB::raw('PRE_PROM as PRECIO'),'idEstado','idBodega')
             ->distinct()
             ->where('idEstado',1)
             ->get();
