@@ -163,7 +163,7 @@ export default {
                                         "NOMSER",
                                         response.data[0].NOMSER
                                     );
-                                    sessionStorage.setItem("idBodega", 3);
+                                    sessionStorage.setItem("idBodega", 2);
                                     sessionStorage.setItem(
                                         "descripcionBodega",
                                         "Economato"
