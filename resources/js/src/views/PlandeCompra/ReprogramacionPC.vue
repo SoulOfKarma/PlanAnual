@@ -1732,7 +1732,7 @@ export default {
                     });
                 } else if (
                     valorTotal > this.panualval ||
-                    valorTotal > this.topeMaximo
+                    parseInt(this.precioTotal) > this.topeMaximo
                 ) {
                     this.$vs.notify({
                         time: 5000,
@@ -1914,7 +1914,7 @@ export default {
                     });
                 } else if (
                     valorTotal > this.panualval ||
-                    valorTotal > this.topeMaximo
+                    parseInt(this.precioTotal) > this.topeMaximo
                 ) {
                     this.$vs.notify({
                         time: 5000,
