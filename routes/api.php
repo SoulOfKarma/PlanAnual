@@ -49,6 +49,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/RAbastecimiento/ReporteConsolidadoPorServicioDespachadoFecha', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteConsolidadoPorServicioDespachadoFecha']);
     Route::post('/Mantenedor/ValidarArticulo', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@ValidarArticulo']);
     Route::post('/Usuario/PostUsuarioBodegas', ['middleware' => 'cors', 'uses' => 'UsuarioBodegasController@PostUsuarioBodegas']);
+    Route::post('/PCompra/ReprogramacionPA', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReprogramacionPA']);
     
     //Post Como Get
     Route::post('/Mantenedor/GetPresupuestoByServBodega', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestoByServBodega']);
@@ -56,6 +57,8 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/PCompra/GetTotalArticulosServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetTotalArticulosServ']);
     Route::post('/Usuario/GetUsuarioBodegas', ['middleware' => 'cors', 'uses' => 'UsuarioBodegasController@GetUsuarioBodegas']);
     Route::post('/PCompra/GetUltimoReprogramado', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetUltimoReprogramado']);
+    Route::post('/PCompra/GetListaReprogramaciones', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetListaReprogramaciones']);
+    Route::post('/PCompra/GetArticulosServReporte', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@GetArticulosServReporte']);
 
     //Post Como Put
     Route::post('/Mantenedor/PutPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PutPresupuestoAnual']);

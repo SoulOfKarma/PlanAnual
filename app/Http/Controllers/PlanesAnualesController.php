@@ -27,7 +27,34 @@ class PlanesAnualesController extends Controller
                 'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
                 'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'FECING' => $a->FECING,
                 'NOMART' => $a->NOMART,'NOMSER' => $a->NOMSER,'NROPED' => $a->NROPED,'OBS' => $a->OBS,'PRECIO' => $fmt->formatCurrency($a->PRECIO, "CLP"),
-                'PRECIO2' => $a->PRECIO,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),'UNIMED' => $a->UNIMED,'ZGEN' => $a->ZGEN,'created_at' => $a->created_at,
+                'PRECIO2' => $a->PRECIO,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),'T_PRECIO2' => $a->T_PRECIO,'UNIMED' => $a->UNIMED,'ZGEN' => $a->ZGEN,'created_at' => $a->created_at,
+                'id' => $a->id,'idServicio' => $a->idServicio,'updated_at' => $a->updated_at];
+            }
+
+            return $get;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function GetArticulosServReporte(Request $request){
+        try {
+            $dato = PlanAnualReprogramadosAntiguos::where('NOMSER',$request->NOMSER)
+            ->where('BODEGA',$request->idBodega)
+            ->where('ANIO',$request->anio)
+            ->where('idReprogramado',$request->idReprogramado)
+            ->get();
+
+            $fmt = numfmt_create('es_CL', NumberFormatter::CURRENCY);
+            $get = [];
+            foreach ($dato as $key=>$a) {
+                $get[$key] = ['ANIO' => $a->ANIO,'BODEGA' => $a->BODEGA,'CODART' => $a->CODART,'CODSER' => $a->CODSER,
+                'C_ENE' => $a->C_ENE,'C_FEB' => $a->C_FEB,'C_MAR' => $a->C_MAR,'C_ABR' => $a->C_ABR,'C_MAY' => $a->C_MAY,
+                'C_JUN' => $a->C_JUN,'C_JUL' => $a->C_JUL,'C_AGO' => $a->C_AGO,'C_SEP' => $a->C_SEP,'C_OCT' => $a->C_OCT,
+                'C_NOV' => $a->C_NOV,'C_DIC' => $a->C_DIC,'C_TOTAL' => $a->C_TOTAL,'FECING' => $a->FECING,
+                'NOMART' => $a->NOMART,'NOMSER' => $a->NOMSER,'NROPED' => $a->NROPED,'OBS' => $a->OBS,'PRECIO' => $fmt->formatCurrency($a->PRECIO, "CLP"),
+                'PRECIO2' => $a->PRECIO,'T_PRECIO' => $fmt->formatCurrency($a->T_PRECIO, "CLP"),'T_PRECIO2' => $a->T_PRECIO,'UNIMED' => $a->UNIMED,'ZGEN' => $a->ZGEN,'created_at' => $a->created_at,
                 'id' => $a->id,'idServicio' => $a->idServicio,'updated_at' => $a->updated_at];
             }
 
@@ -127,9 +154,25 @@ class PlanesAnualesController extends Controller
             ->where('NOMSER',$request->NOMSER)
             ->where('BODEGA',$request->idBodega)
             ->groupBy('idReprogramado')
+            ->orderBy('idReprogramado','DESC')
             ->limit(1)
             ->get();
             return $get;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function GetListaReprogramaciones(Request $request){
+        try {
+            $data = PlanAnualReprogramadosAntiguos::select(DB::raw('CONCAT("Reprogramacion N° ", MAX(idReprogramado)) as descripcion'),DB::raw('MAX(idReprogramado) as id'))
+            ->where('NOMSER',$request->NOMSER)
+            ->where('BODEGA',$request->BODEGA)
+            ->groupBy('idReprogramado','NOMSER')
+            ->get();
+            
+            return $data;
         } catch (\Throwable $th) {
             log::info($th);
             return false;
@@ -160,6 +203,42 @@ class PlanesAnualesController extends Controller
                       'C_DIC'=> $request->C_DIC,'C_TOTAL'=>$request->C_TOTAL,'T_PRECIO'=>$request->T_PRECIO,
                       'idServicio'=> $request->idServicio,'FECING'=>$request->FECING,'NOMSER'=>$request->NOMSER,
                       'BODEGA'=>$request->BODEGA,'OBS'=> $request->OBS,'ANIO'=>$request->ANIO]);
+            return true;
+        } catch (\Throwable $th) {
+            log::info($th);
+            return false;
+        }
+    }
+
+    public function ReprogramacionPA(Request $request){
+        try {
+            $get = [];
+
+            //log::info($request->all());
+
+            foreach ($request->all() as $key=>$a) {
+                $id = $a['id'];
+                $get[$key] = ['id' => $a['id'],'CODART' => $a['CODART'],'NOMART' => $a['NOMART'],
+                'UNIMED' => $a['UNIMED'],'PRECIO' => $a['PRECIO2'],'C_ENE' => $a['C_ENE'],'C_FEB' => $a['C_FEB'],
+                'C_MAR' => $a['C_MAR'],'C_ABR' => $a['C_ABR'],'C_MAY' => $a['C_MAY'],'C_JUN' => $a['C_JUN'],
+                'C_JUL' => $a['C_JUL'],'C_AGO' => $a['C_AGO'],'C_SEP' => $a['C_SEP'],'C_OCT' => $a['C_OCT'],
+                'C_NOV' => $a['C_NOV'],'C_DIC' => $a['C_DIC'],'C_TOTAL' => $a['C_TOTAL'],'T_PRECIO' => $a['T_PRECIO2'],
+                'idServicio' => $a['idServicio'],'FECING' => $a['FECING'],'NOMSER' => $a['NOMSER'],'BODEGA' => $a['BODEGA'],
+                'OBS' => $a['OBS'],'ANIO' => $a['ANIO'],'CODART' => $a['CODART'],'CODART' => $a['CODART'],
+                'idReprogramado' => $a['idReprogramado']];
+
+                PlanesAnuales::where('id',$id)
+                ->update(['id' => $a['id'],'CODART' => $a['CODART'],'NOMART' => $a['NOMART'],
+                'UNIMED' => $a['UNIMED'],'PRECIO' => $a['PRECIO2'],'C_ENE' => $a['C_ENE'],'C_FEB' => $a['C_FEB'],
+                'C_MAR' => $a['C_MAR'],'C_ABR' => $a['C_ABR'],'C_MAY' => $a['C_MAY'],'C_JUN' => $a['C_JUN'],
+                'C_JUL' => $a['C_JUL'],'C_AGO' => $a['C_AGO'],'C_SEP' => $a['C_SEP'],'C_OCT' => $a['C_OCT'],
+                'C_NOV' => $a['C_NOV'],'C_DIC' => $a['C_DIC'],'C_TOTAL' => $a['C_TOTAL'],'T_PRECIO' => $a['T_PRECIO2'],
+                'idServicio' => $a['idServicio'],'FECING' => $a['FECING'],'NOMSER' => $a['NOMSER'],'BODEGA' => $a['BODEGA'],
+                'OBS' => $a['OBS'],'ANIO' => $a['ANIO'],'CODART' => $a['CODART'],'CODART' => $a['CODART']]);
+
+                PlanAnualReprogramadosAntiguos::create($get[$key]);
+
+            }
             return true;
         } catch (\Throwable $th) {
             log::info($th);

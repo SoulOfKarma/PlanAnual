@@ -51,6 +51,12 @@ export default [
                 name: "Reprogramacion",
                 slug: "/PlandeCompra/ReprogramacionPC",
                 icon: "HomeIcon"
+            },
+            {
+                url: "/PlandeCompra/ReporteReprogramacion",
+                name: "Reporte Reprogramacion",
+                slug: "/PlandeCompra/ReporteReprogramacion",
+                icon: "HomeIcon"
             }
         ]
     },

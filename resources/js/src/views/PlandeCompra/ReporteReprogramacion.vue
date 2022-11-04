@@ -40,6 +40,32 @@
                     <div class="vx-col w-1/3 mt-5">
                         <h6>.</h6>
                         <vs-button
+                            @click="CargarListaReprogramaciones"
+                            color="success"
+                            type="filled"
+                            class="w-full m-1"
+                            >Cargar Listas Reprogramaciones</vs-button
+                        >
+                    </div>
+                </div>
+            </vx-card>
+            <br />
+            <vx-card>
+                <div class="vx-row">
+                    <div class="vx-col w-1/2 mt-5">
+                        <h6>Seleccione Reprogramacion</h6>
+                        <v-select
+                            taggable
+                            v-model="seleccionReprogramacion"
+                            placeholder="Ej. Medicamentos"
+                            class="w-full select-large"
+                            label="descripcion"
+                            :options="listaReprogramacion"
+                        ></v-select>
+                    </div>
+                    <div class="vx-col w-1/2 mt-5">
+                        <h6>.</h6>
+                        <vs-button
                             @click="CargarProgramacionEspecifica"
                             color="success"
                             type="filled"
@@ -825,6 +851,10 @@ export default {
                 id: 0,
                 descripcionBodega: "Seleccione Bodega"
             },
+            seleccionReprogramacion: {
+                id: 0,
+                descripcion: "Seleccione Reprogramacion"
+            },
             //Configuracion Horas
             configFromdateTimePicker: {
                 minDate: null,
@@ -1140,6 +1170,7 @@ export default {
             listadoArticulos: [],
             listadoTemporalArticulos: [],
             listaBodega: [],
+            listaReprogramacion: [],
             listaEstado: [
                 {
                     id: 1,
@@ -1517,16 +1548,17 @@ export default {
                 console.log(error);
             }
         },
-        TraerArticulosPresupuesto(NOMSER, idBodega) {
+        TraerArticulosPresupuesto(NOMSER, idBodega, idReprogramado) {
             try {
                 let data = {
                     NOMSER: NOMSER,
                     idBodega: idBodega,
+                    idReprogramado: idReprogramado,
                     anio: 2023
                 };
                 axios
                     .post(
-                        this.localVal + "/api/PCompra/GetArticulosServ",
+                        this.localVal + "/api/PCompra/GetArticulosServReporte",
                         data,
                         {
                             headers: {
@@ -2046,6 +2078,40 @@ export default {
                 console.log(error);
             }
         },
+        CargarListaReprogramaciones() {
+            try {
+                let dat = {
+                    BODEGA: this.seleccionBodega.id,
+                    NOMSER: this.seleccionServicio.descripcionServicio
+                };
+
+                axios
+                    .post(
+                        this.localVal + "/api/PCompra/GetListaReprogramaciones",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.listaReprogramacion = res.data;
+                        if (this.listaReprogramacion.length < 1) {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text: "No hay lista Existente",
+                                color: "danger",
+                                position: "top-right"
+                            });
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        },
         CargarProgramacionEspecifica() {
             try {
                 if (this.seleccionServicio == null) {
@@ -2087,13 +2153,10 @@ export default {
                     );
                     this.TraerArticulosPresupuesto(
                         this.seleccionServicio.descripcionServicio,
-                        this.seleccionBodega.id
+                        this.seleccionBodega.id,
+                        this.seleccionReprogramacion.id
                     );
                     this.TraerTotalArticulosPresupuesto(
-                        this.seleccionServicio.descripcionServicio,
-                        this.seleccionBodega.id
-                    );
-                    this.TraerUltimoNReprogramado(
                         this.seleccionServicio.descripcionServicio,
                         this.seleccionBodega.id
                     );
