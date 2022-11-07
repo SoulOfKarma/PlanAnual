@@ -383,6 +383,7 @@ export default {
             popUpListaArticulos: false,
             popUpListaArticulosMod: false,
             popUpEliminarArticulo: false,
+            validarArticulo: false,
             codart: "",
             nombre: "",
             unimed: "",
@@ -731,64 +732,67 @@ export default {
                     });
                 } else {
                     this.VerificarExistenciaArticulo(this.codart);
-                    if (this.validarArticulo) {
-                        let data = {
-                            CODART: this.codart,
-                            NOMBRE: this.nombre,
-                            UNIMED: this.unimed,
-                            PRECIO: this.precio,
-                            PRE_PROM: this.precio,
-                            idEstado: this.seleccionEstado.id,
-                            idBodega: this.seleccionBodega.id
-                        };
+                    setTimeout(() => {
+                        if (this.validarArticulo == 2) {
+                            let data = {
+                                CODART: this.codart,
+                                NOMBRE: this.nombre,
+                                UNIMED: this.unimed,
+                                PRECIO: this.precio,
+                                PRE_PROM: this.precio,
+                                idEstado: this.seleccionEstado.id,
+                                idBodega: this.seleccionBodega.id
+                            };
 
-                        const dat = data;
+                            const dat = data;
 
-                        axios
-                            .post(
-                                this.localVal + "/api/Mantenedor/PostArticulos",
-                                dat,
-                                {
-                                    headers: {
-                                        Authorization:
-                                            `Bearer ` +
-                                            sessionStorage.getItem("token")
+                            axios
+                                .post(
+                                    this.localVal +
+                                        "/api/Mantenedor/PostArticulos",
+                                    dat,
+                                    {
+                                        headers: {
+                                            Authorization:
+                                                `Bearer ` +
+                                                sessionStorage.getItem("token")
+                                        }
                                     }
-                                }
-                            )
-                            .then(res => {
-                                const solicitudServer = res.data;
-                                if (solicitudServer == true) {
-                                    this.$vs.notify({
-                                        time: 5000,
-                                        title: "Completado",
-                                        text:
-                                            "Articulo Registrado Correctamente",
-                                        color: "success",
-                                        position: "top-right"
-                                    });
-                                    this.popUpListaArticulos = false;
-                                    this.TraerArticulos();
-                                } else {
-                                    this.$vs.notify({
-                                        time: 5000,
-                                        title: "Error",
-                                        text:
-                                            "No fue posible registrar el articulo,intentelo nuevamente",
-                                        color: "danger",
-                                        position: "top-right"
-                                    });
-                                }
+                                )
+                                .then(res => {
+                                    const solicitudServer = res.data;
+                                    if (solicitudServer == true) {
+                                        this.$vs.notify({
+                                            time: 5000,
+                                            title: "Completado",
+                                            text:
+                                                "Articulo Registrado Correctamente",
+                                            color: "success",
+                                            position: "top-right"
+                                        });
+                                        this.popUpListaArticulos = false;
+                                        this.TraerArticulos();
+                                    } else {
+                                        this.$vs.notify({
+                                            time: 5000,
+                                            title: "Error",
+                                            text:
+                                                "No fue posible registrar el articulo,intentelo nuevamente",
+                                            color: "danger",
+                                            position: "top-right"
+                                        });
+                                    }
+                                });
+                        } else {
+                            this.$vs.notify({
+                                time: 5000,
+                                title: "Error",
+                                text: "Articulo ya existe en el registro",
+                                color: "danger",
+                                position: "top-right"
                             });
-                    } else {
-                        this.$vs.notify({
-                            time: 5000,
-                            title: "Error",
-                            text: "Articulo ya existe en el registro",
-                            color: "danger",
-                            position: "top-right"
-                        });
-                    }
+                        }
+                    }, 1000);
                 }
             } catch (error) {
                 console.log(error);

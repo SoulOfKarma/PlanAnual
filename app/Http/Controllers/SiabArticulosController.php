@@ -42,9 +42,9 @@ class SiabArticulosController extends Controller
             $dato = count($data);
 
             if($dato > 0){
-                return true;
+                return 1;
             }else{
-                return false;
+                return 2;
             }
             
         } catch (\Throwable $th) {
