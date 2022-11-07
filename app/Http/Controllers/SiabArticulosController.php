@@ -81,7 +81,7 @@ class SiabArticulosController extends Controller
         try {
             $data = siabArticulos::where('id', $request->id)
             ->update(['CODART' => $request->CODART,'NOMBRE' => $request->NOMBRE,'UNIMED' => $request->UNIMED,
-            'PRECIO' => $request->PRECIO,'idEstado' => $request->idEstado,'idBodega' => $request->idBodega]);
+            'PRECIO' => $request->PRECIO,'PRE_PROM' => $request->PRE_PROM,'idEstado' => $request->idEstado,'idBodega' => $request->idBodega]);
             return true;
         } catch (\Throwable $th) {
             log::info($th);
