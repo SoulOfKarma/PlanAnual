@@ -16,14 +16,7 @@
             <br />
             <div>
                 <vx-card>
-                    <vue-good-table
-                        :columns="columnsPresupuesto"
-                        :rows="rows"
-                        :pagination-options="{
-                            enabled: true,
-                            perPage: 10
-                        }"
-                    >
+                    <vue-good-table :columns="columnsPresupuesto" :rows="rows">
                         <template slot="table-row" slot-scope="props">
                             <!-- Column: Name -->
                             <span
@@ -47,10 +40,6 @@
                     <vue-good-table
                         :columns="columnsPlanAnualConsumo"
                         :rows="rowsTotalArticulos"
-                        :pagination-options="{
-                            enabled: true,
-                            perPage: 10
-                        }"
                     >
                         <template slot="table-row" slot-scope="props">
                             <!-- Column: Name -->
