@@ -757,8 +757,12 @@ export default {
                                 CODART: this.codart,
                                 NOMBRE: this.nombre,
                                 UNIMED: this.unimed,
-                                PRECIO: this.precio,
-                                PRE_PROM: this.precio,
+                                PRECIO: parseFloat(
+                                    this.precio.replace(",", ".")
+                                ),
+                                PRE_PROM: parseFloat(
+                                    this.precio.replace(",", ".")
+                                ),
                                 idEstado: this.seleccionEstado.id,
                                 idBodega: this.seleccionBodega.id
                             };

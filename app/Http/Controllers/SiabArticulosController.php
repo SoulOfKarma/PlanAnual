@@ -79,6 +79,7 @@ class SiabArticulosController extends Controller
     
     public function PutArticulos(Request $request){
         try {
+            log::info($request->all());
             $data = siabArticulos::where('id', $request->id)
             ->update(['CODART' => $request->CODART,'NOMBRE' => $request->NOMBRE,'UNIMED' => $request->UNIMED,
             'PRECIO' => $request->PRECIO,'PRE_PROM' => $request->PRE_PROM,'idEstado' => $request->idEstado,'idBodega' => $request->idBodega]);
