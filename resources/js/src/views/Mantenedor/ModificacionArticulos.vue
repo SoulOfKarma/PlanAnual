@@ -534,6 +534,25 @@ export default {
                 return true;
             }
         },
+        limpiarCampos() {
+            try {
+                this.idMod = 0;
+                this.codart = 0;
+                this.nombre = 0;
+                this.unimed = 0;
+                this.precio = 0;
+                this.seleccionEstado = {
+                    id: 1,
+                    descripcion: "Activo"
+                };
+                this.seleccionBodega = {
+                    id: 1,
+                    descripcionBodega: "Medicamentos"
+                };
+            } catch (error) {
+                console.log(error);
+            }
+        },
         //PopUp
         popListaArticulos() {
             try {
@@ -877,6 +896,7 @@ export default {
                                     position: "top-right"
                                 });
                                 this.popUpListaArticulosMod = false;
+                                this.limpiarCampos();
                                 this.TraerArticulos();
                             } else {
                                 this.$vs.notify({

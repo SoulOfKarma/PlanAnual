@@ -78,10 +78,6 @@
                         class="w-full"
                         :columns="column"
                         :rows="listadoGeneral"
-                        :pagination-options="{
-                            enabled: true,
-                            perPage: 10
-                        }"
                     >
                         <template slot="table-row" slot-scope="props">
                             <!-- Column: Name -->
@@ -145,7 +141,7 @@ import { quillEditor } from "vue-quill-editor";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { PlusCircleIcon } from "vue-feather-icons";
-//import store from "./store.js";
+import store from "./store.js";
 import Vue from "vue";
 import VueTippy, { TippyComponent } from "vue-tippy";
 Vue.use(VueTippy);
@@ -194,8 +190,8 @@ export default {
                 descripcionMes: "Seleccione Mes"
             },
             seleccionBodega: {
-                id: 1,
-                descripcionBodega: "Medicamentos"
+                id: 2,
+                descripcionBodega: "Economato"
             },
             //Datos para Exportar
             fileName: "",
@@ -414,10 +410,13 @@ export default {
         },
         exportToExcel() {
             import("@/vendor/Export2Excel").then(excel => {
-                const list = this.listadoGeneral;
-                const data = this.formatJson(this.headerVal, list);
+                const list = this.listadoGeneralDetalle;
+                const data = this.formatJson(
+                    store.state.headerValReporteUsuario,
+                    list
+                );
                 excel.export_json_to_excel({
-                    header: this.headerTitle,
+                    header: store.state.headerTitleReporteUsuario,
                     data,
                     filename: this.fileName,
                     autoWidth: this.cellAutoWidth,
@@ -773,24 +772,40 @@ export default {
                 console.log(error);
             }
         },
-        TraerBodega() {
+        TraerBodegaAsociada() {
             try {
+                let dat = {
+                    run_usuario: sessionStorage.getItem("run")
+                };
                 axios
-                    .get(this.siabVal + "/api/Mantenedor/GetBodega", {
-                        headers: {
-                            Authorization:
-                                `Bearer ` +
-                                sessionStorage.getItem("token_externo")
+                    .post(
+                        this.localVal + "/api/Usuario/GetUsuarioBodegas",
+                        dat,
+                        {
+                            headers: {
+                                Authorization:
+                                    `Bearer ` + sessionStorage.getItem("token")
+                            }
                         }
-                    })
+                    )
                     .then(res => {
-                        this.listaBodega = res.data;
+                        let c = res.data;
+                        let d = [];
+                        let f = {};
+                        c.forEach((value, index) => {
+                            f = {};
+                            f = {
+                                id: value.idBodega,
+                                descripcionBodega: value.descripcionBodega
+                            };
+                            d.push(f);
+                        });
+                        this.listaBodega = d;
                         if (this.listaBodega.length < 0) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
-                                text:
-                                    "No hay datos o no se cargaron los datos de las Bodegas correctamente",
+                                text: "No hay datos o no se cargaron los datos",
                                 color: "danger",
                                 position: "top-right"
                             });
@@ -888,7 +903,7 @@ export default {
         }
     },
     beforeMount() {
-        this.TraerBodega();
+        this.TraerBodegaAsociada();
         this.TraerServicio();
         this.GetReporteEspecifico();
         setTimeout(() => {
