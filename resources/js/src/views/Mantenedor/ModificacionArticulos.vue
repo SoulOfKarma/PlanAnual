@@ -522,6 +522,7 @@ export default {
             }, 1000);
         },
         isNumber: function(evt) {
+            //.replace(",", ".")
             evt = evt ? evt : window.event;
             var charCode = evt.which ? evt.which : evt.keyCode;
             if (
@@ -757,12 +758,8 @@ export default {
                                 CODART: this.codart,
                                 NOMBRE: this.nombre,
                                 UNIMED: this.unimed,
-                                PRECIO: parseFloat(
-                                    this.precio.replace(",", ".")
-                                ),
-                                PRE_PROM: parseFloat(
-                                    this.precio.replace(",", ".")
-                                ),
+                                PRECIO: parseFloat(this.precio),
+                                PRE_PROM: parseFloat(this.precio),
                                 idEstado: this.seleccionEstado.id,
                                 idBodega: this.seleccionBodega.id
                             };
@@ -982,7 +979,6 @@ export default {
                     )
                     .then(res => {
                         this.validarArticulo = res.data;
-                        console.log(this.validarArticulo);
                     });
             } catch (error) {
                 console.log(error);

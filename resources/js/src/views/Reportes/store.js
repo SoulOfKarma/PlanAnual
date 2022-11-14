@@ -3,6 +3,7 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
+        //Cabecera Exportacion Excel Reporte Usuarios
         headerTitleReporteUsuario: [
             "Codigo Articulo",
             "Descripcion",
@@ -24,6 +25,7 @@ export default new Vuex.Store({
             "Saldo Bodega",
             "Total"
         ],
+        //Columnas Exportacion Excel Reporte Usuarios
         headerValReporteUsuario: [
             "CODART",
             "NOMART",
@@ -44,6 +46,104 @@ export default new Vuex.Store({
             "C_TOTAL",
             "S_BODEGA",
             "T_PRECIO"
+        ],
+        //Cabecera Reporte General Opcion Despacho X Servicio Mensual
+        headerTitleDSM: [
+            "Codigo Articulo",
+            "Descripcion",
+            "Unidad Medida",
+            "Precio",
+            "Solicitado",
+            "Despachado"
+        ],
+        //Columnas Reporte General Opcion Despacho X Servicio Mensual
+        headerValDSM: [
+            "CODART",
+            "NOMART",
+            "UNIMED",
+            "PRECIO",
+            "SOLART",
+            "DESART"
+        ],
+        //Cabecera Reporte General Opcion Despacho Plan Anual V/S Despacho Bodega
+        headerTitleDPADB: [
+            "Codigo Articulo",
+            "Descripcion",
+            "Unidad Medida",
+            "Precio",
+            "Solicitado",
+            "Despachado",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"
+        ],
+        //Columnas Reporte General Opcion Despacho Plan Anual V/S Despacho Bodega
+        headerValDPADB: [
+            "CODART",
+            "NOMART",
+            "UNIMED",
+            "PRECIO",
+            "SOLART",
+            "DESART",
+            "DAY1",
+            "DAY2",
+            "DAY3",
+            "DAY4",
+            "DAY5",
+            "DAY6",
+            "DAY7",
+            "DAY8",
+            "DAY9",
+            "DAY10",
+            "DAY11",
+            "DAY12",
+            "DAY13",
+            "DAY14",
+            "DAY15",
+            "DAY16",
+            "DAY17",
+            "DAY18",
+            "DAY19",
+            "DAY20",
+            "DAY21",
+            "DAY22",
+            "DAY23",
+            "DAY24",
+            "DAY25",
+            "DAY26",
+            "DAY27",
+            "DAY28",
+            "DAY29",
+            "DAY30",
+            "DAY31"
         ]
     },
     mutations: {},

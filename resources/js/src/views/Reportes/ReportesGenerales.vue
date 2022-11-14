@@ -166,7 +166,7 @@ import { quillEditor } from "vue-quill-editor";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { PlusCircleIcon } from "vue-feather-icons";
-//import store from "./store.js";
+import store from "./store.js";
 import Vue from "vue";
 import VueTippy, { TippyComponent } from "vue-tippy";
 Vue.use(VueTippy);
@@ -542,6 +542,8 @@ export default {
                             }
                         }
                     ];
+                    this.headerVal = store.state.headerValDSM;
+                    this.headerTitle = store.state.headerTitleDSM;
                 } else if (this.seleccionReporte.id == 2) {
                     this.despachomes = false;
                     this.despachopab = true;
@@ -808,6 +810,8 @@ export default {
                             }
                         }
                     ];
+                    this.headerVal = store.state.headerValDPADB;
+                    this.headerTitle = store.state.headerTitleDPADB;
                 }
             } catch (error) {
                 console.log(error);

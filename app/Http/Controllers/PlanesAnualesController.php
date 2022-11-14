@@ -1812,22 +1812,26 @@ class PlanesAnualesController extends Controller
                     }
                 }
             }
+            $get1 = json_encode($get1);
+            $get1 = json_decode($get1);
 
-            $get1 = json_decode(json_encode($get1));
             $get2 = [];
+
+            $key3 = 0;
 
             foreach ($get1 as $key=>$a) {
                 foreach ($bodegas as $b) {
                     if($a->BODEGA == $b->id){
-                        $get2[$key] = ['NOMSER' => $a->NOMSER,'DESBOD' => $b->descripcionBodega,'ENERO' => $a->ENERO,
+                        $get2[$key3] = ['NOMSER' => $a->NOMSER,'DESBOD' => $b->descripcionBodega,'ENERO' => $a->ENERO,
                         'FEBRERO' => $a->FEBRERO,'MARZO' => $a->MARZO,'ABRIL' => $a->ABRIL,'MAYO' => $a->MAYO,'JUNIO' => $a->JUNIO,
                         'JULIO' => $a->JULIO,'AGOSTO' => $a->AGOSTO,'SEPTIEMBRE' => $a->SEPTIEMBRE,'OCTUBRE' => $a->OCTUBRE,
                         'NOVIEMBRE' => $a->NOVIEMBRE,'DICIEMBRE' => $a->DICIEMBRE,'T_PRECIO' => $a->T_PRECIO];
+                        $key3 = $key3 + 1;
                     }
                 }
             }
 
-            $get2 = json_decode(json_encode($get2));
+            $get2 = json_encode($get2);
 
             return $get2;
         } catch (\Throwable $th) {
