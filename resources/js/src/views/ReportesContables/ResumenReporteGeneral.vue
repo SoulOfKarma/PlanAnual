@@ -100,7 +100,7 @@ import { quillEditor } from "vue-quill-editor";
 import "vue-good-table/dist/vue-good-table.css";
 import { VueGoodTable } from "vue-good-table";
 import { PlusCircleIcon } from "vue-feather-icons";
-//import store from "./store.js";
+import store from "./store.js";
 import Vue from "vue";
 import VueTippy, { TippyComponent } from "vue-tippy";
 Vue.use(VueTippy);
@@ -408,113 +408,9 @@ export default {
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
                     this.validadorLista = true;
-                    this.column = [
-                        {
-                            label: "Codigo Item",
-                            field: "CODIPRE",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Descripcion",
-                            field: "NOMBREIPRE",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Enero",
-                            field: "C_ENE",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Febrero",
-                            field: "C_FEB",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Marzo",
-                            field: "C_MAR",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Abril",
-                            field: "C_ABR",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Mayo",
-                            field: "C_MAY",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Junio",
-                            field: "C_JUN",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Julio",
-                            field: "C_JUL",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Agosto",
-                            field: "C_AGO",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Septiembre",
-                            field: "C_SEP",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Octubre",
-                            field: "C_OCT",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Noviembre",
-                            field: "C_NOV",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Diciembre",
-                            field: "C_DIC",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Total",
-                            field: "T_PRECIO",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        }
-                    ];
+                    this.column = store.state.ColumnasIP;
+                    this.headerVal = store.state.headerValIP;
+                    this.headerTitle = store.state.headerTitleIP;
                     this.CargarResumenItemPresupuestario();
                 } else if (this.seleccionReporte.id == 2) {
                     this.resumenitempre = false;
@@ -522,120 +418,9 @@ export default {
                     this.solicitudpdb = false;
                     this.despachopadbt = false;
                     this.validadorLista = true;
-                    this.column = [
-                        {
-                            label: "Servicio",
-                            field: "NOMSER",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Codigo Item",
-                            field: "CODIPRE",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Descripcion",
-                            field: "NOMBREIPRE",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Enero",
-                            field: "C_ENE",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Febrero",
-                            field: "C_FEB",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Marzo",
-                            field: "C_MAR",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Abril",
-                            field: "C_ABR",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Mayo",
-                            field: "C_MAY",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Junio",
-                            field: "C_JUN",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Julio",
-                            field: "C_JUL",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Agosto",
-                            field: "C_AGO",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Septiembre",
-                            field: "C_SEP",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Octubre",
-                            field: "C_OCT",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Noviembre",
-                            field: "C_NOV",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Diciembre",
-                            field: "C_DIC",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        },
-                        {
-                            label: "Total",
-                            field: "T_PRECIO",
-                            filterOptions: {
-                                enabled: true
-                            }
-                        }
-                    ];
+                    this.column = store.state.ColumnasRIPS;
+                    this.headerVal = store.state.headerValIPS;
+                    this.headerTitle = store.state.headerTitleIPS;
                     this.CargarResumenItemPresupuestarioServicio();
                 }
             } catch (error) {
