@@ -60,6 +60,20 @@ export default {
                     title: "Inicio",
                     desc:
                         "En esta seccion, aparecera un resumen de las funciones de las secciones que se encuentran en la izquierda"
+                },
+                {
+                    color: "success",
+                    icon: "UsersIcon",
+                    title: "Plan de Compra",
+                    desc:
+                        "En esta seccion, Podra ingresar el detalle para su plan de compra del siguiente año"
+                },
+                {
+                    color: "success",
+                    icon: "UsersIcon",
+                    title: "Reportes",
+                    desc:
+                        "En esta seccion, Podra visualizar el detalle de su plan de compra por Categoria"
                 }
             ]
         };
