@@ -850,84 +850,84 @@ export default {
                     }
                 },
                 {
-                    label: "ENERO",
+                    label: "ENE",
                     field: "C_ENE",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "Febrero",
+                    label: "FEB",
                     field: "C_FEB",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "MARZO",
+                    label: "MAR",
                     field: "C_MAR",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "ABRIL",
+                    label: "ABR",
                     field: "C_ABR",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "MAYO",
+                    label: "MAY",
                     field: "C_MAY",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "JUNIO",
+                    label: "JUN",
                     field: "C_JUN",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "JULIO",
+                    label: "JUL",
                     field: "C_JUL",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "AGOSTO",
+                    label: "AGO",
                     field: "C_AGO",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "SEPTIEMBRE",
+                    label: "SEP",
                     field: "C_SEP",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "OCTUBRE",
+                    label: "OCT",
                     field: "C_OCT",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "NOVIEMBRE",
+                    label: "NOV",
                     field: "C_NOV",
                     filterOptions: {
                         enabled: true
                     }
                 },
                 {
-                    label: "DICIEMBRE",
+                    label: "DIC",
                     field: "C_DIC",
                     filterOptions: {
                         enabled: true
