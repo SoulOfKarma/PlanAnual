@@ -100,7 +100,7 @@
                                     v-tippy
                                     size="1.5x"
                                     class="custom-class"
-                                    @click="popDeleteArticulo(props.row.id)"
+                                    @click="popDeleteArticulo(props.row.CODART)"
                                 ></trash-2-icon>
                             </span>
                             <!-- Column: Common -->
@@ -731,8 +731,12 @@ export default {
             popUpEliminarArticulo: false,
             validarEstado: false,
             fechaPAnual: null,
+            fechaAnio: null,
             idArticulo: "",
             codart: "",
+            codartMod: "",
+            nomser: "",
+            idBodega: "",
             nombre: "",
             unimed: "",
             precio: "",
@@ -1178,9 +1182,11 @@ export default {
                 console.log(error);
             }
         },
-        popDeleteArticulo(id) {
+        popDeleteArticulo(codart) {
             try {
-                this.idMod = id;
+                this.codartMod = codart;
+                this.nomser = sessionStorage.getItem("NOMSER");
+                this.idBodega = sessionStorage.getItem("idBodega");
                 this.popUpEliminarArticulo = true;
             } catch (error) {
                 console.log(error);
@@ -1690,7 +1696,7 @@ export default {
                         NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
-                        ANIO: 2023,
+                        ANIO: this.fechaAnio,
                         idReprogramado: this.reprogramacion
                     };
 
@@ -1852,7 +1858,7 @@ export default {
                         NOMSER: sessionStorage.getItem("NOMSER"),
                         BODEGA: sessionStorage.getItem("idBodega"),
                         OBS: this.obs,
-                        ANIO: 2023,
+                        ANIO: this.fechaAnio,
                         idReprogramado: this.reprogramacion
                     };
 
@@ -1904,7 +1910,9 @@ export default {
         EliminarArticulo() {
             try {
                 let data = {
-                    id: this.idMod
+                    CODART: this.codartMod,
+                    NOMSER: this.nomser,
+                    BODEGA: this.idBodega
                 };
 
                 const dat = data;
@@ -1952,7 +1960,11 @@ export default {
         cargarHoras() {
             try {
                 let date = moment().endOf("day");
+                let dat = moment()
+                    .endOf("day")
+                    .add(1, "y");
                 this.fechaPAnual = date.format("DD/MM/YYYY").toString();
+                this.fechaAnio = dat.format("YYYY").toString();
             } catch (error) {
                 console.log("No se cargo la ISO hora");
                 console.log(error);
@@ -1976,6 +1988,7 @@ export default {
     beforeMount() {
         this.TraerServicio();
         this.TraerArticulos();
+        this.cargarHoras();
         setTimeout(() => {
             this.TraerListadoPresupuestos();
             this.TraerArticulosPresupuesto();
