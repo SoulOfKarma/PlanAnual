@@ -77,8 +77,8 @@ export default {
             siabVal: process.env.MIX_APP_URL_API_SIAB,
             texto: "Seleccione Bodega: ",
             seleccionBodega: {
-                id: 1,
-                descripcionBodega: "Medicamentos"
+                id: 2,
+                descripcionBodega: "Economato"
             },
             listaBodega: []
         };
@@ -185,18 +185,26 @@ export default {
                 this.seleccionBodega.descripcionBodega = sessionStorage.getItem(
                     "descripcionBodega"
                 );
+
+                if (
+                    this.seleccionBodega.id == "undefined" ||
+                    this.seleccionBodega == "undefined"
+                ) {
+                    sessionStorage.setItem("idBodega", 2);
+                    sessionStorage.setItem("descripcionBodega", "Economato");
+                    this.seleccionBodega.id = 2;
+                    this.seleccionBodega.descripcionBodega = "Economato";
+                }
             } catch (error) {
                 console.log(error);
             }
         }
     },
     created() {
-        setTimeout(() => {
-            this.TraerBodegaAsociada();
-        }, 2000);
+        this.TraerBodegaAsociada();
         setTimeout(() => {
             this.cargaBodegaSeleccionada();
-        }, 3000);
+        }, 1000);
     }
 };
 </script>
