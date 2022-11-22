@@ -1208,6 +1208,7 @@ export default {
         },
         popModificarArticulo(id, codart, nombre, unimed, precio, precio2) {
             try {
+                this.obs = "";
                 this.idMod = id;
                 this.popUpModificarArticuloMod = true;
                 let c = this.rowsArticulos;

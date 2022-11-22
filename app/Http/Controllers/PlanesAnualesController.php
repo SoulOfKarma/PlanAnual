@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Log;
 use \NumberFormatter;
+use Illuminate\Support\Str;
 
 class PlanesAnualesController extends Controller
 {
@@ -239,25 +240,42 @@ class PlanesAnualesController extends Controller
 
             foreach ($request->all() as $key=>$a) {
                 $id = $a['id'];
-                $get[$key] = ['id' => $a['id'],'CODART' => $a['CODART'],'NOMART' => $a['NOMART'],
-                'UNIMED' => $a['UNIMED'],'PRECIO' => $a['PRECIO2'],'C_ENE' => $a['C_ENE'],'C_FEB' => $a['C_FEB'],
-                'C_MAR' => $a['C_MAR'],'C_ABR' => $a['C_ABR'],'C_MAY' => $a['C_MAY'],'C_JUN' => $a['C_JUN'],
-                'C_JUL' => $a['C_JUL'],'C_AGO' => $a['C_AGO'],'C_SEP' => $a['C_SEP'],'C_OCT' => $a['C_OCT'],
-                'C_NOV' => $a['C_NOV'],'C_DIC' => $a['C_DIC'],'C_TOTAL' => $a['C_TOTAL'],'T_PRECIO' => $a['T_PRECIO2'],
-                'idServicio' => $a['idServicio'],'FECING' => $a['FECING'],'NOMSER' => $a['NOMSER'],'BODEGA' => $a['BODEGA'],
-                'OBS' => $a['OBS'],'ANIO' => $a['ANIO'],'CODART' => $a['CODART'],'CODART' => $a['CODART'],
-                'idReprogramado' => $a['idReprogramado']];
 
-                PlanesAnuales::where('id',$id)
-                ->update(['id' => $a['id'],'CODART' => $a['CODART'],'NOMART' => $a['NOMART'],
-                'UNIMED' => $a['UNIMED'],'PRECIO' => $a['PRECIO2'],'C_ENE' => $a['C_ENE'],'C_FEB' => $a['C_FEB'],
-                'C_MAR' => $a['C_MAR'],'C_ABR' => $a['C_ABR'],'C_MAY' => $a['C_MAY'],'C_JUN' => $a['C_JUN'],
-                'C_JUL' => $a['C_JUL'],'C_AGO' => $a['C_AGO'],'C_SEP' => $a['C_SEP'],'C_OCT' => $a['C_OCT'],
-                'C_NOV' => $a['C_NOV'],'C_DIC' => $a['C_DIC'],'C_TOTAL' => $a['C_TOTAL'],'T_PRECIO' => $a['T_PRECIO2'],
-                'idServicio' => $a['idServicio'],'FECING' => $a['FECING'],'NOMSER' => $a['NOMSER'],'BODEGA' => $a['BODEGA'],
-                'OBS' => $a['OBS'],'ANIO' => $a['ANIO'],'CODART' => $a['CODART'],'CODART' => $a['CODART']]);
+                if($id > 1){
+                    $get[$key] = ['id' => $a['id'],'CODART' => $a['CODART'],'NOMART' => $a['NOMART'],
+                    'UNIMED' => $a['UNIMED'],'PRECIO' => $a['PRECIO2'],'C_ENE' => $a['C_ENE'],'C_FEB' => $a['C_FEB'],
+                    'C_MAR' => $a['C_MAR'],'C_ABR' => $a['C_ABR'],'C_MAY' => $a['C_MAY'],'C_JUN' => $a['C_JUN'],
+                    'C_JUL' => $a['C_JUL'],'C_AGO' => $a['C_AGO'],'C_SEP' => $a['C_SEP'],'C_OCT' => $a['C_OCT'],
+                    'C_NOV' => $a['C_NOV'],'C_DIC' => $a['C_DIC'],'C_TOTAL' => $a['C_TOTAL'],'T_PRECIO' => $a['T_PRECIO2'],
+                    'idServicio' => $a['idServicio'],'FECING' => $a['FECING'],'NOMSER' => $a['NOMSER'],'BODEGA' => $a['BODEGA'],
+                    'OBS' => $a['OBS'],'ANIO' => $a['ANIO'],'CODART' => $a['CODART'],'CODART' => $a['CODART'],
+                    'idReprogramado' => $a['idReprogramado']];
 
-                PlanAnualReprogramadosAntiguos::create($get[$key]);
+                    PlanesAnuales::where('id',$id)
+                    ->update(['id' => $a['id'],'CODART' => $a['CODART'],'NOMART' => $a['NOMART'],
+                    'UNIMED' => $a['UNIMED'],'PRECIO' => $a['PRECIO2'],'C_ENE' => $a['C_ENE'],'C_FEB' => $a['C_FEB'],
+                    'C_MAR' => $a['C_MAR'],'C_ABR' => $a['C_ABR'],'C_MAY' => $a['C_MAY'],'C_JUN' => $a['C_JUN'],
+                    'C_JUL' => $a['C_JUL'],'C_AGO' => $a['C_AGO'],'C_SEP' => $a['C_SEP'],'C_OCT' => $a['C_OCT'],
+                    'C_NOV' => $a['C_NOV'],'C_DIC' => $a['C_DIC'],'C_TOTAL' => $a['C_TOTAL'],'T_PRECIO' => $a['T_PRECIO2'],
+                    'idServicio' => $a['idServicio'],'FECING' => $a['FECING'],'NOMSER' => $a['NOMSER'],'BODEGA' => $a['BODEGA'],
+                    'OBS' => $a['OBS'],'ANIO' => $a['ANIO'],'CODART' => $a['CODART'],'CODART' => $a['CODART']]);
+
+                    PlanAnualReprogramadosAntiguos::create($get[$key]);
+                }else if($id == 0){
+                    $get[$key] = ['CODART' => $a['CODART'],'NOMART' => $a['NOMART'],
+                    'UNIMED' => $a['UNIMED'],'PRECIO' => $a['PRECIO2'],'C_ENE' => $a['C_ENE'],'C_FEB' => $a['C_FEB'],
+                    'C_MAR' => $a['C_MAR'],'C_ABR' => $a['C_ABR'],'C_MAY' => $a['C_MAY'],'C_JUN' => $a['C_JUN'],
+                    'C_JUL' => $a['C_JUL'],'C_AGO' => $a['C_AGO'],'C_SEP' => $a['C_SEP'],'C_OCT' => $a['C_OCT'],
+                    'C_NOV' => $a['C_NOV'],'C_DIC' => $a['C_DIC'],'C_TOTAL' => $a['C_TOTAL'],'T_PRECIO' => $a['T_PRECIO2'],
+                    'idServicio' => $a['idServicio'],'FECING' => $a['FECING'],'NOMSER' => $a['NOMSER'],'BODEGA' => $a['BODEGA'],
+                    'OBS' => $a['OBS'],'ANIO' => $a['ANIO'],'CODART' => $a['CODART'],'CODART' => $a['CODART'],
+                    'idReprogramado' => $a['idReprogramado']];
+
+                    PlanesAnuales::create($get[$key]);
+                    PlanAnualReprogramadosAntiguos::create($get[$key]);
+                }
+
+                
 
             }
             return true;

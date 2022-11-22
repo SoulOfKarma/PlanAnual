@@ -64,6 +64,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/Mantenedor/PutPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PutPresupuestoAnual']);
     Route::post('/Usuario/PutUsuario', ['middleware' => 'cors', 'uses' => 'LoginController@PutUsuario']);
     Route::post('/Mantenedor/PutArticulos', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@PutArticulos']);
+    Route::post('/Mantenedor/PutArticulosExterno', ['middleware' => 'cors', 'uses' => 'SiabArticulosController@PutArticulosExterno']);
     Route::post('/PCompra/UpdateArticuloServ', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@UpdateArticuloServ']);
     Route::post('/Usuario/PutAPUsuario', ['middleware' => 'cors', 'uses' => 'LoginController@PutAPUsuario']);
 

@@ -1790,6 +1790,7 @@ export default {
                 } else {
                     let date = moment().endOf("day");
                     let data = {
+                        id: 0,
                         CODART: this.codart,
                         NOMART: this.nombre,
                         UNIMED: this.unimed,
@@ -1821,6 +1822,9 @@ export default {
                     const dat = data;
 
                     let c = this.rowsArticulos;
+
+                    this.popUpAgregarArticulo = true;
+                    this.popUpAgregarArticuloPAnual = false;
 
                     c.push(dat);
 
