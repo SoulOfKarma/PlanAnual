@@ -90,7 +90,8 @@
                                             props.row.NOMART,
                                             props.row.UNIMED,
                                             props.row.PRECIO,
-                                            props.row.PRECIO2
+                                            props.row.PRECIO2,
+                                            props.row.OBS
                                         )
                                     "
                                 ></upload-icon>
@@ -743,7 +744,9 @@ export default {
             cantidadTotal: 0,
             precioTotal: 0,
             valorUtilizado: 0,
+            valorUtilizadotmp: 0,
             topeMaximo: 0,
+            topeMaximotmp: 0,
             panualval: 0,
             reprogramacion: 1,
             obs: "",
@@ -1206,9 +1209,9 @@ export default {
                 console.log(error);
             }
         },
-        popModificarArticulo(id, codart, nombre, unimed, precio, precio2) {
+        popModificarArticulo(id, codart, nombre, unimed, precio, precio2, obs) {
             try {
-                this.obs = "";
+                this.obs = obs;
                 this.idMod = id;
                 this.popUpModificarArticuloMod = true;
                 let c = this.rowsArticulos;
@@ -1232,6 +1235,22 @@ export default {
                         this.precio = precio2;
                     }
                 });
+
+                let value =
+                    this.C_ENE +
+                    this.C_FEB +
+                    this.C_MAR +
+                    this.C_ABR +
+                    this.C_MAY +
+                    this.C_JUN +
+                    this.C_JUL +
+                    this.C_AGO +
+                    this.C_SEP +
+                    this.C_OCT +
+                    this.C_NOV +
+                    this.C_DIC;
+                this.valorUtilizado = this.valorUtilizadotmp - value * precio2;
+                this.topeMaximo = value * precio2 + this.topeMaximotmp;
             } catch (error) {
                 console.log(error);
             }
@@ -1437,7 +1456,9 @@ export default {
                             } else {
                                 this.panualval = value.PANUALVAL;
                                 this.topeMaximo = value.RESTANTEVAL;
+                                this.topeMaximotmp = value.RESTANTEVAL;
                                 this.valorUtilizado = value.UTILIZADOVAL;
+                                this.valorUtilizadotmp = value.UTILIZADOVAL;
                                 if (this.topeMaximo == null) {
                                     this.topeMaximo = value.PANUALVAL;
                                     value.RESTANTE = value.P_ANUAL;
