@@ -157,6 +157,7 @@ export default new Vuex.Store({
             "OCTUBRE",
             "NOVIEMBRE",
             "DICIEMBRE",
+            "Bodega",
             "C. TOTAL",
             "Saldo Bodega",
             "TOTAL"
@@ -179,9 +180,10 @@ export default new Vuex.Store({
             "C_OCT",
             "C_NOV",
             "C_DIC",
+            "descripcionBodega",
             "C_TOTAL",
             "S_BODEGA",
-            "T_PRECIO"
+            "T_PRECIO2"
         ],
         //Datos Columnas Consolidado Vs Despacho
         ColumnasConsolidadoDespacho: [
@@ -382,6 +384,13 @@ export default new Vuex.Store({
                 }
             },
             {
+                label: "Bodega",
+                field: "descripcionBodega",
+                filterOptions: {
+                    enabled: true
+                }
+            },
+            {
                 label: "C. TOTAL",
                 field: "C_TOTAL",
                 filterOptions: {
@@ -433,6 +442,7 @@ export default new Vuex.Store({
             "Despachado",
             "DICIEMBRE",
             "Despachado",
+            "Bodega",
             "C. TOTAL",
             "Saldo Bodega",
             "TOTAL"
@@ -467,9 +477,10 @@ export default new Vuex.Store({
             "D_NOV",
             "C_DIC",
             "D_DIC",
+            "descripcionBodega",
             "C_TOTAL",
             "S_BODEGA",
-            "T_PRECIO"
+            "T_PRECIO2"
         ],
         //Datos Columnas Total Mensual
         ColumnasTM: [
@@ -613,7 +624,7 @@ export default new Vuex.Store({
             "OCTUBRE",
             "NOVIEMBRE",
             "DICIEMBRE",
-            "T_PRECIO"
+            "T_PRECIO2"
         ],
         //Datos Columnas Total Servicio
         ColumnasPorServicio: [
@@ -838,6 +849,13 @@ export default new Vuex.Store({
                 }
             },
             {
+                label: "Bodega",
+                field: "descripcionBodega",
+                filterOptions: {
+                    enabled: true
+                }
+            },
+            {
                 label: "C. TOTAL",
                 field: "C_TOTAL",
                 filterOptions: {
@@ -859,7 +877,7 @@ export default new Vuex.Store({
                 }
             }
         ],
-        //Datos Columnos Consolidado Por Despacho
+        //Datos Columnas Consolidado Por Despacho
         ColumnasPorDespacho: [
             {
                 label: "Servicio",
@@ -1494,6 +1512,13 @@ export default new Vuex.Store({
                 }
             },
             {
+                label: "Bodega",
+                field: "descripcionBodega",
+                filterOptions: {
+                    enabled: true
+                }
+            },
+            {
                 label: "C. TOTAL",
                 field: "C_TOTAL",
                 filterOptions: {
@@ -1668,7 +1693,7 @@ export default new Vuex.Store({
             "C_DIC",
             "C_TOTAL",
             "S_BODEGA",
-            "T_PRECIO"
+            "T_PRECIO2"
         ]
     },
     mutations: {},

@@ -124,7 +124,7 @@
                 </div>
                 <!-- Consulta por Servicio -->
                 <div class="vx-row" v-if="consultaServicio">
-                    <div class="vx-col w-1/2 mt-5">
+                    <div class="vx-col w-full mt-5">
                         <h6>Seleccione Servicio</h6>
                         <v-select
                             taggable
@@ -135,7 +135,7 @@
                             :options="listadoServicios"
                         ></v-select>
                     </div>
-                    <div class="vx-col w-1/2 mt-5">
+                    <!-- <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Bodega</h6>
                         <v-select
                             taggable
@@ -145,7 +145,7 @@
                             label="descripcionBodega"
                             :options="listaBodega"
                         ></v-select>
-                    </div>
+                    </div> -->
                     <div class="vx-col w-full mt-5">
                         <h6>.</h6>
                         <vs-button
@@ -159,7 +159,7 @@
                 </div>
                 <!-- Consulta por Servicio por Despacho-->
                 <div class="vx-row" v-if="consultaServicioDesp">
-                    <div class="vx-col w-1/2 mt-5">
+                    <div class="vx-col w-full mt-5">
                         <h6>Seleccione Servicio</h6>
                         <v-select
                             taggable
@@ -170,7 +170,7 @@
                             :options="listadoServicios"
                         ></v-select>
                     </div>
-                    <div class="vx-col w-1/2 mt-5">
+                    <!--                     <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Bodega</h6>
                         <v-select
                             taggable
@@ -180,7 +180,7 @@
                             label="descripcionBodega"
                             :options="listaBodega"
                         ></v-select>
-                    </div>
+                    </div> -->
                     <div class="vx-col w-full mt-5">
                         <h6>.</h6>
                         <vs-button
@@ -194,7 +194,7 @@
                 </div>
                 <!-- Consulta por Servicio por Despacho Fecha -->
                 <div class="vx-row" v-if="consultaServicioDespFecha">
-                    <div class="vx-col w-1/2 mt-5">
+                    <div class="vx-col w-full mt-5">
                         <h6>Seleccione Servicio</h6>
                         <v-select
                             taggable
@@ -205,7 +205,7 @@
                             :options="listadoServicios"
                         ></v-select>
                     </div>
-                    <div class="vx-col w-1/2 mt-5">
+                    <!-- <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Bodega</h6>
                         <v-select
                             taggable
@@ -215,7 +215,7 @@
                             label="descripcionBodega"
                             :options="listaBodega"
                         ></v-select>
-                    </div>
+                    </div> -->
                     <div class="vx-col w-1/2 mt-5">
                         <h6>Fecha Inicio</h6>
                         <flat-pickr
@@ -828,7 +828,7 @@ export default {
                     this.validadorListaDetalle = true;
                     this.listadoGeneral = [];
                     this.listadoGeneralDetalle = [];
-                    this.column = store.state.ConsultaPorDespachoFecha;
+                    this.column = store.state.ColumnasPorDespachoFecha;
                     this.columnDetalle =
                         store.state.ConsultaPorDespachoFechaDetalle;
                     this.headerVal = store.state.headerValConsolidadoDespacho;
@@ -890,7 +890,7 @@ export default {
                         });
 
                         this.listadoServicios = d;
-                        if (this.listadoServicios.length < 0) {
+                        if (this.listadoServicios.length < 1) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
@@ -917,7 +917,7 @@ export default {
                     })
                     .then(res => {
                         this.listaBodega = res.data;
-                        if (this.listaBodega.length < 0) {
+                        if (this.listaBodega.length < 1) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
@@ -951,7 +951,7 @@ export default {
                     )
                     .then(res => {
                         this.listadoGeneral = res.data;
-                        if (this.listadoGeneral.length < 0) {
+                        if (this.listadoGeneral.length < 1) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
@@ -1037,7 +1037,7 @@ export default {
         CargaConsolidadoPorServicio() {
             try {
                 let data = {
-                    idBodega: this.seleccionBodega.id,
+                    //idBodega: this.seleccionBodega.id,
                     NOMSER: this.seleccionServicio.descripcionServicio
                 };
                 axios
@@ -1072,7 +1072,7 @@ export default {
         CargaConsolidadoPorServicioDetalle() {
             try {
                 let data = {
-                    idBodega: this.seleccionBodega.id,
+                    //idBodega: this.seleccionBodega.id,
                     NOMSER: this.seleccionServicio.descripcionServicio
                 };
                 axios
@@ -1089,7 +1089,7 @@ export default {
                     )
                     .then(res => {
                         this.listadoGeneralDetalle = res.data;
-                        if (this.listadoGeneralDetalle.length < 0) {
+                        if (this.listadoGeneralDetalle.length < 1) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
@@ -1107,7 +1107,7 @@ export default {
         CargaConsolidadoPorServicioDespachoDetalle() {
             try {
                 let data = {
-                    idBodega: this.seleccionBodega.id,
+                    //idBodega: this.seleccionBodega.id,
                     NOMSER: this.seleccionServicio.descripcionServicio
                 };
                 axios
@@ -1124,7 +1124,7 @@ export default {
                     )
                     .then(res => {
                         this.listadoGeneralDetalle = res.data;
-                        if (this.listadoGeneralDetalle.length < 0) {
+                        if (this.listadoGeneralDetalle.length < 1) {
                             this.$vs.notify({
                                 time: 5000,
                                 title: "Error",
@@ -1162,7 +1162,7 @@ export default {
                     });
                 } else {
                     let data = {
-                        idBodega: this.seleccionBodega.id,
+                        //idBodega: this.seleccionBodega.id,
                         NOMSER: this.seleccionServicio.descripcionServicio,
                         fechaInicio: moment(
                             this.fechaInicio,
@@ -1188,7 +1188,7 @@ export default {
                         )
                         .then(res => {
                             this.listadoGeneralDetalle = res.data;
-                            if (this.listadoGeneralDetalle.length < 0) {
+                            if (this.listadoGeneralDetalle.length < 1) {
                                 this.$vs.notify({
                                     time: 5000,
                                     title: "Error",
