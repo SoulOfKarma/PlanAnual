@@ -69,6 +69,23 @@ const router = new Router({
                         import("./views/PlandeCompra/ReporteReprogramacion.vue")
                 },
                 {
+                    path: "/PlandeCompra/ListaUltimaReprogramacionPA",
+                    name: "ListaUltimaReprogramacionPA",
+                    component: () =>
+                        import(
+                            "./views/PlandeCompra/ListaUltimaReprogramacionPA.vue"
+                        )
+                },
+                {
+                    path:
+                        "/PlandeCompra/ModificarReprogramacion/:NOMSER,:BODEGA,:NUMREPROG",
+                    name: "ModificarReprogramacion",
+                    component: () =>
+                        import(
+                            "./views/PlandeCompra/ModificarReprogramacion.vue"
+                        )
+                },
+                {
                     path: "/Reportes/ReportesGenerales",
                     name: "ReportesGenerales",
                     component: () =>

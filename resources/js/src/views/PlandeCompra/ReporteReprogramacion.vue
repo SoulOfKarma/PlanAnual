@@ -23,23 +23,10 @@
                             class="w-full select-large"
                             label="descripcionBodega"
                             :options="listaBodega"
+                            @input="CargarListaReprogramaciones"
                         ></v-select>
                     </div>
                     <div class="vx-col w-1/3 mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargarListaReprogramaciones"
-                            color="success"
-                            type="filled"
-                            class="w-full m-1"
-                            >Cargar Listas Reprogramaciones</vs-button
-                        >
-                    </div>
-                </div>
-            </vx-card>
-            <vx-card>
-                <div class="vx-row">
-                    <div class="vx-col w-1/2 mt-5">
                         <h6>Seleccione Reprogramacion</h6>
                         <v-select
                             taggable
@@ -48,17 +35,8 @@
                             class="w-full select-large"
                             label="descripcion"
                             :options="listaReprogramacion"
+                            @input="CargarProgramacionEspecifica"
                         ></v-select>
-                    </div>
-                    <div class="vx-col w-1/2 mt-5">
-                        <h6>.</h6>
-                        <vs-button
-                            @click="CargarProgramacionEspecifica"
-                            color="success"
-                            type="filled"
-                            class="w-full m-1"
-                            >Cargar Plan Anual</vs-button
-                        >
                     </div>
                 </div>
             </vx-card>

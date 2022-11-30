@@ -57,6 +57,12 @@ export default [
                 name: "Reporte Reprogramacion",
                 slug: "/PlandeCompra/ReporteReprogramacion",
                 icon: "HomeIcon"
+            },
+            {
+                url: "/PlandeCompra/ListaUltimaReprogramacionPA",
+                name: "Lista Rep. Abierta",
+                slug: "/PlandeCompra/ListaUltimaReprogramacionPA",
+                icon: "HomeIcon"
             }
         ]
     },

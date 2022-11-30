@@ -191,9 +191,9 @@ export default {
                     this.seleccionBodega == "undefined"
                 ) {
                     sessionStorage.setItem("idBodega", 2);
-                    sessionStorage.setItem("descripcionBodega", "Economato");
+                    sessionStorage.setItem("descripcionBodega", "ECONOMATO");
                     this.seleccionBodega.id = 2;
-                    this.seleccionBodega.descripcionBodega = "Economato";
+                    this.seleccionBodega.descripcionBodega = "ECONOMATO";
                 }
             } catch (error) {
                 console.log(error);

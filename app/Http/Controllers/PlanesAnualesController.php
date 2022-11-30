@@ -203,6 +203,7 @@ class PlanesAnualesController extends Controller
 
     public function UpdateArticuloServ(Request $request){
         try {
+            log::info($request->all());
             PlanesAnuales::where('id',$request->id)
             ->update(['CODART'=>$request->CODART,'NOMART'=>$request->NOMART,'UNIMED'=>$request->UNIMED,
                       'PRECIO'=>$request->PRECIO,'C_ENE'=> $request->C_ENE,'C_FEB'=>$request->C_FEB,
@@ -217,7 +218,7 @@ class PlanesAnualesController extends Controller
             ->where('NOMSER',$request->NOMSER)
             ->where('BODEGA',$request->BODEGA)
             ->where('ANIO',$request->ANIO)
-            ->where('idReprogramado',1)
+            ->where('idReprogramado',$request->idReprogramado)
             ->update(['CODART'=>$request->CODART,'NOMART'=>$request->NOMART,'UNIMED'=>$request->UNIMED,
                       'PRECIO'=>$request->PRECIO,'C_ENE'=> $request->C_ENE,'C_FEB'=>$request->C_FEB,
                       'C_MAR'=> $request->C_MAR,'C_ABR'=> $request->C_ABR,'C_MAY'=>$request->C_MAY,

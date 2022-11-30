@@ -33,6 +33,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/RAbastecimiento/ReporteItemPresupuestario', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteItemPresupuestario']);
     Route::get('/RAbastecimiento/ReporteItemPresupuestarioServicios', ['middleware' => 'cors', 'uses' => 'PlanesAnualesController@ReporteItemPresupuestarioServicios']);
     Route::get('/Mantenedor/GetPresupuestosFormato', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@GetPresupuestosFormato']);
+    Route::get('/Reprogramacion/GetUltimaReprogramacion', ['middleware' => 'cors', 'uses' => 'PlanAnualReprogramadosAntiguosController@GetUltimaReprogramacion']);
     
     //Posts 
     Route::post('/Mantenedor/PostPresupuestoAnual', ['middleware' => 'cors', 'uses' => 'PresupuestosAnualesController@PostPresupuestoAnual']);

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vx-card title="Plan de Compra Anual">
+        <vx-card title="Reprogramacion Plan de Compra Anual">
             <vx-card>
                 <div>
                     <vs-button
@@ -24,6 +24,7 @@
                             class="w-full select-large"
                             label="descripcionServicio"
                             :options="listadoServicios"
+                            disabled
                         ></v-select>
                     </div>
                     <div class="vx-col w-1/2 mt-5">
@@ -35,7 +36,7 @@
                             class="w-full select-large"
                             label="descripcionBodega"
                             :options="listaBodega"
-                            @input="CargarProgramacionEspecifica"
+                            disabled
                         ></v-select>
                     </div>
                 </div>
@@ -96,21 +97,6 @@
                     </vue-good-table>
                 </vx-card>
             </div>
-            <br />
-            <vx-card>
-                <div class="vx-row">
-                    <div class="vx-col w-full mt-5">
-                        <vs-button
-                            @click="FinalizarReprogramacion"
-                            color="success"
-                            type="filled"
-                            class="w-full m-1"
-                            >Finalizar Reprogramacion</vs-button
-                        >
-                    </div>
-                </div>
-            </vx-card>
-            <br />
             <div>
                 <vx-card>
                     <vue-good-table
@@ -141,7 +127,8 @@
                                             props.row.NOMART,
                                             props.row.UNIMED,
                                             props.row.PRECIO,
-                                            props.row.PRECIO2
+                                            props.row.PRECIO2,
+                                            props.row.OBS
                                         )
                                     "
                                 ></upload-icon>
@@ -781,6 +768,7 @@ export default {
             popUpModificarArticuloMod: false,
             popUpEliminarArticulo: false,
             fechaPAnual: null,
+            fechaAnio: null,
             idArticulo: "",
             codart: "",
             nombre: "",
@@ -789,7 +777,9 @@ export default {
             cantidadTotal: 0,
             precioTotal: 0,
             valorUtilizado: 0,
+            valorUtilizadotmp: 0,
             topeMaximo: 0,
+            topeMaximotmp: 0,
             panualval: 0,
             obs: "",
             C_ENE: 0,
@@ -1224,8 +1214,9 @@ export default {
                 console.log(error);
             }
         },
-        popModificarArticulo(id, codart, nombre, unimed, precio, precio2) {
+        popModificarArticulo(id, codart, nombre, unimed, precio, precio2, obs) {
             try {
+                this.obs = obs;
                 this.idMod = id;
                 this.popUpModificarArticuloMod = true;
                 let c = this.rowsArticulos;
@@ -1249,6 +1240,24 @@ export default {
                         this.precio = precio2;
                     }
                 });
+
+                let value =
+                    this.C_ENE +
+                    this.C_FEB +
+                    this.C_MAR +
+                    this.C_ABR +
+                    this.C_MAY +
+                    this.C_JUN +
+                    this.C_JUL +
+                    this.C_AGO +
+                    this.C_SEP +
+                    this.C_OCT +
+                    this.C_NOV +
+                    this.C_DIC;
+                this.valorUtilizado = this.valorUtilizadotmp - value * precio2;
+                this.topeMaximo = value * precio2 + this.topeMaximotmp;
+                console.log(this.valorUtilizadotmp);
+                console.log(this.topeMaximotmp);
             } catch (error) {
                 console.log(error);
             }
@@ -1481,7 +1490,9 @@ export default {
                             } else {
                                 this.panualval = value.PANUALVAL;
                                 this.topeMaximo = value.RESTANTEVAL;
+                                this.topeMaximotmp = value.RESTANTEVAL;
                                 this.valorUtilizado = value.UTILIZADOVAL;
+                                this.valorUtilizadotmp = value.UTILIZADOVAL;
                                 if (this.topeMaximo == null) {
                                     this.topeMaximo = value.PANUALVAL;
                                     value.RESTANTE = value.P_ANUAL;
@@ -1569,60 +1580,6 @@ export default {
                                 title: "Error",
                                 text:
                                     "No hay datos o no se cargaron los datos correctamente",
-                                color: "danger",
-                                position: "top-right"
-                            });
-                        }
-                    });
-            } catch (error) {
-                console.log(error);
-            }
-        },
-        TraerUltimoNReprogramado(NOMSER, idBodega) {
-            try {
-                let data = {
-                    NOMSER: NOMSER,
-                    idBodega: idBodega,
-                    anio: 2023
-                };
-                axios
-                    .post(
-                        this.localVal + "/api/PCompra/GetUltimoReprogramado",
-                        data,
-                        {
-                            headers: {
-                                Authorization:
-                                    `Bearer ` + sessionStorage.getItem("token")
-                            }
-                        }
-                    )
-                    .then(res => {
-                        if (
-                            res.data == [] ||
-                            res.data == null ||
-                            res.data.length == 0
-                        ) {
-                            this.$vs.notify({
-                                time: 5000,
-                                title: "Error",
-                                text:
-                                    "No se cargo el ultimo numero reprogramado",
-                                color: "danger",
-                                position: "top-right"
-                            });
-                            this.reprogramacion = null;
-                        } else {
-                            this.reprogramacion =
-                                res.data[0].ultimoReprogramado + 1;
-                            console.log(this.reprogramacion);
-                        }
-
-                        if (this.reprogramacion < 1) {
-                            this.$vs.notify({
-                                time: 5000,
-                                title: "Error",
-                                text:
-                                    "No se cargo el ultimo numero reprogramado",
                                 color: "danger",
                                 position: "top-right"
                             });
@@ -1806,7 +1763,7 @@ export default {
                         NOMSER: this.seleccionServicio.descripcionServicio,
                         BODEGA: this.seleccionBodega.id,
                         OBS: this.obs,
-                        ANIO: 2023,
+                        ANIO: this.fechaAnio,
                         idReprogramado: this.reprogramacion
                     };
 
@@ -1914,41 +1871,73 @@ export default {
                     });
                 } else {
                     let date = moment().endOf("day");
+                    let data = {
+                        id: this.idMod,
+                        CODART: this.codart,
+                        NOMART: this.nombre,
+                        UNIMED: this.unimed,
+                        PRECIO: this.precio,
+                        C_ENE: this.C_ENE,
+                        C_FEB: this.C_FEB,
+                        C_MAR: this.C_MAR,
+                        C_ABR: this.C_ABR,
+                        C_MAY: this.C_MAY,
+                        C_JUN: this.C_JUN,
+                        C_JUL: this.C_JUL,
+                        C_AGO: this.C_AGO,
+                        C_SEP: this.C_SEP,
+                        C_OCT: this.C_OCT,
+                        C_NOV: this.C_NOV,
+                        C_DIC: this.C_DIC,
+                        C_TOTAL: this.cantidadTotal,
+                        T_PRECIO: this.precioTotal,
+                        idServicio: this.seleccionServicio.id,
+                        FECING: date.format("YYYY/MM/DD").toString(),
+                        NOMSER: this.seleccionServicio.descripcionServicio,
+                        BODEGA: this.seleccionBodega.id,
+                        OBS: this.obs,
+                        ANIO: this.fechaAnio,
+                        idReprogramado: this.reprogramacion
+                    };
 
-                    this.rowsArticulos.forEach((value, index) => {
-                        if (this.idMod === value.id) {
-                            value.CODART = this.codart;
-                            value.NOMART = this.nombre;
-                            value.UNIMED = this.unimed;
-                            value.PRECIO = this.precio;
-                            value.C_ENE = this.C_ENE;
-                            value.C_FEB = this.C_FEB;
-                            value.C_MAR = this.C_MAR;
-                            value.C_ABR = this.C_ABR;
-                            value.C_MAY = this.C_MAY;
-                            value.C_JUN = this.C_JUN;
-                            value.C_JUL = this.C_JUL;
-                            value.C_AGO = this.C_AGO;
-                            value.C_SEP = this.C_SEP;
-                            value.C_OCT = this.C_OCT;
-                            value.C_NOV = this.C_NOV;
-                            value.C_DIC = this.C_DIC;
-                            value.C_TOTAL = this.cantidadTotal;
-                            value.T_PRECIO = this.precioTotal;
-                            value.T_PRECIO2 = this.precioTotal;
-                            value.idServicio = this.seleccionServicio.id;
-                            value.FECING = date.format("YYYY/MM/DD").toString();
-                            value.NOMSER = this.seleccionServicio.descripcionServicio;
-                            value.BODEGA = this.seleccionBodega.id;
-                            value.OBS = this.obs;
-                            value.ANIO = 2023;
-                            value.CODART = this.codart;
-                            value.CODART = this.codart;
-                            value.idReprogramado = this.reprogramacion;
-                        }
-                    });
+                    const dat = data;
 
-                    this.popUpModificarArticuloMod = false;
+                    axios
+                        .post(
+                            this.localVal + "/api/PCompra/UpdateArticuloServ",
+                            dat,
+                            {
+                                headers: {
+                                    Authorization:
+                                        `Bearer ` +
+                                        sessionStorage.getItem("token")
+                                }
+                            }
+                        )
+                        .then(res => {
+                            const solicitudServer = res.data;
+                            if (solicitudServer == true) {
+                                this.limpiarCampos();
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Completado",
+                                    text: "Articulo Modificado Correctamente",
+                                    color: "success",
+                                    position: "top-right"
+                                });
+                                this.CargarProgramacionEspecifica();
+                                this.popUpModificarArticuloMod = false;
+                            } else {
+                                this.$vs.notify({
+                                    time: 5000,
+                                    title: "Error",
+                                    text:
+                                        "No fue posible modificar el articulo,intentelo nuevamente",
+                                    color: "danger",
+                                    position: "top-right"
+                                });
+                            }
+                        });
                 }
             } catch (error) {
                 console.log(error);
@@ -1974,68 +1963,14 @@ export default {
                 console.log(error);
             }
         },
-        FinalizarReprogramacion() {
-            try {
-                if (this.rowsArticulos.length < 1) {
-                    this.$vs.notify({
-                        time: 5000,
-                        title: "Error",
-                        text: "No se pueden generar la reprogramacion",
-                        color: "success",
-                        position: "top-right"
-                    });
-                } else {
-                    this.rowsArticulos.forEach((value, index) => {
-                        value.idReprogramado = this.reprogramacion;
-                    });
-
-                    const dat = this.rowsArticulos;
-                    axios
-                        .post(
-                            this.localVal + "/api/PCompra/ReprogramacionPA",
-                            dat,
-                            {
-                                headers: {
-                                    Authorization:
-                                        `Bearer ` +
-                                        sessionStorage.getItem("token")
-                                }
-                            }
-                        )
-                        .then(res => {
-                            const solicitudServer = res.data;
-                            if (solicitudServer == true) {
-                                this.limpiarCampos();
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Completado",
-                                    text:
-                                        "Reprogramacion realizada Correctamente",
-                                    color: "success",
-                                    position: "top-right"
-                                });
-                                this.CargarProgramacionEspecifica();
-                                this.popUpEliminarArticulo = false;
-                            } else {
-                                this.$vs.notify({
-                                    time: 5000,
-                                    title: "Error",
-                                    text:
-                                        "No fue posible eliminar el articulo,intentelo nuevamente",
-                                    color: "danger",
-                                    position: "top-right"
-                                });
-                            }
-                        });
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        },
         cargarHoras() {
             try {
                 let date = moment().endOf("day");
+                let dat = moment()
+                    .endOf("day")
+                    .add(1, "y");
                 this.fechaPAnual = date.format("DD/MM/YYYY").toString();
+                this.fechaAnio = dat.format("YYYY").toString();
             } catch (error) {
                 console.log("No se cargo la ISO hora");
                 console.log(error);
@@ -2076,6 +2011,7 @@ export default {
                         position: "top-right"
                     });
                 } else {
+                    this.cargarHoras();
                     this.TraerListadoPresupuestos(
                         this.seleccionServicio.descripcionServicio,
                         this.seleccionBodega.id
@@ -2088,12 +2024,38 @@ export default {
                         this.seleccionServicio.descripcionServicio,
                         this.seleccionBodega.id
                     );
-                    this.TraerUltimoNReprogramado(
-                        this.seleccionServicio.descripcionServicio,
-                        this.seleccionBodega.id
-                    );
                     this.cargarArticulosSegunBodega(this.seleccionBodega.id);
                 }
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        CargarSB() {
+            try {
+                let nomser = this.$route.params.NOMSER;
+                let nombodega = this.$route.params.BODEGA;
+                let nreprog = this.$route.params.NUMREPROG;
+                let c = this.listadoServicios;
+                let d = this.listaBodega;
+                this.reprogramacion = nreprog;
+
+                c.forEach((value, ind) => {
+                    if (value.descripcionServicio == nomser) {
+                        this.seleccionServicio.id = value.id;
+                        this.seleccionServicio.descripcionServicio =
+                            value.descripcionServicio;
+                    }
+                });
+
+                d.forEach((value, ind) => {
+                    if (value.descripcionBodega == nombodega) {
+                        this.seleccionBodega.id = value.id;
+                        this.seleccionBodega.descripcionBodega =
+                            value.descripcionBodega;
+                    }
+                });
+
+                this.CargarProgramacionEspecifica();
             } catch (error) {
                 console.log(error);
             }
@@ -2104,6 +2066,7 @@ export default {
         this.TraerArticulos();
         this.TraerBodega();
         setTimeout(() => {
+            this.CargarSB();
             //this.TraerUsuarios();
             this.openLoadingColor();
         }, 2000);
